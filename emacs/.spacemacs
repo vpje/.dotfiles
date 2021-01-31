@@ -134,9 +134,9 @@ It should only modify the values of Spacemacs settings."
    ;; portable dumper in the cache directory under dumps sub-directory.
    ;; To load it when starting Emacs add the parameter `--dump-file'
    ;; when invoking Emacs 27.1 executable on the command line, for instance:
-   ;;   ./emacs --dump-file=~/.emacs.d/.cache/dumps/spacemacs.pdmp
-   ;; (default spacemacs.pdmp)
-   dotspacemacs-emacs-dumper-dump-file "spacemacs.pdmp"
+   ;;   ./emacs --dump-file=$HOME/.emacs.d/.cache/dumps/spacemacs-27.1.pdmp
+   ;; (default (format "spacemacs-%s.pdmp" emacs-version))
+   dotspacemacs-emacs-dumper-dump-file (format "spacemacs-%s.pdmp" emacs-version)
 
    ;; If non-nil ELPA repositories are contacted via HTTPS whenever it's
    ;; possible. Set it to nil if you have no way to use HTTPS in your
@@ -156,9 +156,18 @@ It should only modify the values of Spacemacs settings."
    ;; (default '(100000000 0.1))
    dotspacemacs-gc-cons '(100000000 0.1)
 
+   ;; Set `read-process-output-max' when startup finishes.
+   ;; This defines how much data is read from a foreign process.
+   ;; Setting this >= 1 MB should increase performance for lsp servers
+   ;; in emacs 27.
+   ;; (default (* 1024 1024))
+   dotspacemacs-read-process-output-max (* 1024 1024)
+
    ;; If non-nil then Spacelpa repository is the primary source to install
    ;; a locked version of packages. If nil then Spacemacs will install the
-   ;; latest version of packages from MELPA. (default nil)
+   ;; latest version of packages from MELPA. Spacelpa is currently in
+   ;; experimental state please use only for testing purposes.
+   ;; (default nil)
    dotspacemacs-use-spacelpa nil
 
    ;; If non-nil then verify the signature for downloaded Spacelpa archives.
@@ -183,6 +192,11 @@ It should only modify the values of Spacemacs settings."
    ;; section of the documentation for details on available variables.
    ;; (default 'vim)
    dotspacemacs-editing-style 'vim
+
+   ;; If non-nil show the version string in the Spacemacs buffer. It will
+   ;; appear as (spacemacs version)@(emacs version)
+   ;; (default t)
+   dotspacemacs-startup-buffer-show-version t
 
    ;; Specify the startup banner. Default value is `official', it displays
    ;; the official spacemacs logo. An integer value is the index of text
@@ -211,6 +225,14 @@ It should only modify the values of Spacemacs settings."
 
    ;; Default major mode of the scratch buffer (default `text-mode')
    dotspacemacs-scratch-mode 'text-mode
+
+   ;; If non-nil, *scratch* buffer will be persistent. Things you write down in
+   ;; *scratch* buffer will be saved and restored automatically.
+   dotspacemacs-scratch-buffer-persistent nil
+
+   ;; If non-nil, `kill-buffer' on *scratch* buffer
+   ;; will bury it instead of killing.
+   dotspacemacs-scratch-buffer-unkillable nil
 
    ;; Initial message in the scratch buffer, such as "Welcome to Spacemacs!"
    ;; (default nil)
@@ -261,8 +283,10 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-major-mode-leader-key ","
 
    ;; Major mode leader key accessible in `emacs state' and `insert state'.
-   ;; (default "C-M-m")
-   dotspacemacs-major-mode-emacs-leader-key "C-M-m"
+   ;; (default "C-M-m" for terminal mode, "<M-return>" for GUI mode).
+   ;; Thus M-RET should work as leader key in both GUI and terminal modes.
+   ;; C-M-m also should work in terminal mode, but not in GUI mode.
+   dotspacemacs-major-mode-emacs-leader-key (if window-system "<M-return>" "C-M-m")
 
    ;; These variables control whether separate commands are bound in the GUI to
    ;; the key pairs `C-i', `TAB' and `C-m', `RET'.
@@ -370,7 +394,7 @@ It should only modify the values of Spacemacs settings."
    ;; If non-nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
-   dotspacemacs-smooth-scrolling nil
+   dotspacemacs-smooth-scrolling t
 
    ;; Control line numbers activation.
    ;; If set to `t', `relative' or `visual' then line numbers are enabled in all
@@ -392,7 +416,7 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-line-numbers nil
 
-   ;; Code folding method. Possible values are `evil' and `origami'.
+   ;; Code folding method. Possible values are `evil', `origami' and `vimish'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
 
@@ -460,6 +484,20 @@ It should only modify the values of Spacemacs settings."
    ;; (default nil)
    dotspacemacs-whitespace-cleanup nil
 
+   ;; If non nil activate `clean-aindent-mode' which tries to correct
+   ;; virtual indentation of simple modes. This can interfer with mode specific
+   ;; indent handling like has been reported for `go-mode'.
+   ;; If it does deactivate it here.
+   ;; (default t)
+   dotspacemacs-use-clean-aindent-mode t
+
+   ;; If non-nil shift your number row to match the entered keyboard layout
+   ;; (only in insert state). Currently supported keyboard layouts are:
+   ;; `qwerty-us', `qwertz-de' and `querty-ca-fr'.
+   ;; New layouts can be added in `spacemacs-editing' layer.
+   ;; (default nil)
+   dotspacemacs-swap-number-row nil
+
    ;; Either nil or a number of seconds. If non-nil zone out after the specified
    ;; number of seconds. (default nil)
    dotspacemacs-zone-out-when-idle nil
@@ -467,7 +505,11 @@ It should only modify the values of Spacemacs settings."
    ;; Run `spacemacs/prettify-org-buffer' when
    ;; visiting README.org files of Spacemacs.
    ;; (default nil)
-   dotspacemacs-pretty-docs nil))
+   dotspacemacs-pretty-docs nil
+
+   ;; If nil the home buffer shows the full path of agenda items
+   ;; and todos. If non nil only the file name is shown.
+   dotspacemacs-home-shorten-agenda-source nil))
 
 (defun dotspacemacs/user-env ()
   "Environment variables setup.
@@ -492,135 +534,13 @@ This function is called only while dumping Spacemacs configuration. You can
 dump."
   )
 
-(defun my-gdb-start (initfile binary)
-  "my-gdb-start"
-  (gdb (concat "arm-none-eabi-gdb-py -i=mi -x " initfile " " binary))
-  )
-
-(defun my-gdb-start-evt ()
-  "my-gdb-start-evt"
-  (interactive)
-  ;; (my-gdb-start "/home/pekka/work/ee/evt.gdb" "/home/pekka/work/ee/cube_projects/eagle/build/evt1.elf")
-  (my-gdb-start "/home/pekka/work/ee/evt.gdb" "/home/pekka/work/ee/cube_projects/eagle/build/lightning-stm32h7-firmware.elf")
-  )
-
-(defun my-gdb-start-bootloader ()
-  "my-gdb-start-bootloader"
-  (interactive)
-  (my-gdb-start "/home/pekka/work/ee/evt.gdb" "/home/pekka/work/ee/cube_projects/bootloader/build/lightning-stm32h7-bootloader.elf")
-  )
-
-(defun my-gdb-start-tac ()
-  "my-gdb-start-tac"
-  (interactive)
-  (my-gdb-start "/home/pekka/work/ee/evt.gdb" "/home/pekka/work/ee/tac/eddie-eagle-tac-fw/build/tac.elf")
-  )
-
-(defun my-gdb-start-tracepen ()
-  "my-gdb-start-tracepen"
-  (interactive)
-  (my-gdb-start "/home/pekka/work/TracePen/cube/Tracepen/init.gdb" "/home/pekka/work/TracePen/cube/Tracepen/build/Tracepen.elf")
-  ;; (my-gdb-start "/home/pekka/work/TracePen/cube/tracepen_fw/init.gdb" "/home/pekka/work/TracePen/cube/tracepen_fw/build/tracepen_fw.elf")
-  ;; (my-gdb-start "/home/pekka/work/TracePen/cube/tracepen_fw/init.gdb" "/home/pekka/work/TracePen/nuttx-upstream/nuttx/nuttx")
-  ;; (my-gdb-start "/home/pekka/work/TracePen/cube/tracepen_fw/init.gdb" "/home/pekka/work/TracePen/nuttx/workarea/nuttx/nuttx")
-  )
-
 (defun dotspacemacs/user-config ()
-  "Configuration function for user code.
-This function is called at the very end of Spacemacs initialization after
-layers configuration.
-This is the place where most of your configurations should be done. Unless it is
-explicitly specified that a variable should be set before a package is loaded,
-you should place your code here."
-
-  (setq ob-mermaid-cli-path "/home/pekka/bin/node_modules/.bin/mmdc")
-  (setq markdown-command "/usr/bin/pandoc -F mermaid-filter")
-
-  ;; Spotify settings
-  (setq spotify-oauth2-client-secret "b80a2b828bec4f4d8d3c8b72383e82a0")
-  (setq spotify-oauth2-client-id "51425488d35444a8b511624d42cb377b")
-
-  (setq mouse-wheel-scroll-amount '(1))
-  (setq mouse-wheel-progressive-speed t)
-  (setq ring-bell-function 'ignore)
-
-  (spacemacs/declare-prefix "o" "other")
-
-  (spacemacs/set-leader-keys
-    "o1" 'my-gdb-start-evt
-    "o2" 'my-gdb-start-bootloader
-    "o3" 'my-gdb-start-tac
-    "o4" 'my-gdb-start-tracepen
-    "o5" 'my-gdb-start-yard
-    "oo" 'rtags-find-symbol-at-point
-    )
-
-  (require 'ox-taskjuggler)
-  (with-eval-after-load 'org
-    (setq org-agenda-files (quote ("~/todo.org")))
-    ;; (setq org-duration-format '(("d" . nil) ("h" . t) ("min" . t)))
-    (setq org-effort-durations
-          `(("min" . 1)
-            ("h" . 60)
-            ;; eight-hour days
-            ("d" . ,(* 60 8))
-            ;; five-day work week
-            ("w" . ,(* 60 8 5))
-            ;; four weeks in a month
-            ("m" . ,(* 60 8 5 4))
-            ;; work a total of 12 months a year --
-            ;; this is independent of holiday and sick time taken
-            ("y" . ,(* 60 8 5 4 12))))
-    )
-
-  (with-eval-after-load 'org-duration
-    (setq org-duration-units
-          `(("min" . 1)
-            ("h" . 60)
-            ;; eight-hour days
-            ("d" . ,(* 60 8))
-            ;; five-day work week
-            ("w" . ,(* 60 8 5))
-            ;; four weeks in a month
-            ("m" . ,(* 60 8 5 4))
-            ;; work a total of 12 months a year --
-            ;; this is independent of holiday and sick time taken
-            ("y" . ,(* 60 8 5 4 12))))
-    )
-
-  ;; _ considered part of a word
-  ;; For python
-  (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
-  ;; For ruby
-  (add-hook 'ruby-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
-  ;; For Javascript
-  (add-hook 'js2-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
-  ;; For C/C++
-  (add-hook 'c-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
-
-  (defun my-indent-style (name style offset width tab-mode)
-    (progn
-      (c-set-style style)
-      (setq
-       c-basic-offset offset
-       tab-width width
-       indent-tabs-mode tab-mode
-       )
-      (message "Indent style for %s" name)
-      )
-    )
-  (defun my-indent-select (number)
-    "Select predefined C indenting style"
-    (interactive "nIndent style: 0=kernel 1=nuttx 2=wp: ")
-    (cond
-     ((eq number 0) (my-indent-style "kernel" "linux" 8 8 t))
-     ((eq number 1) (my-indent-style "nuttx" "bsd" 2 2 nil))
-     ((eq number 2) (my-indent-style "wp" "bsd" 4 4 nil))
-     )
-    )
-  (add-hook 'rtags-jump-hook 'evil-set-jump)
-  (load "~/.mu4e")
-  (setq history-delete-duplicates t)
+  "Configuration for user code:
+This function is called at the very end of Spacemacs startup, after layer
+configuration.
+Put your configuration code here, except for variables that should be set
+before packages are loaded."
+  (load "~/.my-emacs.d/my-user-config.el")
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
