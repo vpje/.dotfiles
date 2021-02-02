@@ -80,6 +80,11 @@ This function should only modify configuration layer settings."
      (mu4e :variables
            mu4e-update-interval (* 5 60)
            mu4e-org-link-support nil)
+     typescript
+     javascript
+     html
+     unicode-fonts
+     restclient
      )
 
    ;; List of additional packages that will be installed without being
