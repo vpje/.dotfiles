@@ -616,4 +616,5 @@ awful.util.spawn("xinput set-prop 9 313 1")
 awful.util.spawn("xinput set-prop 9 305 1")
 
 awful.util.spawn("guake")
+awful.util.spawn("nitrogen --random ~/Pictures/wallpapers --set-zoom-fill")
 -- }}}
