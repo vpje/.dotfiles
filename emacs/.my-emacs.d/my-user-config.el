@@ -51,38 +51,50 @@
 (setq mouse-wheel-progressive-speed t)
 (setq ring-bell-function 'ignore)
 
-(require 'ox-taskjuggler)
-(with-eval-after-load 'org
-  (setq org-agenda-files (quote ("~/todo.org")))
-  ;; (setq org-duration-format '(("d" . nil) ("h" . t) ("min" . t)))
-  (setq org-effort-durations
-        `(("min" . 1)
-          ("h" . 60)
-          ;; eight-hour days
-          ("d" . ,(* 60 8))
-          ;; five-day work week
-          ("w" . ,(* 60 8 5))
-          ;; four weeks in a month
-          ("m" . ,(* 60 8 5 4))
-          ;; work a total of 12 months a year --
-          ;; this is independent of holiday and sick time taken
-          ("y" . ,(* 60 8 5 4 12))))
-  )
+;; (with-eval-after-load 'org
+;;   (setq org-agenda-files (quote ("~/todo.org")))
+;;   ;; (setq org-duration-format '(("d" . nil) ("h" . t) ("min" . t)))
+;;   (setq org-effort-durations
+;;         `(("min" . 1)
+;;           ("h" . 60)
+;;           ;; eight-hour days
+;;           ("d" . ,(* 60 8))
+;;           ;; five-day work week
+;;           ("w" . ,(* 60 8 5))
+;;           ;; four weeks in a month
+;;           ("m" . ,(* 60 8 5 4))
+;;           ;; work a total of 12 months a year --
+;;           ;; this is independent of holiday and sick time taken
+;;           ("y" . ,(* 60 8 5 4 12))))
+;;   )
 
-(with-eval-after-load 'org-duration
-  (setq org-duration-units
-        `(("min" . 1)
-          ("h" . 60)
-          ;; eight-hour days
-          ("d" . ,(* 60 8))
-          ;; five-day work week
-          ("w" . ,(* 60 8 5))
-          ;; four weeks in a month
-          ("m" . ,(* 60 8 5 4))
-          ;; work a total of 12 months a year --
-          ;; this is independent of holiday and sick time taken
-          ("y" . ,(* 60 8 5 4 12))))
-  )
+;; (with-eval-after-load 'org-duration
+;;   (setq org-duration-units
+;;         `(("min" . 1)
+;;           ("h" . 60)
+;;           ;; eight-hour days
+;;           ("d" . ,(* 60 8))
+;;           ;; five-day work week
+;;           ("w" . ,(* 60 8 5))
+;;           ;; four weeks in a month
+;;           ("m" . ,(* 60 8 5 4))
+;;           ;; work a total of 12 months a year --
+;;           ;; this is independent of holiday and sick time taken
+;;           ("y" . ,(* 60 8 5 4 12))))
+;;   )
+
+;; org-mode
+
+(setq org-capture-templates
+      '(
+        ("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks inbox")
+         "* TODO %?\n  %i\n  %a")
+
+        ("j" "Journal" entry (file+datetree "~/org/journal.org")
+         "* %?\nEntered on %U\n  %i\n  %a"))
+
+      org-agenda-files (quote ("~/org/todo.org"))
+      )
 
 ;; _ considered part of a word
 ;; For python
