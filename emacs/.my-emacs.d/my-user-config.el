@@ -138,6 +138,6 @@
  gerrit-use-gitreview-interface nil
  )
 (progn
-  (add-hook 'magit-status-sections-hook #'gerrit-magit-insert-status t)
+  ;; (add-hook 'magit-status-sections-hook #'gerrit-magit-insert-status t)
   (global-set-key (kbd "C-x i") 'gerrit-upload-transient)
   (global-set-key (kbd "C-x o") 'gerrit-download))
