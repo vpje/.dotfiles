@@ -99,6 +99,7 @@ This function should only modify configuration layer settings."
                                       ;; org-plus-contrib
                                       (magit-todos :variables
                                                    magit-todos-mode t)
+                                      gerrit
                                       )
 
    ;; A list of packages that cannot be updated.

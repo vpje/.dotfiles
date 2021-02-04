@@ -118,3 +118,14 @@
 (add-hook 'rtags-jump-hook 'evil-set-jump)
 (load "~/.mu4e")
 (setq history-delete-duplicates t)
+
+;; gerrit
+
+(setq
+ gerrit-host "gerrit.in.haltian.com:8443"
+ gerrit-use-gitreview-interface nil
+ )
+(progn
+  (add-hook 'magit-status-sections-hook #'gerrit-magit-insert-status t)
+  (global-set-key (kbd "C-x i") 'gerrit-upload-transient)
+  (global-set-key (kbd "C-x o") 'gerrit-download))
