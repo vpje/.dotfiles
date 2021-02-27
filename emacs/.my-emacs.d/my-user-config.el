@@ -33,6 +33,13 @@
                 "/home/pekka/work/TracePen/cube/Tracepen/build/Tracepen.elf")
   )
 
+(defun my-gdb-start-matrix ()
+  "my-gdb-start-matrix"
+  (interactive)
+  (my-gdb-start "/home/pekka/work/ts/gateways/matrix/init.gdb"
+                "/home/pekka/work/ts/gateways/matrix/workarea/nuttx/nuttx")
+  )
+
 (spacemacs/declare-prefix "o" "other")
 
 (spacemacs/set-leader-keys
@@ -41,6 +48,7 @@
   "o3" 'my-gdb-start-tac
   "o4" 'my-gdb-start-tracepen
   "o5" 'my-gdb-start-yard
+  "o6" 'my-gdb-start-matrix
   "oo" 'rtags-find-symbol-at-point
   )
 
