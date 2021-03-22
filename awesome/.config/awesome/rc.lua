@@ -23,9 +23,9 @@ local debian = require("debian.menu")
 local has_fdo, freedesktop = pcall(require, "freedesktop")
 
 -- Misc widgets
-local volumearc_widget = require("awesome-wm-widgets.volumearc-widget.volumearc")
+-- local volumearc_widget = require("awesome-wm-widgets.volumearc-widget.volumearc")
 local batteryarc_widget = require("awesome-wm-widgets.batteryarc-widget.batteryarc")
-local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
+-- local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
@@ -234,13 +234,13 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
             mykeyboardlayout,
-            cpu_widget({
-                width = 70,
-                step_width = 2,
-                step_spacing = 0,
-                color = '#434c5e'
-            }),
-            volumearc_widget(),
+            -- cpu_widget({
+            --     width = 70,
+            --     step_width = 2,
+            --     step_spacing = 0,
+            --     color = '#434c5e'
+            -- }),
+            -- volumearc_widget(),
             batteryarc_widget(),
             wibox.widget.systray(),
             mytextclock,
