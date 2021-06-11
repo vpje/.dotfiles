@@ -149,3 +149,24 @@
   ;; (add-hook 'magit-status-sections-hook #'gerrit-magit-insert-status t)
   (global-set-key (kbd "C-x i") 'gerrit-upload-transient)
   (global-set-key (kbd "C-x o") 'gerrit-download))
+
+
+;; projectile
+(spacemacs/set-leader-keys "p i" 'projectile-install-project)
+
+;; erc
+;; Set our nickname & real-name as constant variables
+(setq
+ erc-nick "pekka"
+ erc-user-full-name "Pekka Ervasti"
+ erc-track-shorten-start 8
+ erc-autojoin-channels-alist '(("#systemcrafters"))
+ )
+
+(defun libera-chat ()
+  "Join libera chat"
+  (interactive)
+  (erc-tls :server "irc.libera.chat"
+           :port   "6697"))
+
+(setq erc-track-exclude '("#emacs"))
