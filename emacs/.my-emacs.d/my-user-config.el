@@ -50,6 +50,7 @@
   "o5" 'my-gdb-start-yard
   "o6" 'my-gdb-start-matrix
   "oo" 'rtags-find-symbol-at-point
+  "of" 'find-name-dired
   )
 
 (setq ob-mermaid-cli-path "/home/pekka/bin/node_modules/.bin/mmdc")
