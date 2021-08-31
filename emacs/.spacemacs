@@ -64,7 +64,8 @@ This function should only modify configuration layer settings."
      multiple-cursors
      (org :variables
           org-plantuml-jar-path "/home/pekka/tools/plantuml.jar"
-          )
+          org-enable-roam-support t
+          org-roam-v2-ack t)
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)

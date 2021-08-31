@@ -156,6 +156,7 @@
 
 ;; erc
 ;; Set our nickname & real-name as constant variables
+
 (setq
  erc-nick "pekka"
  erc-user-full-name "Pekka Ervasti"
@@ -170,3 +171,7 @@
            :port   "6697"))
 
 (setq erc-track-exclude '("#emacs"))
+
+;; org-roam
+
+(setq org-roam-directory "~/org/roam")
