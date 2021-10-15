@@ -31,3 +31,4 @@ PERL_MM_OPT="INSTALL_BASE=/home/pekka/perl5"; export PERL_MM_OPT;
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/tools/blackbox/bin:$PATH"
 export PATH="/opt/sdcc/bin:$PATH"
+export PATH="$HOME/SiliconLabs/SimplicityStudio_v5/developer/adapter_packs/commander:$PATH"
