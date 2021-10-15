@@ -184,4 +184,7 @@
 
 ;; org-roam
 
-(setq org-roam-directory "~/org/roam")
+;; (setq org-roam-directory "~/org/roam")
+
+;; compile and install without pressing <ENTER>
+(setq compilation-read-command nil)
