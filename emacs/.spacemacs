@@ -37,7 +37,13 @@ This function should only modify configuration layer settings."
      csv
      lua
      yaml
-     python
+     (python :variables
+             python-backend 'lsp
+             python-lsp-server 'pyright
+             python-formatter 'yapf
+             python-pipenv-activate t
+             python-shell-interpreter "python3"
+             )
      javascript
      html
      ;; ----------------------------------------------------------------
