@@ -40,6 +40,14 @@
                 "/home/pekka/work/ts/gateways/matrix/workarea/nuttx/nuttx")
   )
 
+(defun my-gdb-start-tag ()
+  "my-gdb-start-matrix"
+  (interactive)
+  (my-gdb-start "/home/pekka/work/ts/sensors/thingsee_tag_wp51/init.gdb"
+                ;; "/home/pekka/work/ts/sensors/thingsee_tag_wp51/thingsee_tag_wp/build/nrf52/thingsee_tag_nrf_app/thingsee_tag_nrf_app.elf")
+                "/home/pekka/work/ts/sensors/thingsee_tag_wp51/thingsee_tag_wp/build/nrf52/thingsee_tag_nrf_app/bootloader/bootloader.elf")
+  )
+
 (spacemacs/declare-prefix "o" "other")
 
 (spacemacs/set-leader-keys
@@ -49,6 +57,7 @@
   "o4" 'my-gdb-start-tracepen
   "o5" 'my-gdb-start-yard
   "o6" 'my-gdb-start-matrix
+  "o7" 'my-gdb-start-tag
   "oo" 'rtags-find-symbol-at-point
   "of" 'find-name-dired
   )
