@@ -56,6 +56,9 @@ This function should only modify configuration layer settings."
      emacs-lisp
      git
      (ivy :variables ivy-enable-advanced-buffer-information t)
+     (dap :variables
+          dap-python-debugger 'debugpy
+          dap-python-executable "python3")
      lsp
      (c-c++ :variables
             ;; c-c++-backend 'lsp-ccls
@@ -65,7 +68,6 @@ This function should only modify configuration layer settings."
             ;; c-c++-dap-adapters '(dap-gdb-lldb)
             ;; c-c++-dap-adapters '(dap-cpptools)
             )
-     ;; dap
      ;; markdown
      multiple-cursors
      (org :variables
