@@ -48,19 +48,19 @@
                 "/home/pekka/work/ts/sensors/thingsee_tag_wp51/thingsee_tag_wp/build/nrf52/thingsee_tag_nrf_app/bootloader/bootloader.elf")
   )
 
-(spacemacs/declare-prefix "o" "other")
+;; (spacemacs/declare-prefix "o" "other")
 
-(spacemacs/set-leader-keys
-  "o1" 'my-gdb-start-evt
-  "o2" 'my-gdb-start-bootloader
-  "o3" 'my-gdb-start-tac
-  "o4" 'my-gdb-start-tracepen
-  "o5" 'my-gdb-start-yard
-  "o6" 'my-gdb-start-matrix
-  "o7" 'my-gdb-start-tag
-  "oo" 'rtags-find-symbol-at-point
-  "of" 'find-name-dired
-  )
+;; (spacemacs/set-leader-keys
+;;   "o1" 'my-gdb-start-evt
+;;   "o2" 'my-gdb-start-bootloader
+;;   "o3" 'my-gdb-start-tac
+;;   "o4" 'my-gdb-start-tracepen
+;;   "o5" 'my-gdb-start-yard
+;;   "o6" 'my-gdb-start-matrix
+;;   "o7" 'my-gdb-start-tag
+;;   "oo" 'rtags-find-symbol-at-point
+;;   "of" 'find-name-dired
+;;   )
 
 (setq ob-mermaid-cli-path "/home/pekka/bin/node_modules/.bin/mmdc")
 (setq markdown-command "/usr/bin/pandoc -F mermaid-filter")
@@ -68,38 +68,6 @@
 (setq mouse-wheel-scroll-amount '(1))
 (setq mouse-wheel-progressive-speed t)
 (setq ring-bell-function 'ignore)
-
-;; (with-eval-after-load 'org
-;;   (setq org-agenda-files (quote ("~/todo.org")))
-;;   ;; (setq org-duration-format '(("d" . nil) ("h" . t) ("min" . t)))
-;;   (setq org-effort-durations
-;;         `(("min" . 1)
-;;           ("h" . 60)
-;;           ;; eight-hour days
-;;           ("d" . ,(* 60 8))
-;;           ;; five-day work week
-;;           ("w" . ,(* 60 8 5))
-;;           ;; four weeks in a month
-;;           ("m" . ,(* 60 8 5 4))
-;;           ;; work a total of 12 months a year --
-;;           ;; this is independent of holiday and sick time taken
-;;           ("y" . ,(* 60 8 5 4 12))))
-;;   )
-
-;; (with-eval-after-load 'org-duration
-;;   (setq org-duration-units
-;;         `(("min" . 1)
-;;           ("h" . 60)
-;;           ;; eight-hour days
-;;           ("d" . ,(* 60 8))
-;;           ;; five-day work week
-;;           ("w" . ,(* 60 8 5))
-;;           ;; four weeks in a month
-;;           ("m" . ,(* 60 8 5 4))
-;;           ;; work a total of 12 months a year --
-;;           ;; this is independent of holiday and sick time taken
-;;           ("y" . ,(* 60 8 5 4 12))))
-;;   )
 
 ;; org-mode
 
@@ -117,8 +85,6 @@
 ;; _ considered part of a word
 ;; For python
 (add-hook 'python-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
-;; For ruby
-(add-hook 'ruby-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 ;; For Javascript
 (add-hook 'js2-mode-hook #'(lambda () (modify-syntax-entry ?_ "w")))
 ;; For C/C++
@@ -162,7 +128,7 @@
 
 
 ;; projectile
-(spacemacs/set-leader-keys "p i" 'projectile-install-project)
+;; (spacemacs/set-leader-keys "p i" 'projectile-install-project)
 
 ;; erc
 ;; Set our nickname & real-name as constant variables
@@ -183,7 +149,6 @@
 (setq erc-track-exclude '("#emacs"))
 
 ;; org-roam
-
 ;; (setq org-roam-directory "~/org/roam")
 
 ;; compile and install without pressing <ENTER>
