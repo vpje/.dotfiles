@@ -10,6 +10,10 @@
  kill-whole-line t
  case-fold-search nil
  make-backup-files nil
+
+ ediff-window-setup-function 'ediff-setup-windows-plain
+ ediff-split-window-function 'split-window-horizontally
+ ediff-merge-split-window-function 'split-window-horizontally
  )
 
 (tool-bar-mode -1)
@@ -18,8 +22,9 @@
 (menu-bar-mode -1)
 (set-fringe-mode 10)
 
-(recentf-mode)
-(winner-mode)
+(recentf-mode 1)
+(winner-mode 1)
+(show-paren-mode 1)
 
 (set-face-attribute 'default nil :font "Hack-10" :width 'condensed)
 
@@ -31,6 +36,10 @@
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/")
 	     '("org" . "https://orgmode.org/elpa/"))
+
+(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+(add-to-list 'load-path "/home/pekka/.emacs.d/auth-source-xoauth2")
+(require 'mu4e)
 
 (use-package undo-tree
   :ensure t
@@ -54,13 +63,20 @@
   :config
   (evil-collection-init))
 
+(use-package evil-surround
+  :ensure t)
+
 (defun pe/switch-to-previous-buffer ()
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
 (defun pe/switch-to-scratch-buffer ()
   (interactive)
-  (switch-to-buffer "*scratch"))
+  (switch-to-buffer "*scratch*"))
+
+(defun pe/switch-to-messages-buffer ()
+  (interactive)
+  (switch-to-buffer "*Messages*"))
 
 (use-package general
   :ensure t
@@ -69,6 +85,14 @@
     :prefix "SPC")
   (pe/leader-def
     :states '(normal visual)
+    "a" '(:ignore t :which-key "app")
+    "f" '(:ignore t :which-key "file")
+    "g" '(:ignore t :which-key "git")
+    "s" '(:ignore t :which-key "search")
+    "b" '(:ignore t :which-key "buffer")
+    "e" '(:ignore t :which-key "error")
+    "w" '(:ignore t :which-key "window")
+    "am" 'mu4e
     "ff" 'find-file
     "fF" 'consult-find
     "fs" 'save-buffer
@@ -90,14 +114,15 @@
     "wu" 'winner-undo
     "wr" 'winner-redo
     "bs" 'pe/switch-to-scratch-buffer
-    "bm" ''
+    "bn" 'evil-buffer-new
+    "bm" 'pe/switch-to-messages-buffer
     ;; "o" org-mode-map
     )
   )
 
 (use-package counsel
   :config
-  (counsel-mode)
+  (counsel-mode 1)
   (pe/leader-def
     :states '(normal visual)
     "SPC" 'counsel-M-x
@@ -114,7 +139,7 @@
 
 (use-package which-key
   :config
-  (which-key-mode))
+  (which-key-mode 1))
 
 (use-package vertico
   :config
@@ -148,6 +173,15 @@
 	       '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
 		 nil
 		 (window-parameters (mode-line-format . none)))))
+
+(use-package embark-consult
+  :ensure t
+  :after (embark consult)
+  :demand t ; only necessary if you have the hook below
+  ;; if you want to have consult previews as you move around an
+  ;; auto-updating embark collect buffer
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package ranger
   :config
@@ -263,12 +297,45 @@
    ([remap describe-key] . helpful-key)
    )
 
+(use-package org
+  :ensure t)
+
 (use-package org-roam
   :ensure t
   :init
-  (setq org-roam-v2-ack t))
+  (setq org-roam-v2-ack t
+	org-roam-directory "~/org-roam"
+	))
+
+(use-package org-superstar
+  :ensure t
+  :hook (org-mode . org-superstar-mode))
+
+;; temporary fix for https://github.com/Somelauw/evil-org-mode/issues/93
+(fset 'evil-redirect-digit-argument 'ignore)
+(add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
+(evil-define-key 'motion 'evil-org-mode
+  (kbd "0") 'evil-org-beginning-of-line)
+
+(use-package evil-org
+  :ensure t
+  :after org
+  :hook (org-mode . (lambda () evil-org-mode))
+  :config
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys))
+
+(use-package perspective
+  :bind
+  ("C-x C-b" . persp-list-buffers)   ; or use a nicer switcher, see below
+  :config
+  (pe/leader-def
+    :states '(normal visual)
+    "l" perspective-map)
+  (persp-mode))
 
 (load "~/.dotfiles/emacs/.my-emacs.d/my-user-config.el")
+(add-hook 'edebug-mode-hook 'evil-normalize-keymaps)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -282,9 +349,11 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
+   '(perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
  '(safe-local-variable-values
-   '((projectile-project-install-cmd . "scp -r thingsee_gateway root@87.100.199.182:/usr/lib/python3.8/site-packages/")
+   '((projectile-project-compilation-cmd . "rm -rf build && make target_board=nrf")
+     (projectile-project-install-cmd . "scp -r thingsee_gateway root@192.168.0.100:/usr/lib/python3.8/site-packages/")
+     (projectile-project-install-cmd . "scp -r thingsee_gateway root@87.100.199.182:/usr/lib/python3.8/site-packages/")
      (projectile-project-compilation-cmd . "")
      (projectile-project-install-cmd . "cd tools && BOARD=0 ./configure_image_and_flash_board_dev.sh")
      (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=nrf")
