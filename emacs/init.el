@@ -85,6 +85,7 @@
     :prefix "SPC")
   (pe/leader-def
     :states '(normal visual)
+    :keymaps 'override
     "a" '(:ignore t :which-key "app")
     "f" '(:ignore t :which-key "file")
     "g" '(:ignore t :which-key "git")
@@ -92,6 +93,7 @@
     "b" '(:ignore t :which-key "buffer")
     "e" '(:ignore t :which-key "error")
     "w" '(:ignore t :which-key "window")
+    "p" '(:ignore t :which-key "projectile")
     "am" 'mu4e
     "ff" 'find-file
     "fF" 'consult-find
@@ -116,17 +118,18 @@
     "bs" 'pe/switch-to-scratch-buffer
     "bn" 'evil-buffer-new
     "bm" 'pe/switch-to-messages-buffer
+    "SPC" 'execute-extended-command
     ;; "o" org-mode-map
     )
   )
 
-(use-package counsel
-  :config
-  (counsel-mode 1)
-  (pe/leader-def
-    :states '(normal visual)
-    "SPC" 'counsel-M-x
-    ))
+;; (use-package counsel
+;;   :config
+;;   (counsel-mode 1)
+;;   (pe/leader-def
+;;     :states '(normal visual)
+;;     "SPC" 'counsel-M-x
+;;     ))
 
 (use-package consult
   :ensure t
@@ -163,8 +166,7 @@
   (setq prefix-help-command #'embark-prefix-help-command)
   :config
   (general-define-key
-   :states 'normal
-   :keymaps 'override
+   :keymaps 'global
    "C-SPC" 'embark-act
    "S-SPC" 'embark-dwim)
 
@@ -357,7 +359,8 @@
      (projectile-project-compilation-cmd . "")
      (projectile-project-install-cmd . "cd tools && BOARD=0 ./configure_image_and_flash_board_dev.sh")
      (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=nrf")
-     (projectile-compilation-dir . projectile-project-root))))
+     (projectile-compilation-dir . projectile-project-root)))
+ '(vertico-sort-function 'vertico-sort-alpha))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
