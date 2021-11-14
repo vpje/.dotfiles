@@ -87,13 +87,14 @@
     :states '(normal visual)
     :keymaps 'override
     "a" '(:ignore t :which-key "app")
-    "f" '(:ignore t :which-key "file")
-    "g" '(:ignore t :which-key "git")
-    "s" '(:ignore t :which-key "search")
     "b" '(:ignore t :which-key "buffer")
     "e" '(:ignore t :which-key "error")
-    "w" '(:ignore t :which-key "window")
+    "f" '(:ignore t :which-key "file")
+    "g" '(:ignore t :which-key "git")
+    "o" '(:ignore t :which-key "org")
     "p" '(:ignore t :which-key "projectile")
+    "s" '(:ignore t :which-key "search")
+    "w" '(:ignore t :which-key "window")
     "am" 'mu4e
     "ff" 'find-file
     "fF" 'consult-find
@@ -304,160 +305,170 @@
   :config
   (pe/leader-def
     :states '(normal visual)
-       ;; Clock
-        "oCc" 'org-clock-cancel
-        "oCd" 'org-clock-display
-        "oCe" 'org-evaluate-time-range
-        "oCg" 'org-clock-goto
-        "oCi" 'org-clock-in
-        "oCI" 'org-clock-in-last
-        "oCj" 'spacemacs/org-clock-jump-to-current-clock
-        "oCo" 'org-clock-out
-        "oCR" 'org-clock-report
-        "oCr" 'org-resolve-clocks
+    ;; Clock
+    "oC" '(:ignore t :which-key "clock")
+    "oCc" 'org-clock-cancel
+    "oCd" 'org-clock-display
+    "oCe" 'org-evaluate-time-range
+    "oCg" 'org-clock-goto
+    "oCi" 'org-clock-in
+    "oCI" 'org-clock-in-last
+    "oCj" 'spacemacs/org-clock-jump-to-current-clock
+    "oCo" 'org-clock-out
+    "oCR" 'org-clock-report
+    "oCr" 'org-resolve-clocks
 
-        "odd" 'org-deadline
-        "ods" 'org-schedule
-        "odt" 'org-time-stamp
-        "odT" 'org-time-stamp-inactive
-        "oee" 'org-export-dispatch
-        "ofi" 'org-feed-goto-inbox
-        "ofu" 'org-feed-update-all
+    "od" '(:ignore t :which-key "time")
+    "odd" 'org-deadline
+    "ods" 'org-schedule
+    "odt" 'org-time-stamp
+    "odT" 'org-time-stamp-inactive
 
-        "oa" 'org-agenda
+    "oee" 'org-export-dispatch
+    "ofi" 'org-feed-goto-inbox
+    "ofu" 'org-feed-update-all
 
-        "op" 'org-priority
+    "oa" 'org-agenda
 
-        "oTc" 'org-toggle-checkbox
-        "oTe" 'org-toggle-pretty-entities
-        "oTi" 'org-toggle-inline-images
-        "oTn" 'org-num-mode
-        "oTl" 'org-toggle-link-display
-        "oTt" 'org-show-todo-tree
-        "oTT" 'org-todo
-        "oTV" 'space-doc-mode
-        "oTx" 'org-latex-preview
+    "op" 'org-priority
 
-        ;; More cycling options (timestamps, headlines, items, properties)
-        "oL" 'org-shiftright
-        "oH" 'org-shiftleft
-        "oJ" 'org-shiftdown
-        "oK" 'org-shiftup
+    "oT" '(:ignore t :which-key "toggle/todo")
+    "oTc" 'org-toggle-checkbox
+    "oTe" 'org-toggle-pretty-entities
+    "oTi" 'org-toggle-inline-images
+    "oTn" 'org-num-mode
+    "oTl" 'org-toggle-link-display
+    "oTt" 'org-show-todo-tree
+    "oTT" 'org-todo
+    "oTV" 'space-doc-mode
+    "oTx" 'org-latex-preview
 
-        ;; Change between TODO sets
-        "C-S-l" 'org-shiftcontrolright
-        "C-S-h" 'org-shiftcontrolleft
-        "C-S-j" 'org-shiftcontroldown
-        "C-S-k" 'org-shiftcontrolup
+    ;; More cycling options (timestamps, headlines, items, properties)
+    "oL" 'org-shiftright
+    "oH" 'org-shiftleft
+    "oJ" 'org-shiftdown
+    "oK" 'org-shiftup
 
-        ;; Subtree editing
-        "osa" 'org-toggle-archive-tag
-        "osA" 'org-archive-subtree-default
-        "osb" 'org-tree-to-indirect-buffer
-        "osd" 'org-cut-subtree
-        "osy" 'org-copy-subtree
-        "osh" 'org-promote-subtree
-        "osj" 'org-move-subtree-down
-        "osk" 'org-move-subtree-up
-        "osl" 'org-demote-subtree
-        "osn" 'org-narrow-to-subtree
-        "osw" 'widen
-        "osr" 'org-refile
-        "oss" 'org-sparse-tree
-        "osS" 'org-sort
+    ;; Change between TODO sets
+    "C-S-l" 'org-shiftcontrolright
+    "C-S-h" 'org-shiftcontrolleft
+    "C-S-j" 'org-shiftcontroldown
+    "C-S-k" 'org-shiftcontrolup
 
-        ;; tables
-        "ota" 'org-table-align
-        "otb" 'org-table-blank-field
-        "otc" 'org-table-convert
-        "otdc" 'org-table-delete-column
-        "otdr" 'org-table-kill-row
-        "ote" 'org-table-eval-formula
-        "otE" 'org-table-export
-        "otf" 'org-table-field-info
-        "oth" 'org-table-previous-field
-        "otH" 'org-table-move-column-left
-        "otic" 'org-table-insert-column
-        "otih" 'org-table-insert-hline
-        "otiH" 'org-table-hline-and-move
-        "otir" 'org-table-insert-row
-        "otI" 'org-table-import
-        "otj" 'org-table-next-row
-        "otJ" 'org-table-move-row-down
-        "otK" 'org-table-move-row-up
-        "otl" 'org-table-next-field
-        "otL" 'org-table-move-column-right
-        "otn" 'org-table-create
-        "otN" 'org-table-create-with-table.el
-        "otr" 'org-table-recalculate
-        "otR" 'org-table-recalculate-buffer-tables
-        "ots" 'org-table-sort-lines
-        "ottf" 'org-table-toggle-formula-debugger
-        "otto" 'org-table-toggle-coordinate-overlays
-        "otw" 'org-table-wrap-region
+    ;; Subtree editing
+    "os" '(:ignore t :which-key "subtree")
+    "osa" 'org-toggle-archive-tag
+    "osA" 'org-archive-subtree-default
+    "osb" 'org-tree-to-indirect-buffer
+    "osd" 'org-cut-subtree
+    "osy" 'org-copy-subtree
+    "osh" 'org-promote-subtree
+    "osj" 'org-move-subtree-down
+    "osk" 'org-move-subtree-up
+    "osl" 'org-demote-subtree
+    "osn" 'org-narrow-to-subtree
+    "osw" 'widen
+    "osr" 'org-refile
+    "oss" 'org-sparse-tree
+    "osS" 'org-sort
 
-        ;; Source blocks / org-babel
-        "obp"     'org-babel-previous-src-block
-        "obn"     'org-babel-next-src-block
-        "obe"     'org-babel-execute-maybe
-        "obo"     'org-babel-open-src-block-result
-        "obv"     'org-babel-expand-src-block
-        "obu"     'org-babel-goto-src-block-head
-        "obg"     'org-babel-goto-named-src-block
-        "obr"     'org-babel-goto-named-result
-        "obb"     'org-babel-execute-buffer
-        "obs"     'org-babel-execute-subtree
-        "obd"     'org-babel-demarcate-block
-        "obt"     'org-babel-tangle
-        "obf"     'org-babel-tangle-file
-        "obc"     'org-babel-check-src-block
-        "obj"     'org-babel-insert-header-arg
-        "obl"     'org-babel-load-in-session
-        "obi"     'org-babel-lob-ingest
-        "obI"     'org-babel-view-src-block-info
-        "obz"     'org-babel-switch-to-session
-        "obZ"     'org-babel-switch-to-session-with-code
-        "oba"     'org-babel-sha1-hash
-        "obx"     'org-babel-do-key-sequence-in-edit-buffer
-        "ob."     'spacemacs/org-babel-transient-state/body
-        ;; Multi-purpose keys
-        ;; (or dotspacemacs-major-mode-leader-key ",") 'org-ctrl-c-ctrl-c
-        "o*" 'org-ctrl-c-star
-        "o-" 'org-ctrl-c-minus
-        "o#" 'org-update-statistics-cookies
-        "oRET"   'org-ctrl-c-ret
-        "oM-RET" 'org-meta-return
-        ;; attachments
-        "oA" 'org-attach
-        ;; insertion
-        "oib" 'org-insert-structure-template
-        "oid" 'org-insert-drawer
-        "oie" 'org-set-effort
-        "oif" 'org-footnote-new
-        "oih" 'org-insert-heading
-        "oiH" 'org-insert-heading-after-current
-        "oii" 'org-insert-item
-        "oiK" 'spacemacs/insert-keybinding-org
-        "oil" 'org-insert-link
-        "oin" 'org-add-note
-        "oip" 'org-set-property
-        "ois" 'org-insert-subheading
-        "oit" 'org-set-tags-command
-        ;; region manipulation
-        ;; "xb" (spacemacs|org-emphasize spacemacs/org-bold ?*)
-        ;; "xc" (spacemacs|org-emphasize spacemacs/org-code ?~)
-        ;; "xi" (spacemacs|org-emphasize spacemacs/org-italic ?/)
-        ;; "xo" 'org-open-at-point
-        ;; "xr" (spacemacs|org-emphasize spacemacs/org-clear ? )
-        ;; "xs" (spacemacs|org-emphasize spacemacs/org-strike-through ?+)
-        ;; "xu" (spacemacs|org-emphasize spacemacs/org-underline ?_)
-        ;; "xv" (spacemacs|org-emphasize spacemacs/org-verbatim ?=))
-	"orl" 'org-roam-buffer-toggle
-	"orf" 'org-roam-node-find
-	"org" 'org-roam-graph
-	"ori" 'org-roam-node-insert
-	"orc" 'org-roam-capture
-	"orj" 'org-roam-dailies-capture-today
+    ;; tables
+    "ot" '(:ignore t :which-key "table")
+    "ota" 'org-table-align
+    "otb" 'org-table-blank-field
+    "otc" 'org-table-convert
+    "otdc" 'org-table-delete-column
+    "otdr" 'org-table-kill-row
+    "ote" 'org-table-eval-formula
+    "otE" 'org-table-export
+    "otf" 'org-table-field-info
+    "oth" 'org-table-previous-field
+    "otH" 'org-table-move-column-left
+    "otic" 'org-table-insert-column
+    "otih" 'org-table-insert-hline
+    "otiH" 'org-table-hline-and-move
+    "otir" 'org-table-insert-row
+    "otI" 'org-table-import
+    "otj" 'org-table-next-row
+    "otJ" 'org-table-move-row-down
+    "otK" 'org-table-move-row-up
+    "otl" 'org-table-next-field
+    "otL" 'org-table-move-column-right
+    "otn" 'org-table-create
+    "otN" 'org-table-create-with-table.el
+    "otr" 'org-table-recalculate
+    "otR" 'org-table-recalculate-buffer-tables
+    "ots" 'org-table-sort-lines
+    "ottf" 'org-table-toggle-formula-debugger
+    "otto" 'org-table-toggle-coordinate-overlays
+    "otw" 'org-table-wrap-region
+
+    ;; Source blocks / org-babel
+    "ob" '(:ignore t :which-key "babel")
+    "obp" 'org-babel-previous-src-block
+    "obn" 'org-babel-next-src-block
+    "obe" 'org-babel-execute-maybe
+    "obo" 'org-babel-open-src-block-result
+    "obv" 'org-babel-expand-src-block
+    "obu" 'org-babel-goto-src-block-head
+    "obg" 'org-babel-goto-named-src-block
+    "obr" 'org-babel-goto-named-result
+    "obb" 'org-babel-execute-buffer
+    "obs" 'org-babel-execute-subtree
+    "obd" 'org-babel-demarcate-block
+    "obt" 'org-babel-tangle
+    "obf" 'org-babel-tangle-file
+    "obc" 'org-babel-check-src-block
+    "obj" 'org-babel-insert-header-arg
+    "obl" 'org-babel-load-in-session
+    "obi" 'org-babel-lob-ingest
+    "obI" 'org-babel-view-src-block-info
+    "obz" 'org-babel-switch-to-session
+    "obZ" 'org-babel-switch-to-session-with-code
+    "oba" 'org-babel-sha1-hash
+    "obx" 'org-babel-do-key-sequence-in-edit-buffer
+    "ob." 'spacemacs/org-babel-transient-state/body
+    ;; Multi-purpose keys
+    ;; (or dotspacemacs-major-mode-leader-key ",") 'org-ctrl-c-ctrl-c
+    "o*" 'org-ctrl-c-star
+    "o-" 'org-ctrl-c-minus
+    "o#" 'org-update-statistics-cookies
+    "oRET"   'org-ctrl-c-ret
+    "oM-RET" 'org-meta-return
+    ;; attachments
+    "oA" 'org-attach
+    ;; insertion
+    "oi" '(:ignore t :which-key "insertion")
+    "oib" 'org-insert-structure-template
+    "oid" 'org-insert-drawer
+    "oie" 'org-set-effort
+    "oif" 'org-footnote-new
+    "oih" 'org-insert-heading
+    "oiH" 'org-insert-heading-after-current
+    "oii" 'org-insert-item
+    "oiK" 'spacemacs/insert-keybinding-org
+    "oil" 'org-insert-link
+    "oin" 'org-add-note
+    "oip" 'org-set-property
+    "ois" 'org-insert-subheading
+    "oit" 'org-set-tags-command
+    ;; region manipulation
+    ;; "xb" (spacemacs|org-emphasize spacemacs/org-bold ?*)
+    ;; "xc" (spacemacs|org-emphasize spacemacs/org-code ?~)
+    ;; "xi" (spacemacs|org-emphasize spacemacs/org-italic ?/)
+    ;; "xo" 'org-open-at-point
+    ;; "xr" (spacemacs|org-emphasize spacemacs/org-clear ? )
+    ;; "xs" (spacemacs|org-emphasize spacemacs/org-strike-through ?+)
+    ;; "xu" (spacemacs|org-emphasize spacemacs/org-underline ?_)
+    ;; "xv" (spacemacs|org-emphasize spacemacs/org-verbatim ?=))
+
+    "or" '(:ignore t :which-key "roam")
+    "orl" 'org-roam-buffer-toggle
+    "orf" 'org-roam-node-find
+    "org" 'org-roam-graph
+    "ori" 'org-roam-node-insert
+    "orc" 'org-roam-capture
+    "orj" 'org-roam-dailies-capture-today
     )
   )
 
