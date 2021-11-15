@@ -106,7 +106,6 @@
     "ws" 'split-window-below
     "wd" 'delete-window
     "qq" 'save-buffers-kill-terminal
-    ;; "M-." 'xref-find-definitions
     "cl" 'comment-or-uncomment-region
     "bd" 'evil-delete-buffer
     "TAB" 'pe/switch-to-previous-buffer
@@ -120,17 +119,11 @@
     "bn" 'evil-buffer-new
     "bm" 'pe/switch-to-messages-buffer
     "SPC" 'execute-extended-command
-    ;; "o" org-mode-map
     )
+  ;; (general-define-key
+  ;;   :keymaps 'global
+  ;;   "M-." 'xref-find-definitions)
   )
-
-;; (use-package counsel
-;;   :config
-;;   (counsel-mode 1)
-;;   (pe/leader-def
-;;     :states '(normal visual)
-;;     "SPC" 'counsel-M-x
-;;     ))
 
 (use-package consult
   :ensure t
