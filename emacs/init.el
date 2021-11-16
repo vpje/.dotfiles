@@ -246,7 +246,7 @@
   (add-hook 'python-mode-hook 'lsp)
   (pe/leader-def
     :states '(normal visual)
-   "l" lsp-command-map))
+   "L" lsp-command-map))
 
 (use-package lsp-pyright
   :ensure t
@@ -493,8 +493,6 @@
   (evil-org-agenda-set-keys))
 
 (use-package perspective
-  :bind
-  ("C-x C-b" . persp-list-buffers)   ; or use a nicer switcher, see below
   :config
   (pe/leader-def
     :states '(normal visual)
@@ -518,7 +516,9 @@
  '(package-selected-packages
    '(perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
  '(safe-local-variable-values
-   '((projectile-project-compilation-cmd . "rm -rf build && make target_board=nrf")
+   '((projectile-project-install-cmd . "cd tools && BOARD=1 ./configure_image_and_flash_board_dev.sh")
+     (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2")
+     (projectile-project-compilation-cmd . "rm -rf build && make target_board=nrf")
      (projectile-project-install-cmd . "scp -r thingsee_gateway root@192.168.0.100:/usr/lib/python3.8/site-packages/")
      (projectile-project-install-cmd . "scp -r thingsee_gateway root@87.100.199.182:/usr/lib/python3.8/site-packages/")
      (projectile-project-compilation-cmd . "")
