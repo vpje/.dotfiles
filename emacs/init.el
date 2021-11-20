@@ -14,6 +14,8 @@
  ediff-window-setup-function 'ediff-setup-windows-plain
  ediff-split-window-function 'split-window-horizontally
  ediff-merge-split-window-function 'split-window-horizontally
+
+ compilation-scroll-output 'first-error
  )
 
 (tool-bar-mode -1)
@@ -50,8 +52,9 @@
 (use-package evil
   :ensure t
   :init
-  (setq evil-want-integration t) ;; This is optional since it's already set to t by default.
-  (setq evil-want-keybinding nil)
+  (setq evil-want-integration t
+	evil-want-keybinding nil
+	evil-symbol-word-search t)
   :config
   (evil-mode 1)
   (evil-set-undo-system 'undo-tree)
@@ -82,12 +85,14 @@
   :ensure t
   :init
   (general-create-definer pe/leader-def
-    :prefix "SPC")
+    :states '(normal insert emacs visual)
+    :prefix "SPC"
+    :non-normal-prefix "M-SPC"
+    )
   (pe/leader-def
-    :states '(normal visual)
-    :keymaps 'override
     "a" '(:ignore t :which-key "app")
     "b" '(:ignore t :which-key "buffer")
+    "c" '(:ignore t :which-key "compilation")
     "e" '(:ignore t :which-key "error")
     "f" '(:ignore t :which-key "file")
     "g" '(:ignore t :which-key "git")
@@ -96,33 +101,35 @@
     "s" '(:ignore t :which-key "search")
     "w" '(:ignore t :which-key "window")
     "am" 'mu4e
-    "ff" 'find-file
-    "fF" 'consult-find
-    "fs" 'save-buffer
-    "ss" 'swiper
-    "sr" 'consult-ripgrep
-    "'" 'eshell
-    "wv" 'split-window-right
-    "ws" 'split-window-below
-    "wd" 'delete-window
-    "qq" 'save-buffers-kill-terminal
-    "cl" 'comment-or-uncomment-region
     "bd" 'evil-delete-buffer
-    "TAB" 'pe/switch-to-previous-buffer
+    "bm" 'pe/switch-to-messages-buffer
+    "bn" 'evil-buffer-new
+    "bs" 'pe/switch-to-scratch-buffer
+    "cl" 'comment-or-uncomment-region
+    "ck" 'kill-compilation
     "el" 'flymake-show-diagnostics-buffer
     "en" 'flymake-goto-next-error
     "ep" 'flymake-goto-prev-error
-    "wm" 'delete-other-windows
-    "wu" 'winner-undo
-    "wr" 'winner-redo
-    "bs" 'pe/switch-to-scratch-buffer
-    "bn" 'evil-buffer-new
-    "bm" 'pe/switch-to-messages-buffer
+    "'" 'eshell
+    "fF" 'consult-find
+    "ff" 'find-file
+    "fs" 'save-buffer
+    "qq" 'save-buffers-kill-terminal
     "SPC" 'execute-extended-command
+    "sr" 'consult-ripgrep
+    "ss" 'swiper
+    "sS" 'swiper-thing-at-point
+    "TAB" 'pe/switch-to-previous-buffer
+    "wd" 'delete-window
+    "wm" 'delete-other-windows
+    "wr" 'winner-redo
+    "ws" 'split-window-below
+    "wu" 'winner-undo
+    "wv" 'split-window-right
     )
-  ;; (general-define-key
-  ;;   :keymaps 'global
-  ;;   "M-." 'xref-find-definitions)
+  (general-define-key
+   :states 'normal
+   "M-." 'lsp-find-definition)
   )
 
 (use-package consult
@@ -516,7 +523,8 @@
  '(package-selected-packages
    '(perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
  '(safe-local-variable-values
-   '((projectile-project-install-cmd . "cd tools && BOARD=1 ./configure_image_and_flash_board_dev.sh")
+   '((projectile-project-compilation-cmd . "rm -rf build && bear make -j8 target_board=takki_silabs_v2")
+     (projectile-project-install-cmd . "cd tools && BOARD=1 ./configure_image_and_flash_board_dev.sh")
      (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2")
      (projectile-project-compilation-cmd . "rm -rf build && make target_board=nrf")
      (projectile-project-install-cmd . "scp -r thingsee_gateway root@192.168.0.100:/usr/lib/python3.8/site-packages/")
