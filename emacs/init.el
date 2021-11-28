@@ -16,6 +16,8 @@
  ediff-merge-split-window-function 'split-window-horizontally
 
  compilation-scroll-output 'first-error
+ recentf-max-saved-items 200
+ indent-tabs-mode nil
  )
 
 (tool-bar-mode -1)
@@ -29,6 +31,7 @@
 (show-paren-mode 1)
 
 (set-face-attribute 'default nil :font "Hack-10" :width 'condensed)
+;;(set-face-attribute 'default nil :font "RobotoMono-10" :width 'condensed)
 
 (eval-when-compile
   (add-to-list 'load-path "~/.emacs.d/use-package")
@@ -90,42 +93,50 @@
     :non-normal-prefix "M-SPC"
     )
   (pe/leader-def
+    :states '(normal insert emacs visual)
     "a" '(:ignore t :which-key "app")
-    "b" '(:ignore t :which-key "buffer")
-    "c" '(:ignore t :which-key "compilation")
-    "e" '(:ignore t :which-key "error")
-    "f" '(:ignore t :which-key "file")
-    "g" '(:ignore t :which-key "git")
-    "o" '(:ignore t :which-key "org")
-    "p" '(:ignore t :which-key "projectile")
-    "s" '(:ignore t :which-key "search")
-    "w" '(:ignore t :which-key "window")
     "am" 'mu4e
     "bd" 'evil-delete-buffer
+    "b" '(:ignore t :which-key "buffer")
     "bm" 'pe/switch-to-messages-buffer
     "bn" 'evil-buffer-new
     "bs" 'pe/switch-to-scratch-buffer
-    "cl" 'comment-or-uncomment-region
+    "c" '(:ignore t :which-key "compilation")
     "ck" 'kill-compilation
+    "cl" 'comment-or-uncomment-region
+    "e" '(:ignore t :which-key "error")
     "el" 'flymake-show-diagnostics-buffer
     "en" 'flymake-goto-next-error
     "ep" 'flymake-goto-prev-error
     "'" 'eshell
     "fF" 'consult-find
     "ff" 'find-file
+    "f" '(:ignore t :which-key "file")
     "fs" 'save-buffer
+    "g" '(:ignore t :which-key "git")
+    "j" '(:ignore t :which-key "jump")
+    "ji" 'consult-imenu
+    "jI" 'consult-imenu-multi
+    "o" '(:ignore t :which-key "org")
+    "q" '(:ignore t :which-key "quit")
     "qq" 'save-buffers-kill-terminal
+    "s" '(:ignore t :which-key "search")
     "SPC" 'execute-extended-command
     "sr" 'consult-ripgrep
     "ss" 'swiper
     "sS" 'swiper-thing-at-point
+    "t" '(:ignore t :which-key "toggles")
+    "tw" 'whitespace-mode
     "TAB" 'pe/switch-to-previous-buffer
     "wd" 'delete-window
+    "w" '(:keymap evil-window-map :which-key "window")
+    "w" '(:ignore t :which-key "window")
     "wm" 'delete-other-windows
-    "wr" 'winner-redo
-    "ws" 'split-window-below
+    "wU" 'winner-redo
     "wu" 'winner-undo
-    "wv" 'split-window-right
+    "*" 'rg-dwim
+    ;; "ws" 'split-window-below
+    ;; "wv" 'split-window-right
     )
   (general-define-key
    :states 'normal
@@ -139,7 +150,10 @@
     :states '(normal visual)
     "bb" 'consult-buffer
     "fr" 'consult-recent-file
-    ))
+    )
+  (setq xref-show-xrefs-function 'consult-xref
+	xref-show-definitions-function 'consult-xref)
+  )
 
 (use-package which-key
   :config
@@ -207,7 +221,7 @@
   :config
   (winum-mode 1)
   (pe/leader-def
-    :states '(normal visual)
+    :states '(normal visual insert emacs)
     :keymaps 'override
     "1" 'winum-select-window-1
     "2" 'winum-select-window-2
@@ -233,7 +247,7 @@
   (projectile-mode 1)
   (pe/leader-def
     :states '(normal visual)
-    "p" projectile-command-map))
+    "p" '(:keymap projectile-command-map :which-key "projectile")))
 
 (use-package doom-modeline
   :ensure t
@@ -253,7 +267,7 @@
   (add-hook 'python-mode-hook 'lsp)
   (pe/leader-def
     :states '(normal visual)
-   "L" lsp-command-map))
+    "L" '(:keymap lsp-command-map :which-key "lsp")))
 
 (use-package lsp-pyright
   :ensure t
@@ -503,8 +517,38 @@
   :config
   (pe/leader-def
     :states '(normal visual)
-    "l" perspective-map)
+    "l" '(:keymap perspective-map :which-key "persp"))
   (persp-mode))
+
+;; (use-package yasnippet
+;;   :ensure t
+;;   :config
+;;   (yas-global-mode))
+
+(use-package plantuml-mode
+  :ensure t
+  :config
+  (setq plantuml-jar-path "/home/pekka/tools/plantuml.jar"
+	plantuml-default-exec-mode 'jar
+	plantuml-output-type "png"))
+
+(use-package chronos
+  :ensure t
+  :config
+  (pe/leader-def
+    :states '(normal visual)
+    "ac" '(:keymap chronos-mode-map :which-key "chronos")
+    )
+  )
+
+(use-package erc
+  :ensure t
+  :config
+  (setq erc-nick "pekka"
+	erc-user-full-name "Pekka Ervasti"
+	erc-track-shorten-start 8
+	;; erc-autojoin-channels-alist '(("#systemcrafters"))
+	))
 
 (load "~/.dotfiles/emacs/.my-emacs.d/my-user-config.el")
 (add-hook 'edebug-mode-hook 'evil-normalize-keymaps)
@@ -521,9 +565,15 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
+   '(erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
  '(safe-local-variable-values
-   '((projectile-project-compilation-cmd . "rm -rf build && bear make -j8 target_board=takki_silabs_v2")
+   '((projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2 debug_print=yes")
+     (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2 debug_prints=yes")
+     (projectile-project-install-cmd . "tools/flash.sh")
+     (projectile-project-install-cmd . "echo install")
+     (projectile-project-package-cmd . "echo package")
+     (projectile-project-compilation-cmd . "rm -rf build && make target_board=tag")
+     (projectile-project-compilation-cmd . "rm -rf build && bear make -j8 target_board=takki_silabs_v2")
      (projectile-project-install-cmd . "cd tools && BOARD=1 ./configure_image_and_flash_board_dev.sh")
      (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2")
      (projectile-project-compilation-cmd . "rm -rf build && make target_board=nrf")
