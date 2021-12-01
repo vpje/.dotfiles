@@ -584,10 +584,13 @@
   :ensure t
   :config
   (setq elfeed-feeds
-        '(("https://www.hs.fi/rss/tuoreimmat.xml" uutiset hs)
+        '(("https://www.hs.fi/rss/tuoreimmat.xml" news hs)
           ("https://sachachua.com/blog/feed/" emacs)
-          ("https://www.iltalehti.fi/rss/uutiset.xml" uutiset il)
-          ("https://www.is.fi/rss/tuoreimmat.xml" uutiset is)
+          ("https://www.iltalehti.fi/rss/uutiset.xml" news il)
+          ("https://www.is.fi/rss/tuoreimmat.xml" news is)
+          ("https://www.kaleva.fi/rss" uutiset kaleva)
+          ("http://feeds.arstechnica.com/arstechnica/technology-lab" tech ars)
+          ("https://lwn.net/headlines/rss" tech lwn)
           )))
 
 (load "~/.dotfiles/emacs/.my-emacs.d/my-user-config.el")
