@@ -525,10 +525,10 @@
   :hook (org-mode . org-superstar-mode))
 
 ;; temporary fix for https://github.com/Somelauw/evil-org-mode/issues/93
-(fset 'evil-redirect-digit-argument 'ignore)
-(add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
-(evil-define-key 'motion 'evil-org-mode
-  (kbd "0") 'evil-org-beginning-of-line)
+;; (fset 'evil-redirect-digit-argument 'ignore)
+;; (add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
+;; (evil-define-key 'motion 'evil-org-mode
+;;   (kbd "0") 'evil-org-beginning-of-line)
 
 (use-package evil-org
   :ensure t
@@ -592,6 +592,8 @@
           ("http://feeds.arstechnica.com/arstechnica/technology-lab" tech ars)
           ("https://lwn.net/headlines/rss" tech lwn)
           )))
+
+(display-time-mode 1)
 
 (load "~/.dotfiles/emacs/.my-emacs.d/my-user-config.el")
 (add-hook 'edebug-mode-hook 'evil-normalize-keymaps)
