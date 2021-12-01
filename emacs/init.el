@@ -44,7 +44,7 @@
 
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 (add-to-list 'load-path "/home/pekka/.emacs.d/auth-source-xoauth2")
-(require 'mu4e)
+;; (require 'mu4e)
 
 (use-package undo-tree
   :ensure t
@@ -73,16 +73,37 @@
   :ensure t)
 
 (defun pe/switch-to-previous-buffer ()
+  "Switch to previously visited buffer."
   (interactive)
   (switch-to-buffer (other-buffer (current-buffer) 1)))
 
 (defun pe/switch-to-scratch-buffer ()
+  "Switch to *scratch* buffer."
   (interactive)
   (switch-to-buffer "*scratch*"))
 
 (defun pe/switch-to-messages-buffer ()
+  "Switch to *Messages* buffer."
   (interactive)
   (switch-to-buffer "*Messages*"))
+
+(defun pe/delete-compilation-window ()
+  "Delete all windows showing *compilation* buffer"
+  (interactive)
+  (delete-windows-on "*compilation*")
+  )
+
+(defun pe/toggle-tabs-mode ()
+  "Toggle indent-tabs-mode value between nil and t."
+  (interactive)
+  (progn
+   (if indent-tabs-mode
+       (setq indent-tabs-mode nil)
+     (setq indent-tabs-mode t)
+     )
+   (message "indent-tabs-mode set to %s" indent-tabs-mode)
+   )
+  )
 
 (use-package general
   :ensure t
@@ -101,9 +122,10 @@
     "bm" 'pe/switch-to-messages-buffer
     "bn" 'evil-buffer-new
     "bs" 'pe/switch-to-scratch-buffer
-    "c" '(:ignore t :which-key "compilation")
+    "c" '(:ignore t :which-key "compile/comment")
     "ck" 'kill-compilation
     "cl" 'comment-or-uncomment-region
+    "cd" 'pe/delete-compilation-window
     "e" '(:ignore t :which-key "error")
     "el" 'flymake-show-diagnostics-buffer
     "en" 'flymake-goto-next-error
@@ -127,6 +149,8 @@
     "sS" 'swiper-thing-at-point
     "t" '(:ignore t :which-key "toggles")
     "tw" 'whitespace-mode
+    "tl" 'linum-mode
+    "tt" 'pe/toggle-tabs-mode
     "TAB" 'pe/switch-to-previous-buffer
     "wd" 'delete-window
     "w" '(:keymap evil-window-map :which-key "window")
@@ -244,6 +268,7 @@
 (use-package projectile
   :ensure t
   :config
+  (setq projectile-globally-ignored-directories '(".cache"))
   (projectile-mode 1)
   (pe/leader-def
     :states '(normal visual)
@@ -550,6 +575,21 @@
 	;; erc-autojoin-channels-alist '(("#systemcrafters"))
 	))
 
+(use-package dtrt-indent
+  :ensure t
+  :config
+  (dtrt-indent-mode 1))
+
+(use-package elfeed
+  :ensure t
+  :config
+  (setq elfeed-feeds
+        '(("https://www.hs.fi/rss/tuoreimmat.xml" uutiset hs)
+          ("https://sachachua.com/blog/feed/" emacs)
+          ("https://www.iltalehti.fi/rss/uutiset.xml" uutiset il)
+          ("https://www.is.fi/rss/tuoreimmat.xml" uutiset is)
+          )))
+
 (load "~/.dotfiles/emacs/.my-emacs.d/my-user-config.el")
 (add-hook 'edebug-mode-hook 'evil-normalize-keymaps)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -568,11 +608,7 @@
    '(erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
  '(safe-local-variable-values
    '((projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2 debug_print=yes")
-     (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2 debug_prints=yes")
      (projectile-project-install-cmd . "tools/flash.sh")
-     (projectile-project-install-cmd . "echo install")
-     (projectile-project-package-cmd . "echo package")
-     (projectile-project-compilation-cmd . "rm -rf build && make target_board=tag")
      (projectile-project-compilation-cmd . "rm -rf build && bear make -j8 target_board=takki_silabs_v2")
      (projectile-project-install-cmd . "cd tools && BOARD=1 ./configure_image_and_flash_board_dev.sh")
      (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2")
