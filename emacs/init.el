@@ -548,6 +548,10 @@
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
 
+(org-babel-do-load-languages 'org-babel-load-languages
+			     '((shell . t)))
+(setq org-confirm-babel-evaluate nil)
+
 (use-package perspective
   :config
   (pe/leader-def
