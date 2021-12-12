@@ -33,14 +33,27 @@
 (set-face-attribute 'default nil :font "Hack-10" :width 'condensed)
 ;;(set-face-attribute 'default nil :font "RobotoMono-10" :width 'condensed)
 
-(eval-when-compile
-  (add-to-list 'load-path "~/.emacs.d/use-package")
-  (require 'use-package))
 
 (require 'package)
+(setq package-enable-at-startup nil)
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/")
 	     '("org" . "https://orgmode.org/elpa/"))
+
+;; (require 'package)
+;; (setq package-enable-at-startup nil)
+;; (add-to-list 'package-archives
+;;              '("melpa" . "https://melpa.org/packages/"))
+
+(package-initialize)
+
+;; Bootstrap `use-package'
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+  (require 'use-package))
 
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 (add-to-list 'load-path "/home/pekka/.emacs.d/auth-source-xoauth2")
