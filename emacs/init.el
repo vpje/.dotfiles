@@ -612,6 +612,19 @@
 
 (display-time-mode 1)
 
+(use-package lispy
+  :ensure t)
+
+;; Flutter / Dart
+
+(use-package dart-mode)
+(use-package lsp-dart
+  :config
+  (setq lsp-dart-flutter-sdk-dir "/home/pekka/snap/flutter/common/flutter"))
+
+(use-package lsp-treemacs)
+(use-package hover)
+
 (load "~/.dotfiles/emacs/.my-emacs.d/my-user-config.el")
 (add-hook 'edebug-mode-hook 'evil-normalize-keymaps)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -627,7 +640,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
+   '(hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
  '(safe-local-variable-values
    '((projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2 debug_print=yes")
      (projectile-project-install-cmd . "tools/flash.sh")
