@@ -130,7 +130,7 @@
     "el" 'flymake-show-diagnostics-buffer
     "en" 'flymake-goto-next-error
     "ep" 'flymake-goto-prev-error
-    "'" 'eshell
+    "'" 'vterm-other-window
     "fF" 'consult-find
     "ff" 'find-file
     "f" '(:ignore t :which-key "file")
