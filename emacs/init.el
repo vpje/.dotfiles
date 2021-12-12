@@ -344,6 +344,12 @@
 (use-package org
   :ensure t
   :config
+  (setq org-capture-templates
+      '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+         "* TODO %?\n  %i\n  %a")
+        ("j" "Journal" entry (file+datetree "~/org/journal.org")
+         "* %?\nEntered on %U\n  %i\n  %a")))
+  (setq org-clock-idle-time 10)
   (pe/leader-def
     :states '(normal visual)
     ;; Clock
@@ -370,6 +376,8 @@
     "ofu" 'org-feed-update-all
 
     "oa" 'org-agenda
+
+    "oc" 'org-capture
 
     "op" 'org-priority
 
