@@ -607,6 +607,9 @@
           ("https://lwn.net/headlines/rss" tech lwn)
           )))
 
+(use-package vterm
+  :ensure t)
+
 (display-time-mode 1)
 
 (load "~/.dotfiles/emacs/.my-emacs.d/my-user-config.el")
