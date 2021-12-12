@@ -294,6 +294,8 @@
     :states '(normal visual)
     "L" '(:keymap lsp-command-map :which-key "lsp")))
 
+(use-package lsp-ui)
+
 (use-package lsp-pyright
   :ensure t
   :hook (python-mode . (lambda ()
