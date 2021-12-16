@@ -125,10 +125,11 @@
     ;; :states '(normal insert emacs visual)
     :states 'normal
     :prefix "SPC"
+    :non-normal-prefix "M-SPC"
     )
   (pe/leader-def
-    ;; :states '(normal insert emacs visual)
-    :states 'normal
+    :states '(normal insert emacs visual)
+    ;;:states 'normal
     "a" '(:ignore t :which-key "app")
     "am" 'mu4e
     "bd" 'evil-delete-buffer
