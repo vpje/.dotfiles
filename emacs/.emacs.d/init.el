@@ -122,12 +122,13 @@
   :ensure t
   :init
   (general-create-definer pe/leader-def
-    :states '(normal insert emacs visual)
+    ;; :states '(normal insert emacs visual)
+    :states 'normal
     :prefix "SPC"
-    :non-normal-prefix "M-SPC"
     )
   (pe/leader-def
-    :states '(normal insert emacs visual)
+    ;; :states '(normal insert emacs visual)
+    :states 'normal
     "a" '(:ignore t :which-key "app")
     "am" 'mu4e
     "bd" 'evil-delete-buffer
@@ -572,10 +573,13 @@
     "l" '(:keymap perspective-map :which-key "persp"))
   (persp-mode))
 
-;; (use-package yasnippet
-;;   :ensure t
-;;   :config
-;;   (yas-global-mode))
+(use-package yasnippet
+  :ensure t
+  :config
+  (yas-global-mode))
+
+(use-package yasnippet-snippets
+  :ensure t)
 
 (use-package plantuml-mode
   :ensure t
@@ -653,9 +657,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
+   '(yassnippet-snippets yasnippet-snippets yaml-mode hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
  '(safe-local-variable-values
-   '((projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2 debug_print=yes")
+   '((projectile-project-compilation-cmd . "rm -rf build && make -j4")
+     (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2 debug_print=yes")
      (projectile-project-install-cmd . "tools/flash.sh")
      (projectile-project-compilation-cmd . "rm -rf build && bear make -j8 target_board=takki_silabs_v2")
      (projectile-project-install-cmd . "cd tools && BOARD=1 ./configure_image_and_flash_board_dev.sh")
