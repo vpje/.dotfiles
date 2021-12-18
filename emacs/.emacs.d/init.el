@@ -154,6 +154,10 @@
     "j" '(:ignore t :which-key "jump")
     "ji" 'consult-imenu
     "jI" 'consult-imenu-multi
+    "jj" 'avy-goto-char-timer
+    "js" 'avy-goto-symbol-1
+    "i" '(:ignore t :which-key "insert")
+    "is" 'yas/insert-snippet
     "o" '(:ignore t :which-key "org")
     "q" '(:ignore t :which-key "quit")
     "qq" 'save-buffers-kill-terminal
