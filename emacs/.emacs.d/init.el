@@ -195,10 +195,22 @@
 
 (use-package which-key
   :config
-  (which-key-mode 1))
+  (which-key-mode 1)
+  )
 
 (use-package vertico
   :config
+  ;; Different scroll margin
+  ;; (setq vertico-scroll-margin 0)
+
+  ;; Show more candidates
+  ;; (setq vertico-count 20)
+
+  ;; Grow and shrink the Vertico minibuffer
+  (setq vertico-resize t)
+
+  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+  (setq vertico-cycle t)
   (vertico-mode 1))
 
 (use-package orderless
@@ -642,6 +654,22 @@
 (use-package lsp-treemacs)
 (use-package hover)
 
+(use-package popup :ensure t)
+(use-package google-translate :ensure t)
+
+(use-package keycast
+  :config
+  ;; This works with doom-modeline, inspired by this comment:
+  ;; https://github.com/tarsius/keycast/issues/7#issuecomment-627604064
+  (define-minor-mode keycast-mode
+    "Show current command and its key binding in the mode line."
+    :global t
+    (if keycast-mode
+	(add-hook 'pre-command-hook 'keycast--update t)
+      (remove-hook 'pre-command-hook 'keycast--update)))
+  (add-to-list 'global-mode-string '("" mode-line-keycast " "))
+  (keycast-mode))
+
 (load "~/.dotfiles/emacs/.my-emacs.d/my-user-config.el")
 (add-hook 'edebug-mode-hook 'evil-normalize-keymaps)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -657,9 +685,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(yassnippet-snippets yasnippet-snippets yaml-mode hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
+   '(quelpa keycast vertico-repeat popup google-translate yassnippet-snippets yasnippet-snippets yaml-mode hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
  '(safe-local-variable-values
-   '((projectile-project-compilation-cmd . "rm -rf build && make -j4")
+   '((projectile-project-install-cmd . "")
+     (projectile-project-compilation-cmd . "make clean_all && make -j4")
+     (projectile-project-compilation-cmd . "rm -rf build && make -j4 target_board=pod4")
+     (projectile-project-compilation-cmd . "rm -rf build && make -j4")
      (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2 debug_print=yes")
      (projectile-project-install-cmd . "tools/flash.sh")
      (projectile-project-compilation-cmd . "rm -rf build && bear make -j8 target_board=takki_silabs_v2")
