@@ -28,7 +28,7 @@ PERL_LOCAL_LIB_ROOT="/home/pekka/perl5${PERL_LOCAL_LIB_ROOT:+:${PERL_LOCAL_LIB_R
 PERL_MB_OPT="--install_base \"/home/pekka/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/pekka/perl5"; export PERL_MM_OPT;
 
-export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="$HOME/tools/blackbox/bin:$PATH"
 export PATH="/opt/sdcc/bin:$PATH"
 export PATH="$HOME/SiliconLabs/SimplicityStudio_v5/developer/adapter_packs/commander:$PATH"
+. "$HOME/.cargo/env"
