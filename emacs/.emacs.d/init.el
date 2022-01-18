@@ -16,6 +16,8 @@
  ediff-merge-split-window-function 'split-window-horizontally
 
  compilation-scroll-output 'first-error
+ compilation-auto-jump-to-first-error t
+ 
  recentf-max-saved-items 200
  indent-tabs-mode nil
  )
@@ -101,30 +103,31 @@
   (delete-windows-on "*compilation*")
   )
 
-(defun pe/toggle-tabs-mode ()
-  "Toggle indent-tabs-mode value between nil and t."
-  (interactive)
-  (progn
-   (if indent-tabs-mode
-       (setq indent-tabs-mode nil)
-     (setq indent-tabs-mode t)
-     )
-   (message "indent-tabs-mode set to %s" indent-tabs-mode)
-   )
-  )
+;; (defun pe/toggle-tabs-mode ()
+;;   "Toggle indent-tabs-mode value between nil and t."
+;;   (interactive)
+;;   (progn
+;;    (if indent-tabs-mode
+;;        (setq indent-tabs-mode nil)
+;;      (setq indent-tabs-mode t)
+;;      )
+;;    (message "indent-tabs-mode set to %s" indent-tabs-mode)
+;;    )
+;;   )
+
+(use-package flycheck
+  :ensure t)
 
 (use-package general
   :ensure t
   :init
   (general-create-definer pe/leader-def
-    ;; :states '(normal insert emacs visual)
-    :states 'normal
+    :states '(normal emacs visual)
     :prefix "SPC"
     :non-normal-prefix "M-SPC"
     )
   (pe/leader-def
-    ;; :states '(normal insert emacs visual)
-    :states 'normal
+    :states '(normal emacs visual)
     "a" '(:ignore t :which-key "app")
     "am" 'mu4e
     "bd" 'evil-delete-buffer
@@ -137,9 +140,9 @@
     "cl" 'comment-or-uncomment-region
     "cd" 'pe/delete-compilation-window
     "e" '(:ignore t :which-key "error")
-    "el" 'flymake-show-diagnostics-buffer
-    "en" 'flymake-goto-next-error
-    "ep" 'flymake-goto-prev-error
+    "el" 'flycheck-list-errors
+    "en" 'flycheck-next-error
+    "ep" 'flycheck-previous-error
     "'" 'vterm-other-window
     "fF" 'consult-find
     "ff" 'find-file
@@ -164,7 +167,7 @@
     "t" '(:ignore t :which-key "toggles")
     "tw" 'whitespace-mode
     "tl" 'linum-mode
-    "tt" 'pe/toggle-tabs-mode
+    "tt" 'indent-tabs-mode
     "TAB" 'pe/switch-to-previous-buffer
     "wd" 'delete-window
     "w" '(:keymap evil-window-map :which-key "window")
@@ -178,7 +181,8 @@
     )
   (general-define-key
    :states 'normal
-   "M-." 'lsp-find-definition)
+   "M-." 'lsp-find-definition
+   "M-r" 'lsp-find-references)
   )
 
 (use-package consult
@@ -294,6 +298,7 @@
 (use-package projectile
   :ensure t
   :config
+  (setq projectile-indexing-method 'native)
   (setq projectile-globally-ignored-directories '(".cache"))
   (projectile-mode 1)
   (pe/leader-def
@@ -619,9 +624,7 @@
 	))
 
 (use-package dtrt-indent
-  :ensure t
-  :config
-  (dtrt-indent-mode 1))
+  :ensure t)
 
 (use-package elfeed
   :ensure t
@@ -648,6 +651,7 @@
 
 (use-package dart-mode)
 (use-package lsp-dart
+  :after dart-mode
   :config
   (setq lsp-dart-flutter-sdk-dir "/home/pekka/snap/flutter/common/flutter"))
 
@@ -670,12 +674,33 @@
   (add-to-list 'global-mode-string '("" mode-line-keycast " "))
   (keycast-mode))
 
-(use-package pdf-tools
-  :ensure t)
+(use-package pdf-tools :ensure t)
+(use-package sudo-edit :ensure t)
 
 (load "~/.dotfiles/emacs/.my-emacs.d/my-user-config.el")
-(add-hook 'edebug-mode-hook 'evil-normalize-keymaps)
 
+(add-hook 'edebug-mode-hook 'evil-normalize-keymaps)
+(add-hook 'dart-mode-hook 'lsp)
+
+(add-to-list 'load-path "~/.emacs.d/site-lisp/emacs-application-framework/")
+(require 'eaf)
+(require 'eaf-pdf-viewer)
+
+(use-package ztree
+  :ensure t)
+
+(use-package git-gutter-fringe
+  :ensure t
+  :config
+  (git-gutter-mode 1))
+
+(defun my-c-mode-common-hook ()
+  ;; my customizations for all of c-mode and related modes
+  ;; (indent-tabs-mode -1)
+  (dtrt-indent-mode 1)
+  )
+
+(add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -690,23 +715,20 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(pdf-tools quelpa keycast vertico-repeat popup google-translate yassnippet-snippets yasnippet-snippets yaml-mode hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
+   '(git-gutter-fringe ztree sudo-edit flycheck pdf-tools quelpa keycast vertico-repeat popup google-translate yassnippet-snippets yasnippet-snippets yaml-mode hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
  '(safe-local-variable-values
-   '((projectile-project-install-cmd . "")
-     (projectile-project-compilation-cmd . "make clean_all && make -j4")
-     (projectile-project-compilation-cmd . "rm -rf build && make -j4 target_board=pod4")
-     (projectile-project-compilation-cmd . "rm -rf build && make -j4")
+   '((projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2")
+     (projectile-project-install-cmd . "cd thingsee_positioning_tag_wp && tools/flash.sh")
+     (projectile-project-compilation-cmd . "cd thingsee_positioning_tag_wp && rm -rf build && make -j8 target_board=takki_silabs_v2 debug_print=yes")
      (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2 debug_print=yes")
+     (projectile-project-install-cmd . "cd thingsee_positioning_anchor_wp && tools/flash.sh")
+     (projectile-project-compilation-cmd . "cd thingsee_positioning_anchor_wp && rm -rf build && make -j4 target_board=pod4")
+     (projectile-compilation-dir concat
+				 (projectile-project-root)
+				 "thingsee_positioning_anchor_wp")
      (projectile-project-install-cmd . "tools/flash.sh")
-     (projectile-project-compilation-cmd . "rm -rf build && bear make -j8 target_board=takki_silabs_v2")
-     (projectile-project-install-cmd . "cd tools && BOARD=1 ./configure_image_and_flash_board_dev.sh")
-     (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2")
-     (projectile-project-compilation-cmd . "rm -rf build && make target_board=nrf")
-     (projectile-project-install-cmd . "scp -r thingsee_gateway root@192.168.0.100:/usr/lib/python3.8/site-packages/")
-     (projectile-project-install-cmd . "scp -r thingsee_gateway root@87.100.199.182:/usr/lib/python3.8/site-packages/")
-     (projectile-project-compilation-cmd . "")
-     (projectile-project-install-cmd . "cd tools && BOARD=0 ./configure_image_and_flash_board_dev.sh")
-     (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=nrf")
+     (projectile-project-compilation-cmd . "rm -rf build && make -j4 target_board=pod4")
+     (projectile-project-compilation-cmd . "make clean_all && make -j4")
      (projectile-compilation-dir . projectile-project-root)))
  '(vertico-sort-function 'vertico-sort-alpha))
 (custom-set-faces
