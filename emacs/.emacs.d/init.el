@@ -147,6 +147,7 @@
     "fF" 'consult-find
     "ff" 'find-file
     "f" '(:ignore t :which-key "file")
+    "fc" 'write-file
     "fs" 'save-buffer
     "g" '(:ignore t :which-key "git")
     "j" '(:ignore t :which-key "jump")
@@ -694,6 +695,11 @@
   :config
   (git-gutter-mode 1))
 
+(use-package evil-mc
+  :ensure t
+  :config
+  (global-evil-mc-mode 1))
+
 (defun my-c-mode-common-hook ()
   ;; my customizations for all of c-mode and related modes
   ;; (indent-tabs-mode -1)
@@ -715,9 +721,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(git-gutter-fringe ztree sudo-edit flycheck pdf-tools quelpa keycast vertico-repeat popup google-translate yassnippet-snippets yasnippet-snippets yaml-mode hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
+   '(evil-mc git-gutter-fringe ztree sudo-edit flycheck pdf-tools quelpa keycast vertico-repeat popup google-translate yassnippet-snippets yasnippet-snippets yaml-mode hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
  '(safe-local-variable-values
-   '((projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2")
+   '((projectile-project-compilation-cmd . "cd thingsee_positioning_tag_wp && rm -rf build && make -j8 target_board=thingsee_tag_silabs_02s debug_print=yes")
+     (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2")
      (projectile-project-install-cmd . "cd thingsee_positioning_tag_wp && tools/flash.sh")
      (projectile-project-compilation-cmd . "cd thingsee_positioning_tag_wp && rm -rf build && make -j8 target_board=takki_silabs_v2 debug_print=yes")
      (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2 debug_print=yes")
