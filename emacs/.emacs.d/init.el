@@ -669,7 +669,15 @@
 (use-package popup :ensure t)
 (use-package google-translate :ensure t)
 
+(use-package treemacs
+  :ensure t
+  :config
+  (pe/leader-def
+    :states '(normal visual)
+    "ft" 'treemacs))
+
 (use-package keycast
+  :ensure t
   :config
   ;; This works with doom-modeline, inspired by this comment:
   ;; https://github.com/tarsius/keycast/issues/7#issuecomment-627604064
