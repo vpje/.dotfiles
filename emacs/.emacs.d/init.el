@@ -296,6 +296,13 @@
     :states '(normal visual)
     "gs" 'magit-status))
 
+(use-package git-timemachine
+  :ensure t
+  :config
+  (pe/leader-def
+    :states '(normal visual)
+    "gt" 'git-timemachine))
+
 (use-package projectile
   :ensure t
   :config
@@ -721,7 +728,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(evil-mc git-gutter-fringe ztree sudo-edit flycheck pdf-tools quelpa keycast vertico-repeat popup google-translate yassnippet-snippets yasnippet-snippets yaml-mode hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
+   '(git-timemachine evil-mc git-gutter-fringe ztree sudo-edit flycheck pdf-tools quelpa keycast vertico-repeat popup google-translate yassnippet-snippets yasnippet-snippets yaml-mode hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
  '(safe-local-variable-values
    '((projectile-project-compilation-cmd . "cd thingsee_positioning_tag_wp && rm -rf build && make -j8 target_board=thingsee_tag_silabs_02s debug_print=yes")
      (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2")
