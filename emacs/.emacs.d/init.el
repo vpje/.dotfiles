@@ -129,8 +129,10 @@
   (pe/leader-def
     :states '(normal emacs visual)
     "a" '(:ignore t :which-key "app")
+    "ac" 'calc
     "am" 'mu4e
-    "bd" 'evil-delete-buffer
+    ;; "bd" 'evil-delete-buffer
+    "bd" 'kill-this-buffer
     "b" '(:ignore t :which-key "buffer")
     "bm" 'pe/switch-to-messages-buffer
     "bn" 'evil-buffer-new
@@ -149,6 +151,10 @@
     "f" '(:ignore t :which-key "file")
     "fc" 'write-file
     "fs" 'save-buffer
+    "F" '(:ignore t :which-key "frame")
+    "Fn" 'make-frame-command
+    "Fd" 'delete-frame
+    "Fo" 'other-frame
     "g" '(:ignore t :which-key "git")
     "j" '(:ignore t :which-key "jump")
     "ji" 'consult-imenu
@@ -716,6 +722,12 @@
   :config
   (global-evil-mc-mode 1))
 
+(use-package drag-stuff :ensure t
+  :config
+  (general-define-key
+    "M-k" 'drag-stuff-up
+    "M-j" 'drag-stuff-down))
+
 (defun my-c-mode-common-hook ()
   ;; my customizations for all of c-mode and related modes
   ;; (indent-tabs-mode -1)
@@ -737,9 +749,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(git-timemachine evil-mc git-gutter-fringe ztree sudo-edit flycheck pdf-tools quelpa keycast vertico-repeat popup google-translate yassnippet-snippets yasnippet-snippets yaml-mode hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
+   '(drag-stuff origami git-timemachine evil-mc git-gutter-fringe ztree sudo-edit flycheck pdf-tools quelpa keycast vertico-repeat popup google-translate yassnippet-snippets yasnippet-snippets yaml-mode hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
  '(safe-local-variable-values
-   '((projectile-project-compilation-cmd . "cd thingsee_positioning_tag_wp && rm -rf build && make -j8 target_board=thingsee_tag_silabs_02s debug_print=yes")
+   '((projectile-project-install-cmd . "scp dual_mcu_app/build/nrf52/dualmcu_app_ninab1/final_image_dualmcu_app_ninab1.hex root@87.100.213.121:/opt/thingsee/firmware/")
+     (projectile-project-compilation-cmd . "cd dual_mcu_app ; make clean_all && make -j4")
+     (projectile-project-install-cmd . "scp -r thingsee_gateway root@87.100.199.182:/usr/lib/python3.8/site-packages/")
+     (projectile-project-compilation-cmd . "")
+     (projectile-project-install-cmd . "")
+     (projectile-project-compilation-cmd . "cd thingsee_positioning_tag_wp && rm -rf build && make -j8 target_board=thingsee_tag_silabs_02s debug_print=yes")
      (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2")
      (projectile-project-install-cmd . "cd thingsee_positioning_tag_wp && tools/flash.sh")
      (projectile-project-compilation-cmd . "cd thingsee_positioning_tag_wp && rm -rf build && make -j8 target_board=takki_silabs_v2 debug_print=yes")
