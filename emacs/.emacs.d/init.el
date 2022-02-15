@@ -185,12 +185,11 @@
     "*" 'rg-dwim
     ;; "ws" 'split-window-below
     ;; "wv" 'split-window-right
+    "." 'lsp-find-definition
+    "," 'xref-go-back
+    "r" 'lsp-find-references
     )
-  (general-define-key
-   :states 'normal
-   "M-." 'lsp-find-definition
-   "M-r" 'lsp-find-references)
-  )
+ )
 
 (use-package consult
   :ensure t
@@ -751,7 +750,8 @@
  '(package-selected-packages
    '(drag-stuff origami git-timemachine evil-mc git-gutter-fringe ztree sudo-edit flycheck pdf-tools quelpa keycast vertico-repeat popup google-translate yassnippet-snippets yasnippet-snippets yaml-mode hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
  '(safe-local-variable-values
-   '((projectile-project-install-cmd . "scp dual_mcu_app/build/nrf52/dualmcu_app_ninab1/final_image_dualmcu_app_ninab1.hex root@87.100.213.121:/opt/thingsee/firmware/")
+   '((projectile-project-install-cmd . "nrfjprog --recover && nrfjprog --program dual_mcu_app/build/nrf52/dualmcu_app_ninab1/final_image_dualmcu_app_ninab1.hex")
+     (projectile-project-install-cmd . "scp dual_mcu_app/build/nrf52/dualmcu_app_ninab1/final_image_dualmcu_app_ninab1.hex root@87.100.213.121:/opt/thingsee/firmware/")
      (projectile-project-compilation-cmd . "cd dual_mcu_app ; make clean_all && make -j4")
      (projectile-project-install-cmd . "scp -r thingsee_gateway root@87.100.199.182:/usr/lib/python3.8/site-packages/")
      (projectile-project-compilation-cmd . "")
