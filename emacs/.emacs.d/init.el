@@ -714,7 +714,7 @@
 (use-package git-gutter-fringe
   :ensure t
   :config
-  (git-gutter-mode 1))
+  (global-git-gutter-mode 1))
 
 (use-package evil-mc
   :ensure t
