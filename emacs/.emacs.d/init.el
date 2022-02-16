@@ -185,8 +185,8 @@
     "*" 'rg-dwim
     ;; "ws" 'split-window-below
     ;; "wv" 'split-window-right
-    "." 'lsp-find-definition
-    "," 'xref-go-back
+    "ll" 'lsp-find-definition
+    "hh" 'xref-go-back
     "r" 'lsp-find-references
     )
  )
