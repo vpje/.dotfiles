@@ -17,7 +17,7 @@
 
  compilation-scroll-output 'first-error
  compilation-auto-jump-to-first-error t
- 
+
  recentf-max-saved-items 200
  indent-tabs-mode nil
  )
@@ -185,7 +185,6 @@
     "*" 'rg-dwim
     ;; "ws" 'split-window-below
     ;; "wv" 'split-window-right
-    "ll" 'lsp-find-definition
     "hh" 'xref-go-back
     "r" 'lsp-find-references
     )
@@ -226,8 +225,8 @@
 (use-package orderless
   :init
   (setq completion-styles '(orderless)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles partial-completion)))))
+	completion-category-defaults nil
+	completion-category-overrides '((file (styles partial-completion)))))
 
 (use-package marginalia
   :ensure t
@@ -345,7 +344,7 @@
   :ensure t
   :hook (python-mode . (lambda ()
 			 (require 'lsp-pyright)
-			 (lsp)))) 
+			 (lsp))))
 
 (use-package company
   :ensure t
@@ -391,9 +390,9 @@
   :config
   (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
-         "* TODO %?\n  %i\n  %a")
-        ("j" "Journal" entry (file+datetree "~/org/journal.org")
-         "* %?\nEntered on %U\n  %i\n  %a")))
+	 "* TODO %?\n  %i\n  %a")
+	("j" "Journal" entry (file+datetree "~/org/journal.org")
+	 "* %?\nEntered on %U\n  %i\n  %a")))
   (setq org-clock-idle-time 10)
   (pe/leader-def
     :states '(normal visual)
@@ -601,7 +600,8 @@
   :config
   (pe/leader-def
     :states '(normal visual)
-    "l" '(:keymap perspective-map :which-key "persp"))
+    "l" '(:keymap perspective-map :which-key "persp")
+    "ll" 'lsp-find-definition)
   (persp-mode))
 
 (use-package yasnippet
@@ -644,14 +644,14 @@
   :ensure t
   :config
   (setq elfeed-feeds
-        '(("https://www.hs.fi/rss/tuoreimmat.xml" news hs)
-          ("https://sachachua.com/blog/feed/" emacs)
-          ("https://www.iltalehti.fi/rss/uutiset.xml" news il)
-          ("https://www.is.fi/rss/tuoreimmat.xml" news is)
-          ("https://www.kaleva.fi/rss" uutiset kaleva)
-          ("http://feeds.arstechnica.com/arstechnica/technology-lab" tech ars)
-          ("https://lwn.net/headlines/rss" tech lwn)
-          )))
+	'(("https://www.hs.fi/rss/tuoreimmat.xml" news hs)
+	  ("https://sachachua.com/blog/feed/" emacs)
+	  ("https://www.iltalehti.fi/rss/uutiset.xml" news il)
+	  ("https://www.is.fi/rss/tuoreimmat.xml" news is)
+	  ("https://www.kaleva.fi/rss" uutiset kaleva)
+	  ("http://feeds.arstechnica.com/arstechnica/technology-lab" tech ars)
+	  ("https://lwn.net/headlines/rss" tech lwn)
+	  )))
 
 (use-package vterm
   :ensure t)
@@ -750,7 +750,8 @@
  '(package-selected-packages
    '(drag-stuff origami git-timemachine evil-mc git-gutter-fringe ztree sudo-edit flycheck pdf-tools quelpa keycast vertico-repeat popup google-translate yassnippet-snippets yasnippet-snippets yaml-mode hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
  '(safe-local-variable-values
-   '((projectile-project-install-cmd . "nrfjprog --recover && nrfjprog --program dual_mcu_app/build/nrf52/dualmcu_app_ninab1/final_image_dualmcu_app_ninab1.hex")
+   '((projectile-project-install-cmd . "scp -r thingsee_gateway root@192.168.0.100:/usr/lib/python3.8/site-packages/")
+     (projectile-project-install-cmd . "nrfjprog --recover && nrfjprog --program dual_mcu_app/build/nrf52/dualmcu_app_ninab1/final_image_dualmcu_app_ninab1.hex")
      (projectile-project-install-cmd . "scp dual_mcu_app/build/nrf52/dualmcu_app_ninab1/final_image_dualmcu_app_ninab1.hex root@87.100.213.121:/opt/thingsee/firmware/")
      (projectile-project-compilation-cmd . "cd dual_mcu_app ; make clean_all && make -j4")
      (projectile-project-install-cmd . "scp -r thingsee_gateway root@87.100.199.182:/usr/lib/python3.8/site-packages/")
