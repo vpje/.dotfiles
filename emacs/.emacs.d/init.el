@@ -20,7 +20,11 @@
 
  recentf-max-saved-items 200
  indent-tabs-mode nil
+
+ custom-file (locate-user-emacs-file "custom-vars.el")
  )
+
+(load custom-file 'noerror 'nomessage)
 
 (tool-bar-mode -1)
 (tooltip-mode -1)
@@ -269,7 +273,11 @@
    :keymaps 'override
    "-" 'deer))
 
+;; minibuffer input history
 (savehist-mode 1)
+
+;; save last place visited
+(save-place-mode 1)
 
 (use-package doom-themes
   :config
@@ -734,47 +742,3 @@
   )
 
 (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   '(drag-stuff origami git-timemachine evil-mc git-gutter-fringe ztree sudo-edit flycheck pdf-tools quelpa keycast vertico-repeat popup google-translate yassnippet-snippets yasnippet-snippets yaml-mode hover lsp-dart dart-mode lsp-ui lispy org-babel vterm erc chronos plantuml-mode yasnippet perspective org-superstar evil-mu4e mu4e evil-org evil-org-mode org-mode evil-surround org-roam consult ag zenburn-theme winum which-key vertico undo-tree solarized-theme smartparens rg ranger projectile orderless marginalia magit lsp-pyright helpful general evil-collection embark doom-themes doom-modeline dashboard counsel company avy))
- '(safe-local-variable-values
-   '((projectile-project-install-cmd . "scp -r thingsee_gateway root@192.168.0.100:/usr/lib/python3.8/site-packages/")
-     (projectile-project-install-cmd . "nrfjprog --recover && nrfjprog --program dual_mcu_app/build/nrf52/dualmcu_app_ninab1/final_image_dualmcu_app_ninab1.hex")
-     (projectile-project-install-cmd . "scp dual_mcu_app/build/nrf52/dualmcu_app_ninab1/final_image_dualmcu_app_ninab1.hex root@87.100.213.121:/opt/thingsee/firmware/")
-     (projectile-project-compilation-cmd . "cd dual_mcu_app ; make clean_all && make -j4")
-     (projectile-project-install-cmd . "scp -r thingsee_gateway root@87.100.199.182:/usr/lib/python3.8/site-packages/")
-     (projectile-project-compilation-cmd . "")
-     (projectile-project-install-cmd . "")
-     (projectile-project-compilation-cmd . "cd thingsee_positioning_tag_wp && rm -rf build && make -j8 target_board=thingsee_tag_silabs_02s debug_print=yes")
-     (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2")
-     (projectile-project-install-cmd . "cd thingsee_positioning_tag_wp && tools/flash.sh")
-     (projectile-project-compilation-cmd . "cd thingsee_positioning_tag_wp && rm -rf build && make -j8 target_board=takki_silabs_v2 debug_print=yes")
-     (projectile-project-compilation-cmd . "rm -rf build && make -j8 target_board=takki_silabs_v2 debug_print=yes")
-     (projectile-project-install-cmd . "cd thingsee_positioning_anchor_wp && tools/flash.sh")
-     (projectile-project-compilation-cmd . "cd thingsee_positioning_anchor_wp && rm -rf build && make -j4 target_board=pod4")
-     (projectile-compilation-dir concat
-				 (projectile-project-root)
-				 "thingsee_positioning_anchor_wp")
-     (projectile-project-install-cmd . "tools/flash.sh")
-     (projectile-project-compilation-cmd . "rm -rf build && make -j4 target_board=pod4")
-     (projectile-project-compilation-cmd . "make clean_all && make -j4")
-     (projectile-compilation-dir . projectile-project-root)))
- '(vertico-sort-function 'vertico-sort-alpha))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
