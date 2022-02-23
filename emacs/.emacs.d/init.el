@@ -36,6 +36,9 @@
 (winner-mode 1)
 (show-paren-mode 1)
 
+;; Revert buffers when the underlying file has changed
+(global-auto-revert-mode 1)
+
 (set-face-attribute 'default nil :font "Hack-10" :width 'condensed)
 ;;(set-face-attribute 'default nil :font "RobotoMono-10" :width 'condensed)
 
