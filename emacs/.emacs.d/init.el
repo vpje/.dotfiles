@@ -357,10 +357,17 @@
 			 (require 'lsp-pyright)
 			 (lsp))))
 
+
+(use-package company-lsp :commands company-lsp)
+
 (use-package company
   :ensure t
   :config
   (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package ccls
+  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+         (lambda () (require 'ccls) (lsp))))
 
 (use-package avy
   :ensure t)
