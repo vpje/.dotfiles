@@ -21,6 +21,8 @@
  recentf-max-saved-items 200
  indent-tabs-mode nil
 
+ global-auto-revert-non-file-buffers t
+
  custom-file (locate-user-emacs-file "custom-vars.el")
  )
 
