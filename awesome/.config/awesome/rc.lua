@@ -360,7 +360,7 @@ globalkeys = gears.table.join(
               {description = "lua execute prompt", group = "awesome"}),
     -- Menubar
     awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "launcher"})
+              {description = "show the menubar", group = "launcher"}),
 
     -- Brightness
 
@@ -373,6 +373,12 @@ globalkeys = gears.table.join(
 
     -- awful.key({ }, "XF86MonBrightnessUp", function ()
     --     awful.util.spawn("brightnessctl s 10%+") end)
+
+    awful.key({ }, "XF86AudioLowerVolume", function ()
+         awful.util.spawn("pactl set-sink-volume @DEFAULT_SINK@ -10%") end),
+    awful.key({ }, "XF86AudioRaiseVolume", function ()
+         awful.util.spawn("pactl set-sink-volume @DEFAULT_SINK@ +10%") end)
+
 )
 
 clientkeys = gears.table.join(
