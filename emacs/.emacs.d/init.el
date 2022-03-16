@@ -26,6 +26,10 @@
  custom-file (locate-user-emacs-file "custom-vars.el")
  )
 
+(setq-default
+ show-trailing-whitespace t
+ )
+
 (load custom-file 'noerror 'nomessage)
 
 (tool-bar-mode -1)
