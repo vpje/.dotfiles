@@ -84,6 +84,7 @@
   :config
   (evil-mode 1)
   (evil-set-undo-system 'undo-tree)
+  (global-evil-surround-mode 1)
   )
 
 (use-package evil-collection
