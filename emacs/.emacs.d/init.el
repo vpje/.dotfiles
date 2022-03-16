@@ -739,6 +739,11 @@
 (use-package git-gutter-fringe
   :ensure t
   :config
+  (pe/leader-def
+    :states '(normal visual)
+    "gn" 'git-gutter:next-hunk
+    "gp" 'git-gutter:previous-hunk
+    )
   (global-git-gutter-mode 1))
 
 (use-package evil-mc
