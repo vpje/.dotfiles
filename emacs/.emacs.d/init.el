@@ -73,6 +73,8 @@
   :ensure t
   :config
   (global-undo-tree-mode 1)
+  (setq undo-tree-auto-save-history nil)
+  ;; (setq undo-tree-history-directory-alist (concat user-emacs-directory "undo-tree"))
   )
 
 (use-package evil
