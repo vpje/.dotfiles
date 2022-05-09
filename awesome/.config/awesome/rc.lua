@@ -24,7 +24,7 @@ local has_fdo, freedesktop = pcall(require, "freedesktop")
 
 -- Misc widgets
 -- local volumearc_widget = require("awesome-wm-widgets.volumearc-widget.volumearc")
-local batteryarc_widget = require("awesome-wm-widgets.batteryarc-widget.batteryarc")
+-- local batteryarc_widget = require("awesome-wm-widgets.batteryarc-widget.batteryarc")
 -- local cpu_widget = require("awesome-wm-widgets.cpu-widget.cpu-widget")
 
 -- {{{ Error handling
@@ -244,7 +244,7 @@ awful.screen.connect_for_each_screen(function(s)
             --     color = '#434c5e'
             -- }),
             -- volumearc_widget(),
-            batteryarc_widget(),
+            -- batteryarc_widget(),
             wibox.widget.systray(),
             mytextclock,
             s.mylayoutbox,
