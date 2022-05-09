@@ -235,7 +235,8 @@
   (setq vertico-resize t)
 
   ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  (setq vertico-cycle t)
+  (setq vertico-cycle t
+	vertico-sort-function 'vertico-sort-history-alpha)
   (vertico-mode 1))
 
 (use-package orderless
@@ -365,9 +366,6 @@
   :hook (python-mode . (lambda ()
 			 (require 'lsp-pyright)
 			 (lsp))))
-
-
-(use-package company-lsp :commands company-lsp)
 
 (use-package company
   :ensure t
@@ -597,7 +595,8 @@
   :custom
   (org-roam-directory (file-truename "~/org-roam"))
   :init
-  (setq org-roam-v2-ack t)
+  (setq org-roam-v2-ack t
+	org-return-follows-link  t)
   :config
   (org-roam-db-autosync-mode))
 
@@ -633,6 +632,7 @@
     :states '(normal visual)
     "l" '(:keymap perspective-map :which-key "persp")
     "ll" 'lsp-find-definition)
+  (setq persp-suppress-no-prefix-key-warning t)
   (persp-mode))
 
 (use-package yasnippet
