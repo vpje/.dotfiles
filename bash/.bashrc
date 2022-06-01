@@ -16,8 +16,8 @@ HISTCONTROL=ignoreboth
 shopt -s histappend
 
 # for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
-HISTSIZE=100000
-HISTFILESIZE=200000
+HISTSIZE=
+HISTFILESIZE=
 
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
@@ -105,8 +105,6 @@ if [ -f ~/.bash_aliases ]; then
     . ~/.bash_aliases
 fi
 
-. /usr/share/autojump/autojump.sh
-
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
 # sources /etc/bash.bashrc).
@@ -118,11 +116,14 @@ if ! shopt -oq posix; then
   fi
 fi
 
-set -o vi
-
+# setup some tools
+. "$HOME/.cargo/env"
+source /home/pekka/tools/alacritty/extra/completions/alacritty.bash
+source /usr/share/doc/fzf/examples/key-bindings.bash
+source /usr/share/autojump/autojump.sh
 if [ "$TERM" != "linux" ]; then
     source ~/tools/pureline/pureline ~/.pureline.conf
 fi
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
-source /home/pekka/tools/alacritty/extra/completions/alacritty.bash
+# line edit in vim mode
+set -o vi
