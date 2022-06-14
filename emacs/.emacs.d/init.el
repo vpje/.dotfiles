@@ -362,6 +362,7 @@
   (add-hook 'c-mode-hook 'lsp)
   (add-hook 'c++-mode-hook 'lsp)
   (add-hook 'python-mode-hook 'lsp)
+  (add-hook 'javascript-mode-hook 'lsp)
   (pe/leader-def
     :states '(normal visual)
     "L" '(:keymap lsp-command-map :which-key "lsp")))
