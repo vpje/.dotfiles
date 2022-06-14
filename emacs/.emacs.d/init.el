@@ -406,6 +406,8 @@
 	dashboard-set-heading-icons t
 	dashboard-set-file-icons nil))
 
+(use-package counsel)
+
 (use-package helpful
   :ensure t
   :custom
