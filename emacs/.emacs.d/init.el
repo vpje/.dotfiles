@@ -656,7 +656,7 @@
 (use-package plantuml-mode
   :ensure t
   :config
-  (setq plantuml-jar-path "/home/pekka/tools/plantuml.jar"
+  (setq plantuml-jar-path "/home/pekka/tools/plantuml/plantuml.jar"
 	plantuml-default-exec-mode 'jar
 	plantuml-output-type "png"))
 
