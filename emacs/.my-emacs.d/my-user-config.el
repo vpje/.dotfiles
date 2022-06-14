@@ -149,4 +149,4 @@
 (setq erc-track-exclude '("#emacs"))
 
 ;; compile and install without pressing <ENTER>
-(setq compilation-read-command nil)
+(setq compilation-read-command t)
