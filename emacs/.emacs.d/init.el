@@ -26,9 +26,16 @@
  custom-file (locate-user-emacs-file "custom-vars.el")
  )
 
-(setq-default
- show-trailing-whitespace t
- )
+(setq-default show-trailing-whitespace t)
+
+(dolist (hook '(vterm-mode-hook
+		special-mode-hook
+		term-mode-hook
+		comint-mode-hook
+		compilation-mode-hook
+		minibuffer-setup-hook))
+  (add-hook hook
+	    (lambda () (setq-local show-trailing-whitespace nil))))
 
 (load custom-file 'noerror 'nomessage)
 
