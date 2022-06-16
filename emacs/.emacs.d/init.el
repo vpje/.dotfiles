@@ -787,3 +787,6 @@
   )
 
 (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
+
+(add-to-list 'load-path "~/.emacs.d/vpe/")
+(require 'projectile-transient-menu)
