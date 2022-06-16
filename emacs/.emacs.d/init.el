@@ -423,6 +423,7 @@
 (use-package org
   :ensure t
   :config
+  (org-indent-mode)
   (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
 	 "* TODO %?\n  %i\n  %a")
