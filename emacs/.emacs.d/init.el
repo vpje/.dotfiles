@@ -74,7 +74,13 @@
 
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 (add-to-list 'load-path "/home/pekka/.emacs.d/auth-source-xoauth2")
-;; (require 'mu4e)
+(require 'mu4e)
+(setq user-mail-address "pekka.ervasti@haltian.com"
+      smtpmail-default-smtp-server "smtp.account1.example.com"
+      smtpmail-local-domain "account1.example.com"
+      smtpmail-smtp-server "smtp.account1.example.com"
+      smtpmail-stream-type 'starttls
+      smtpmail-smtp-service 25)
 
 (use-package undo-tree
   :ensure t
