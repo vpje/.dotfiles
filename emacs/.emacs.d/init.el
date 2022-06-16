@@ -345,8 +345,8 @@
   :ensure t
   :config
   ;; (setq projectile-indexing-method 'native)
+  ;; (setq projectile-globally-ignored-directories '(".cache"))
   (setq projectile-indexing-method 'alien)
-  (setq projectile-globally-ignored-directories '(".cache"))
   (projectile-mode 1)
   (pe/leader-def
     :states '(normal visual)
