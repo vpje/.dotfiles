@@ -43,6 +43,7 @@
 (tooltip-mode -1)
 (scroll-bar-mode -1)
 (menu-bar-mode -1)
+(blink-cursor-mode -1)
 (set-fringe-mode 10)
 
 (recentf-mode 1)
@@ -76,11 +77,35 @@
 (add-to-list 'load-path "/home/pekka/.emacs.d/auth-source-xoauth2")
 (require 'mu4e)
 (setq user-mail-address "pekka.ervasti@haltian.com"
-      smtpmail-default-smtp-server "smtp.account1.example.com"
-      smtpmail-local-domain "account1.example.com"
-      smtpmail-smtp-server "smtp.account1.example.com"
-      smtpmail-stream-type 'starttls
-      smtpmail-smtp-service 25)
+      mu4e-get-mail-command "offlineimap"
+      mu4e-view-show-addresses t
+      mu4e-attachment-dir (expand-file-name "~/Downloads/")
+      )
+
+   ;;; Call the oauth2ms program to fetch the authentication token
+(defun fetch-access-token ()
+  (with-temp-buffer
+    (call-process "oauth2ms" nil t nil "--encode-xoauth2")
+    (buffer-string)))
+
+   ;;; Add new authentication method for xoauth2
+(cl-defmethod smtpmail-try-auth-method
+  (process (_mech (eql xoauth2)) user password)
+  (let* ((access-token (fetch-access-token)))
+    (smtpmail-command-or-throw
+     process
+     (concat "AUTH XOAUTH2 " access-token)
+     235)))
+
+   ;;; Register the method
+(with-eval-after-load 'smtpmail
+  (add-to-list 'smtpmail-auth-supported 'xoauth2))
+
+(setq message-send-mail-function   'smtpmail-send-it
+      smtpmail-default-smtp-server "smtp.office365.com"
+      smtpmail-smtp-server         "smtp.office365.com"
+      smtpmail-stream-type  'starttls
+      smtpmail-smtp-service 587)
 
 (use-package undo-tree
   :ensure t
@@ -90,6 +115,7 @@
   ;; (setq undo-tree-history-directory-alist (concat user-emacs-directory "undo-tree"))
   )
 
+(use-package compat)
 (use-package evil
   :ensure t
   :init
@@ -146,6 +172,7 @@
 
 (use-package flycheck
   :ensure t)
+  ;; :custom (flycheck-cppcheck-checks "all"))
 
 (use-package general
   :ensure t
@@ -345,9 +372,19 @@
   :ensure t
   :config
   ;; (setq projectile-indexing-method 'native)
-  ;; (setq projectile-globally-ignored-directories '(".cache"))
   (setq projectile-indexing-method 'alien)
   (projectile-mode 1)
+
+  ;; Use the faster searcher to handle project files: ripgrep "rg"
+  (setq projectile-generic-command
+	 (let ((rg-cmd ""))
+	   (dolist (dir '(".ccls-cache/**" ".repo/**"))
+	     (setq rg-cmd (format "%s --glob '!%s'" rg-cmd dir)))
+	   (setq rg-ignorefile
+		 (concat "--ignore-file" " "
+			 (expand-file-name "rg_ignore" user-emacs-directory)))
+	   (concat "rg -0 --files --color=never --hidden" rg-cmd " " rg-ignorefile)))
+
   (pe/leader-def
     :states '(normal visual)
     "p" '(:keymap projectile-command-map :which-key "projectile")))
@@ -364,6 +401,7 @@
 
 (use-package lsp-mode
   :ensure t
+  :custom (lsp-enable-file-watchers nil)
   :config
   (add-hook 'c-mode-hook 'lsp)
   (add-hook 'c++-mode-hook 'lsp)
@@ -377,6 +415,7 @@
 
 (use-package lsp-pyright
   :ensure t
+  :custom (lsp-pyright-multi-root nil)
   :hook (python-mode . (lambda ()
 			 (require 'lsp-pyright)
 			 (lsp))))
@@ -429,7 +468,7 @@
 (use-package org
   :ensure t
   :config
-  (org-indent-mode)
+  (org-indent-mode 1)
   (setq org-capture-templates
       '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
 	 "* TODO %?\n  %i\n  %a")
@@ -706,6 +745,12 @@
 
 (display-time-mode 1)
 
+(use-package lispyville
+  :init
+  (general-add-hook '(emacs-lisp-mode-hook lisp-mode-hook) #'lispyville-mode)
+  :config
+  (lispyville-set-key-theme '(operators c-w additional atom-motions commentary)))
+
 (use-package lispy
   :ensure t)
 
@@ -730,6 +775,8 @@
     :states '(normal visual)
     "ft" 'treemacs))
 
+(use-package treemacs-evil)
+
 (use-package keycast
   :ensure t
   :config
@@ -744,7 +791,7 @@
   (add-to-list 'global-mode-string '("" mode-line-keycast " "))
   (keycast-mode))
 
-(use-package pdf-tools :ensure t)
+(use-package pdf-tools :ensure t :config (setq revert-without-query '(".pdf")))
 (use-package sudo-edit :ensure t)
 
 (load "~/.dotfiles/emacs/.my-emacs.d/my-user-config.el")
@@ -787,6 +834,7 @@
   )
 
 (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
+(org-indent-mode 1)
 
-(add-to-list 'load-path "~/.emacs.d/vpe/")
-(require 'projectile-transient-menu)
+;; (add-to-list 'load-path "~/.emacs.d/vpe/")
+;; (require 'projectile-transient-menu)
