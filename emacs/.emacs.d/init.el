@@ -183,7 +183,7 @@
     :non-normal-prefix "M-SPC"
     )
   (pe/leader-def
-    :states '(normal emacs visual)
+    :states '(normal visual)
     "a" '(:ignore t :which-key "app")
     "ac" 'calc
     "am" 'mu4e
@@ -341,7 +341,7 @@
   :config
   (winum-mode 1)
   (pe/leader-def
-    :states '(normal visual insert emacs)
+    :states '(normal visual)
     :keymaps 'override
     "1" 'winum-select-window-1
     "2" 'winum-select-window-2
