@@ -75,7 +75,7 @@
 
 (add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
 (add-to-list 'load-path "/home/pekka/.emacs.d/auth-source-xoauth2")
-(require 'mu4e)
+;;(require 'mu4e)
 (setq user-mail-address "pekka.ervasti@haltian.com"
       mu4e-get-mail-command "offlineimap"
       mu4e-view-show-addresses t
