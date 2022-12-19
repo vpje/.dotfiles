@@ -407,6 +407,7 @@
   (add-hook 'c++-mode-hook 'lsp)
   (add-hook 'python-mode-hook 'lsp)
   (add-hook 'javascript-mode-hook 'lsp)
+  (setq lsp-enabled-clients '(clangd))
   (pe/leader-def
     :states '(normal visual)
     "L" '(:keymap lsp-command-map :which-key "lsp")))
@@ -425,9 +426,9 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode))
 
-(use-package ccls
-  :hook ((c-mode c++-mode objc-mode cuda-mode) .
-         (lambda () (require 'ccls) (lsp))))
+;; (use-package ccls
+;;   :hook ((c-mode c++-mode objc-mode cuda-mode) .
+;;          (lambda () (require 'ccls) (lsp))))
 
 (use-package avy
   :ensure t)
