@@ -828,6 +828,10 @@
     "M-k" 'drag-stuff-up
     "M-j" 'drag-stuff-down))
 
+(use-package atomic-chrome
+  :config
+  (atomic-chrome-start-server))
+
 (defun my-c-mode-common-hook ()
   ;; my customizations for all of c-mode and related modes
   ;; (indent-tabs-mode -1)
