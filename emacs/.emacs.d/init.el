@@ -378,7 +378,7 @@
   ;; Use the faster searcher to handle project files: ripgrep "rg"
   (setq projectile-generic-command
 	 (let ((rg-cmd ""))
-	   (dolist (dir '(".ccls-cache/**" ".repo/**"))
+	   (dolist (dir '(".ccls-cache/**" ".repo/**" ".cache/**"))
 	     (setq rg-cmd (format "%s --glob '!%s'" rg-cmd dir)))
 	   (setq rg-ignorefile
 		 (concat "--ignore-file" " "
