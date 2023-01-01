@@ -748,9 +748,10 @@
 
 (use-package lispyville
   :init
-  (general-add-hook '(emacs-lisp-mode-hook lisp-mode-hook) #'lispyville-mode)
+  ;; (general-add-hook '(emacs-lisp-mode-hook lisp-mode-hook) #'lispyville-mode)
+  (add-hook 'lispy-mode-hook #'lispyville-mode)
   :config
-  (lispyville-set-key-theme '(operators c-w additional atom-motions commentary)))
+  (lispyville-set-key-theme '(operators c-w additional atom-motions commentary slurp/barf-lispy)))
 
 (use-package lispy
   :ensure t)
