@@ -407,7 +407,8 @@
   (add-hook 'c++-mode-hook 'lsp)
   (add-hook 'python-mode-hook 'lsp)
   (add-hook 'javascript-mode-hook 'lsp)
-  (setq lsp-enabled-clients '(clangd))
+  (add-hook 'sh-mode-hook 'lsp)
+  (setq lsp-enabled-clients '(clangd pyright bash-ls))
   (pe/leader-def
     :states '(normal visual)
     "L" '(:keymap lsp-command-map :which-key "lsp")))
