@@ -723,6 +723,7 @@
   (setq erc-nick "pekka"
 	erc-user-full-name "Pekka Ervasti"
 	erc-track-shorten-start 8
+	erc-hide-list '("JOIN" "PART" "QUIT")
 	;; erc-autojoin-channels-alist '(("#systemcrafters"))
 	))
 
