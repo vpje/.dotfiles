@@ -863,3 +863,12 @@
 
 ;; (add-to-list 'load-path "~/.emacs.d/vpe/")
 ;; (require 'projectile-transient-menu)
+
+(use-package docker
+  :ensure t
+  :config
+  (pe/leader-def
+   :states '(normal visual)
+   "dd" 'docker)
+  )
+
