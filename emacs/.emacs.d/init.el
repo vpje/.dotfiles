@@ -355,6 +355,8 @@
     "9" 'winum-select-window-9
     ))
 
+(use-package magit-section)
+
 (use-package magit
   :ensure t
   :config
