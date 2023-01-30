@@ -364,6 +364,8 @@
     :states '(normal visual)
     "gs" 'magit-status))
 
+(use-package magit-section) ;; used by org-roam
+
 (use-package git-timemachine
   :ensure t
   :config
