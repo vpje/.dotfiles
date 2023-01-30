@@ -874,3 +874,24 @@
    "dd" 'docker)
   )
 
+(require 'dap-python)
+(setq dap-python-debugger 'debugpy)
+;; (dap-register-debug-template "python test"
+;; 			     (list :type "python"
+;; 				   :args "-i"
+;; 				   :cwd nil
+;; 				   :env '(("DEBUG" . "1"))
+;; 				   :target-module (expand-file-name "/tmp/test.py")
+;; 				   :request "launch"
+;; 				   :name "python test"))
+
+
+(defun pe/recompile-all-packages ()
+    "Force re-compile all packages."
+  (interactive)
+  (byte-recompile-directory package-user-dir nil 'force)
+  )
+
+(pe/leader-def
+  :states '(normal visual)
+  "ca" 'pe/recompile-all-packages)
