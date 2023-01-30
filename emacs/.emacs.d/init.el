@@ -661,6 +661,7 @@
   (setq org-roam-v2-ack t
 	org-return-follows-link  t)
   :config
+  (setq org-startup-indented t)
   (org-roam-db-autosync-mode))
 
 (use-package org-superstar
