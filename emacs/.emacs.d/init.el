@@ -178,12 +178,13 @@
   :ensure t
   :init
   (general-create-definer pe/leader-def
-    :states '(normal emacs visual)
+    :keymaps '(dired-mode-map override)
+    :states 'motion
     :prefix "SPC"
     :non-normal-prefix "M-SPC"
     )
   (pe/leader-def
-    :states '(normal visual)
+    ;; :states '(normal visual)
     "a" '(:ignore t :which-key "app")
     "ac" 'calc
     "am" 'mu4e
@@ -251,7 +252,7 @@
   :ensure t
   :config
   (pe/leader-def
-    :states '(normal visual)
+    ;; :states '(normal visual)
     "bb" 'consult-buffer
     "fr" 'consult-recent-file
     )
@@ -291,36 +292,36 @@
   :config
   (marginalia-mode 1))
 
-(use-package embark
-  :ensure t
-  :init
-  ;; Optionally replace the key help with a completing-read interface
-  (setq prefix-help-command #'embark-prefix-help-command)
-  :config
-  (general-define-key
-   :keymaps 'global
-   "C-SPC" 'embark-act
-   "S-SPC" 'embark-dwim)
+;; (use-package embark
+;;   :ensure t
+;;   :init
+;;   ;; Optionally replace the key help with a completing-read interface
+;;   (setq prefix-help-command #'embark-prefix-help-command)
+;;   :config
+;;   (general-define-key
+;;    :keymaps 'global
+;;    "C-SPC" 'embark-act
+;;    "S-SPC" 'embark-dwim)
 
-  ;; Hide the mode line of the Embark live/completions buffers
-  (add-to-list 'display-buffer-alist
-	       '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-		 nil
-		 (window-parameters (mode-line-format . none)))))
+;;   ;; Hide the mode line of the Embark live/completions buffers
+;;   (add-to-list 'display-buffer-alist
+;; 	       '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+;; 		 nil
+;; 		 (window-parameters (mode-line-format . none)))))
 
-(use-package embark-consult
-  :ensure t
-  :after (embark consult)
-  :demand t ; only necessary if you have the hook below
-  ;; if you want to have consult previews as you move around an
-  ;; auto-updating embark collect buffer
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
+;; (use-package embark-consult
+;;   :ensure t
+;;   :after (embark consult)
+;;   :demand t ; only necessary if you have the hook below
+;;   ;; if you want to have consult previews as you move around an
+;;   ;; auto-updating embark collect buffer
+;;   :hook
+;;   (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package ranger
   :config
   (pe/leader-def
-    :states '(normal visual)
+    ;; :states '(normal visual)
     "ar" 'ranger)
   (general-define-key
    :states 'normal
@@ -342,8 +343,8 @@
   :config
   (winum-mode 1)
   (pe/leader-def
-    :states '(normal visual)
-    :keymaps 'override
+    ;; :states '(normal visual)
+    ;; :keymaps 'override
     "1" 'winum-select-window-1
     "2" 'winum-select-window-2
     "3" 'winum-select-window-3
@@ -361,7 +362,7 @@
   :ensure t
   :config
   (pe/leader-def
-    :states '(normal visual)
+    ;; :states '(normal visual)
     "gs" 'magit-status))
 
 (use-package magit-section) ;; used by org-roam
@@ -370,7 +371,7 @@
   :ensure t
   :config
   (pe/leader-def
-    :states '(normal visual)
+    ;; :states '(normal visual)
     "gt" 'git-timemachine))
 
 (use-package projectile
@@ -391,7 +392,7 @@
 	   (concat "rg -0 --files --color=never --hidden" rg-cmd " " rg-ignorefile)))
 
   (pe/leader-def
-    :states '(normal visual)
+    ;; :states '(normal visual)
     "p" '(:keymap projectile-command-map :which-key "projectile")))
 
 (use-package doom-modeline
@@ -415,7 +416,7 @@
   (add-hook 'sh-mode-hook 'lsp)
   (setq lsp-enabled-clients '(clangd pyright bash-ls))
   (pe/leader-def
-    :states '(normal visual)
+    ;; :states '(normal visual)
     "L" '(:keymap lsp-command-map :which-key "lsp")))
 
 (use-package lsp-ui)
@@ -483,7 +484,7 @@
 	 "* %?\nEntered on %U\n  %i\n  %a")))
   (setq org-clock-idle-time 10)
   (pe/leader-def
-    :states '(normal visual)
+    ;; :states '(normal visual)
     ;; Clock
     "oC" '(:ignore t :which-key "clock")
     "oCc" 'org-clock-cancel
@@ -503,7 +504,10 @@
     "odt" 'org-time-stamp
     "odT" 'org-time-stamp-inactive
 
+    "oe" '(:ignore t :which-key "export")
     "oee" 'org-export-dispatch
+
+    "of" '(:ignore t :which-key "feed")
     "ofi" 'org-feed-goto-inbox
     "ofu" 'org-feed-update-all
 
@@ -614,8 +618,8 @@
     "o*" 'org-ctrl-c-star
     "o-" 'org-ctrl-c-minus
     "o#" 'org-update-statistics-cookies
-    "oRET"   'org-ctrl-c-ret
-    "oM-RET" 'org-meta-return
+    "o RET"   'org-ctrl-c-ret
+    "o M-RET" 'org-meta-return
     ;; attachments
     "oA" 'org-attach
     ;; insertion
@@ -693,7 +697,7 @@
 (use-package perspective
   :config
   (pe/leader-def
-    :states '(normal visual)
+    ;; :states '(normal visual)
     "l" '(:keymap perspective-map :which-key "persp")
     "ll" 'lsp-find-definition)
   (setq persp-suppress-no-prefix-key-warning t)
@@ -718,7 +722,7 @@
   :ensure t
   :config
   (pe/leader-def
-    :states '(normal visual)
+    ;; :states '(normal visual)
     "ac" '(:keymap chronos-mode-map :which-key "chronos")
     )
   )
@@ -782,7 +786,7 @@
   :ensure t
   :config
   (pe/leader-def
-    :states '(normal visual)
+    ;; :states '(normal visual)
     "ft" 'treemacs))
 
 (use-package treemacs-evil)
@@ -836,7 +840,7 @@
   :ensure t
   :config
   (pe/leader-def
-    :states '(normal visual)
+    ;; :states '(normal visual)
     "gn" 'git-gutter:next-hunk
     "gp" 'git-gutter:previous-hunk
     )
@@ -873,21 +877,20 @@
   :ensure t
   :config
   (pe/leader-def
-   :states '(normal visual)
+   ;; :states '(normal visual)
    "dd" 'docker)
   )
 
-(require 'dap-python)
-(setq dap-python-debugger 'debugpy)
-;; (dap-register-debug-template "python test"
+;; (require 'dap-python)
+;; (setq dap-python-debugger 'debugpy)
+;; (dap-register-debug-template "ep21_parser"
 ;; 			     (list :type "python"
 ;; 				   :args "-i"
 ;; 				   :cwd nil
 ;; 				   :env '(("DEBUG" . "1"))
-;; 				   :target-module (expand-file-name "/tmp/test.py")
+;; 				   :target-module (expand-file-name "/home/pekka/projects/rhineheart-n6/sources/meta-rhineheart/scripts/wptool/ep21_parser.py")
 ;; 				   :request "launch"
-;; 				   :name "python test"))
-
+;; 				   :name "ep21_parser"))
 
 (defun pe/recompile-all-packages ()
     "Force re-compile all packages."
@@ -896,5 +899,47 @@
   )
 
 (pe/leader-def
-  :states '(normal visual)
+  ;; :states '(normal visual)
   "ca" 'pe/recompile-all-packages)
+
+(use-package logview
+  :config
+  (pe/leader-def
+    ;; :states '(normal visual)
+    "lv" '(:keymap logview-mode-map :which-key "logview")
+    )
+  (setq auto-revert-verbose nil) ;; do not spam when live reverting log buffers
+  (setq
+	logview-additional-level-mappings
+        '(("WP SDK LOG"
+           (error       "E:")
+	   (warning     "W:")
+	   (information "I:")
+	   (debug       "D:")
+	   ))
+
+        logview-additional-timestamp-formats
+        '(("10ms counter"
+           (regexp . "\\w+")
+           ;; (regexp . "\[.*\]\[\([0-9]+\)\]")
+           (datetime-options :any-decimal-separator t)
+           ))
+
+	logview-additional-submodes
+	'(("WP SDK LOG"
+	   ;; (format . "TIMESTAMP LEVEL MESSAGE")
+	   (format . "THREAD LEVEL MESSAGE")
+	   (levels . "WP SDK LOG")
+	   ;; (timestamp "10ms counter")
+	   )
+	  ("Dummy"
+	   (format . "MESSAGE")
+	   ))
+	))
+
+;; (defun pe/logview-activate-map ()
+;;     ""
+;;   (setq overriding-local-map logview-mode-map)
+;;   )
+
+;; (add-hook 'logview-mode-hook 'pe/logview-activate-map)
