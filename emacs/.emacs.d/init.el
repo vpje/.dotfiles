@@ -700,7 +700,8 @@
     ;; :states '(normal visual)
     "l" '(:keymap perspective-map :which-key "persp")
     "ll" 'lsp-find-definition)
-  (setq persp-suppress-no-prefix-key-warning t)
+  (setq persp-suppress-no-prefix-key-warning t
+	persp-initial-frame-name "1")
   (persp-mode))
 
 (use-package yasnippet
