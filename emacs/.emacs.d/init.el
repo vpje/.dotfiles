@@ -752,7 +752,9 @@
 	  ("https://www.kaleva.fi/rss" uutiset kaleva)
 	  ("http://feeds.arstechnica.com/arstechnica/technology-lab" tech ars)
 	  ("https://lwn.net/headlines/rss" tech lwn)
-	  )))
+	  ))
+  (pe/leader-def
+    "ae" 'elfeed))
 
 (use-package vterm
   :ensure t)
