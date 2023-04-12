@@ -489,6 +489,11 @@ clientbuttons = gears.table.join(
     end)
 )
 
+globalkeys = gears.table.join(globalkeys,
+    awful.key({ modkey, "Control"  }, "l", function ()
+         awful.util.spawn("i3lock -c 000000") end)
+)
+
 -- Set keys
 root.keys(globalkeys)
 -- }}}
