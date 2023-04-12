@@ -417,7 +417,8 @@
   (add-hook 'python-mode-hook 'lsp)
   (add-hook 'javascript-mode-hook 'lsp)
   (add-hook 'sh-mode-hook 'lsp)
-  (setq lsp-enabled-clients '(clangd pyright bash-ls))
+  (setq lsp-enabled-clients '(clangd pyright bash-ls rust-analyzer)
+	lsp-semantic-tokens-enable t) ;; ifdef gray outs
   (pe/leader-def
     ;; :states '(normal visual)
     "L" '(:keymap lsp-command-map :which-key "lsp")))
