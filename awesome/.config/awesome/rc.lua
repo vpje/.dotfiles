@@ -626,6 +626,12 @@ awful.util.spawn("xinput set-prop 9 305 1")
 
 awful.util.spawn("guake")
 awful.util.spawn("nitrogen --random ~/Pictures/wallpapers --set-zoom-fill")
+
+-- Screen lock after inactivity
+os.execute("xset s on")
+os.execute("xset s 1200")
+os.execute("killall xss-lock")
+awful.util.spawn("xss-lock -- i3lock -c 000000")
 -- }}}
 
 -- Gaps
