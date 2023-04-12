@@ -26,6 +26,9 @@
  custom-file (locate-user-emacs-file "custom-vars.el")
  )
 
+(modify-syntax-entry ?_ "w")
+(global-display-line-numbers-mode 1)
+
 (setq-default show-trailing-whitespace t)
 
 (dolist (hook '(vterm-mode-hook
