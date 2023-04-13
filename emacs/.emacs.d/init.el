@@ -1010,7 +1010,15 @@ argument the push-remote can be changed before pushed to it."
 (transient-append-suffix 'magit-push "p"
   '("g" magit-push-current-for-gerrit-review))
 
-(use-package repo :ensure t)
+(use-package repo
+  :ensure t
+  :config
+  (pe/leader-def
+    "R" 'repo-status)
+  (general-def repo-mode-map
+    "j" #'next-line
+    "k" #'previous-line))
+
 
 (use-package yaml-mode :ensure t)
 
