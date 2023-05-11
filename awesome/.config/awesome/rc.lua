@@ -292,12 +292,21 @@ globalkeys = gears.table.join(
               {description = "swap with next client by index", group = "client"}),
     awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end,
               {description = "swap with previous client by index", group = "client"}),
-    awful.key({ modkey,           }, "s", function () awful.screen.focus_relative(-1) end,
-              {description = "focus the next screen", group = "screen"}),
-    awful.key({ modkey,           }, "a", function () awful.screen.focus_relative(1) end,
-              {description = "focus the previous screen", group = "screen"}),
+    -- awful.key({ modkey,           }, "s", function () awful.screen.focus_relative(1) end,
+    --           {description = "focus the next screen", group = "screen"}),
+    -- awful.key({ modkey,           }, "a", function () awful.screen.focus_relative(-1) end,
+    --           {description = "focus the previous screen", group = "screen"}),
+
+    -- screen keys
+    awful.key({ modkey,           }, "a", function () awful.screen.focus(awful.screen.getbycoord(0,0)) end,
+              {description = "focus the first screen", group = "screen"}),
+    awful.key({ modkey,           }, "s", function () awful.screen.focus(awful.screen.getbycoord(3840,0)) end,
+              {description = "focus the second screen", group = "screen"}),
+    awful.key({ modkey,           }, "d", function () awful.screen.focus(awful.screen.getbycoord(5760,0)) end,
+              {description = "focus the third screen", group = "screen"}),
     awful.key({ modkey,           }, "u", awful.client.urgent.jumpto,
               {description = "jump to urgent client", group = "client"}),
+
     awful.key({ modkey,           }, "Tab",
         function ()
             awful.client.focus.history.previous()
@@ -312,8 +321,8 @@ globalkeys = gears.table.join(
               {description = "open a terminal", group = "launcher"}),
     awful.key({ modkey, "Control" }, "r", awesome.restart,
               {description = "reload awesome", group = "awesome"}),
-    awful.key({ modkey, "Shift"   }, "q", awesome.quit,
-              {description = "quit awesome", group = "awesome"}),
+    -- awful.key({ modkey, "Shift"   }, "q", awesome.quit,
+    --           {description = "quit awesome", group = "awesome"}),
 
     awful.key({ modkey,           }, "l",     function () awful.tag.incmwfact( 0.05)          end,
               {description = "increase master width factor", group = "layout"}),
