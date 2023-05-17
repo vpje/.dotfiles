@@ -366,7 +366,9 @@
   :config
   (pe/leader-def
     ;; :states '(normal visual)
-    "gs" 'magit-status))
+    "gs" 'magit-status
+    "gb" 'magit-blame
+    "gl" 'magit-log-buffer-file))
 
 (use-package magit-section) ;; used by org-roam
 
