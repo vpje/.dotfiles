@@ -63,8 +63,8 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/")
-	     '("org" . "https://orgmode.org/elpa/"))
+	     '("melpa" . "https://melpa.org/packages/"))
+	     ;; '("org" . "https://orgmode.org/elpa/"))
 
 (package-initialize)
 
@@ -295,31 +295,31 @@
   :config
   (marginalia-mode 1))
 
-;; (use-package embark
-;;   :ensure t
-;;   :init
-;;   ;; Optionally replace the key help with a completing-read interface
-;;   (setq prefix-help-command #'embark-prefix-help-command)
-;;   :config
-;;   (general-define-key
-;;    :keymaps 'global
-;;    "C-SPC" 'embark-act
-;;    "S-SPC" 'embark-dwim)
+(use-package embark
+  :ensure t
+  :init
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+  :config
+  (general-define-key
+   :keymaps 'global
+   "C-SPC" 'embark-act
+   "S-SPC" 'embark-dwim)
 
-;;   ;; Hide the mode line of the Embark live/completions buffers
-;;   (add-to-list 'display-buffer-alist
-;; 	       '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-;; 		 nil
-;; 		 (window-parameters (mode-line-format . none)))))
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+	       '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+		 nil
+		 (window-parameters (mode-line-format . none)))))
 
-;; (use-package embark-consult
-;;   :ensure t
-;;   :after (embark consult)
-;;   :demand t ; only necessary if you have the hook below
-;;   ;; if you want to have consult previews as you move around an
-;;   ;; auto-updating embark collect buffer
-;;   :hook
-;;   (embark-collect-mode . consult-preview-at-point-mode))
+(use-package embark-consult
+  :ensure t
+  :after (embark consult)
+  :demand t ; only necessary if you have the hook below
+  ;; if you want to have consult previews as you move around an
+  ;; auto-updating embark collect buffer
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
 
 (use-package ranger
   :config
