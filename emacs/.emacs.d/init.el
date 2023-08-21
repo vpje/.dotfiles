@@ -27,6 +27,7 @@
  )
 
 (modify-syntax-entry ?_ "w")
+
 (global-display-line-numbers-mode 1)
 
 (setq-default show-trailing-whitespace t)
@@ -212,6 +213,7 @@
     "fc" 'write-file
     "fs" 'save-buffer
     "fo" 'ff-find-other-file
+    "fO" 'ff-find-other-file-other-window
     "F" '(:ignore t :which-key "frame")
     "Fn" 'make-frame-command
     "Fd" 'delete-frame
@@ -389,7 +391,7 @@
   ;; Use the faster searcher to handle project files: ripgrep "rg"
   (setq projectile-generic-command
 	 (let ((rg-cmd ""))
-	   (dolist (dir '(".ccls-cache/**" ".repo/**" ".cache/**"))
+	   (dolist (dir '("**/.ccls-cache/**" "**/.repo/**" "**/.cache/**"))
 	     (setq rg-cmd (format "%s --glob '!%s'" rg-cmd dir)))
 	   (setq rg-ignorefile
 		 (concat "--ignore-file" " "
@@ -421,6 +423,8 @@
   (add-hook 'sh-mode-hook 'lsp)
   (setq lsp-enabled-clients '(clangd pyright bash-ls rust-analyzer)
 	lsp-semantic-tokens-enable t) ;; ifdef gray outs
+  (setq lsp-clients-clangd-args
+    '("--header-insertion=never" "--query-driver=/opt/gcc-arm/bin/arm-none-eabi-gcc")) ;; query-driver for cross compilation headers
   (pe/leader-def
     ;; :states '(normal visual)
     "L" '(:keymap lsp-command-map :which-key "lsp")))
@@ -705,7 +709,8 @@
   (pe/leader-def
     ;; :states '(normal visual)
     "l" '(:keymap perspective-map :which-key "persp")
-    "ll" 'lsp-find-definition)
+    "ll" 'lsp-find-definition
+    "lL" 'xref-find-definitions-other-window)
   (setq persp-suppress-no-prefix-key-warning t
 	persp-initial-frame-name "1")
   (persp-mode))
@@ -874,6 +879,8 @@
   ;; my customizations for all of c-mode and related modes
   ;; (indent-tabs-mode -1)
   (dtrt-indent-mode 1)
+  (modify-syntax-entry ?_ "w" c-mode-syntax-table)
+  (modify-syntax-entry ?_ "w" c++-mode-syntax-table)
   )
 
 (add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
@@ -1044,3 +1051,6 @@ argument the push-remote can be changed before pushed to it."
   ;; comment to disable rustfmt on save
   (setq rustic-format-on-save t)
   )
+
+(use-package eat)
+(use-package zeal-at-point)
