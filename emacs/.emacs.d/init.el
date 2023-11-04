@@ -1089,10 +1089,3 @@ argument the push-remote can be changed before pushed to it."
   (pe/leader-def
     "a" '(:ignore t :which-key "app")
     "aw" 'wptool-dispatch))
-
-(defun pe/gdb-solaria-ui ()
-  "Start gdb debugger with solaria ui simulator binary"
-  (interactive)
-  (gdb "gdb -i=mi --fullname -ex run --args /home/pekka/projects/solaria-yocto/sources/meta-solaria/ext/ui_simulator/build/bin/solaria-ui-sim admin admin"))
-(pe/leader-def
-  "pd" 'pe/gdb-solaria-ui)
