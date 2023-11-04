@@ -501,6 +501,12 @@ clientbuttons = gears.table.join(
 globalkeys = gears.table.join(globalkeys,
     awful.key({ modkey, "Control"  }, "l", function ()
          awful.util.spawn("i3lock -c 000000") end)
+
+    -- awful.key({ modkey, "Control"  }, "w", function ()
+    --      awful.util.spawn("rofi -show window") end),
+
+    -- awful.key({ modkey,           }, "space", function ()
+    --      awful.util.spawn("rofi -show run") end)
 )
 
 -- Set keys
@@ -639,7 +645,7 @@ awful.util.spawn("xinput set-prop 9 313 1")
 awful.util.spawn("xinput set-prop 9 305 1")
 
 awful.util.spawn("guake")
-awful.util.spawn("nitrogen --random ~/Pictures/wallpapers --set-zoom-fill")
+-- awful.util.spawn("nitrogen --random ~/Pictures/wallpapers --set-zoom-fill")
 
 -- Screen lock after inactivity
 os.execute("xset s on")

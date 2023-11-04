@@ -26,6 +26,26 @@
  custom-file (locate-user-emacs-file "custom-vars.el")
  )
 
+(setq major-mode-remap-alist
+ '((yaml-mode . yaml-ts-mode)
+   (bash-mode . bash-ts-mode)
+   (js2-mode . js-ts-mode)
+   (typescript-mode . typescript-ts-mode)
+   (json-mode . json-ts-mode)
+   (c-mode . c-ts-mode)
+   (c++-mode . c++-ts-mode)
+   (cpp-mode . cpp-ts-mode)
+   (css-mode . css-ts-mode)
+   (python-mode . python-ts-mode)))
+
+(setq gdb-many-windows t
+      gdb-debuginfod-enable nil
+      gdb-debuginfod-enable-setting nil)
+
+(setq scroll-step 1
+      scroll-conservatively 10000
+      auto-window-vscroll nil)
+
 (modify-syntax-entry ?_ "w")
 
 (global-display-line-numbers-mode 1)
@@ -77,9 +97,9 @@
 (eval-when-compile
   (require 'use-package))
 
-(add-to-list 'load-path "/usr/share/emacs/site-lisp/mu4e")
+(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 (add-to-list 'load-path "/home/pekka/.emacs.d/auth-source-xoauth2")
-;;(require 'mu4e)
+(require 'mu4e)
 (setq user-mail-address "pekka.ervasti@haltian.com"
       mu4e-get-mail-command "offlineimap"
       mu4e-view-show-addresses t
@@ -386,6 +406,7 @@
   :config
   ;; (setq projectile-indexing-method 'native)
   (setq projectile-indexing-method 'alien)
+  ;; (setq compilation-read-command nil)
   (projectile-mode 1)
 
   ;; Use the faster searcher to handle project files: ripgrep "rg"
@@ -412,16 +433,19 @@
   :init
   (smartparens-global-mode 1))
 
+(use-package ccls)
+
 (use-package lsp-mode
   :ensure t
   :custom (lsp-enable-file-watchers nil)
   :config
-  (add-hook 'c-mode-hook 'lsp)
-  (add-hook 'c++-mode-hook 'lsp)
-  (add-hook 'python-mode-hook 'lsp)
-  (add-hook 'javascript-mode-hook 'lsp)
-  (add-hook 'sh-mode-hook 'lsp)
-  (setq lsp-enabled-clients '(clangd pyright bash-ls rust-analyzer)
+  (add-hook 'c-ts-mode-hook 'lsp)
+  (add-hook 'c++-ts-mode-hook 'lsp)
+  (add-hook 'cpp-ts-mode-hook 'lsp)
+  (add-hook 'python-ts-mode-hook 'lsp)
+  (add-hook 'javascript-ts-mode-hook 'lsp)
+  (add-hook 'sh-ts-mode-hook 'lsp)
+  (setq lsp-enabled-clients '(ccls pyright bash-ls rust-analyzer)
 	lsp-semantic-tokens-enable t) ;; ifdef gray outs
   (setq lsp-clients-clangd-args
     '("--header-insertion=never" "--query-driver=/opt/gcc-arm/bin/arm-none-eabi-gcc")) ;; query-driver for cross compilation headers
@@ -701,6 +725,8 @@
 			       (shell . t)
 			       (C . t)
 			       (python . t)
+			       ;; (restclient . t)
+			       ;; (verb . t)
 			       ))
 (setq org-confirm-babel-evaluate nil)
 
@@ -822,7 +848,7 @@
 (use-package pdf-tools :ensure t :config (setq revert-without-query '(".pdf")))
 (use-package sudo-edit :ensure t)
 
-(add-to-list 'load-path "~/.my-emacs.d")
+(add-to-list 'load-path "~/.my-user-config")
 (require 'my-user-config)
 ;;(require 'my-erc-sasl-config)
 
@@ -879,11 +905,12 @@
   ;; my customizations for all of c-mode and related modes
   ;; (indent-tabs-mode -1)
   (dtrt-indent-mode 1)
-  (modify-syntax-entry ?_ "w" c-mode-syntax-table)
-  (modify-syntax-entry ?_ "w" c++-mode-syntax-table)
+  (modify-syntax-entry ?_ "w" c-ts-mode-syntax-table)
+  (modify-syntax-entry ?_ "w" c++-ts-mode-syntax-table)
   )
 
-(add-hook 'c-mode-common-hook 'my-c-mode-common-hook)
+(add-hook 'c-ts-mode-hook 'my-c-mode-common-hook)
+(add-hook 'c++-ts-mode-hook 'my-c-mode-common-hook)
 (org-indent-mode 1)
 
 ;; (add-to-list 'load-path "~/.emacs.d/vpe/")
@@ -1054,3 +1081,18 @@ argument the push-remote can be changed before pushed to it."
 
 (use-package eat)
 (use-package zeal-at-point)
+;; (use-package ob-restclient)
+;; (use-package verb)
+
+(use-package wptool
+  :config
+  (pe/leader-def
+    "a" '(:ignore t :which-key "app")
+    "aw" 'wptool-dispatch))
+
+(defun pe/gdb-solaria-ui ()
+  "Start gdb debugger with solaria ui simulator binary"
+  (interactive)
+  (gdb "gdb -i=mi --fullname -ex run --args /home/pekka/projects/solaria-yocto/sources/meta-solaria/ext/ui_simulator/build/bin/solaria-ui-sim admin admin"))
+(pe/leader-def
+  "pd" 'pe/gdb-solaria-ui)
