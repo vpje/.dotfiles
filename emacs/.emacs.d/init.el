@@ -943,7 +943,8 @@
 
 (pe/leader-def
   ;; :states '(normal visual)
-  "ca" 'pe/recompile-all-packages)
+  "ca" 'pe/recompile-all-packages
+  "ua" 'package-update-all)
 
 (use-package logview
   :config
