@@ -992,6 +992,7 @@
       '((bash . ("https://github.com/tree-sitter/tree-sitter-bash"))
 	(c . ("https://github.com/tree-sitter/tree-sitter-c"))
 	(cpp . ("https://github.com/tree-sitter/tree-sitter-cpp"))
+	(cmake . ("https://github.com/uyha/tree-sitter-cmake"))
 	(css . ("https://github.com/tree-sitter/tree-sitter-css"))
 	(go . ("https://github.com/tree-sitter/tree-sitter-go"))
 	(html . ("https://github.com/tree-sitter/tree-sitter-html"))
