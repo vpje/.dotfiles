@@ -18,7 +18,7 @@
  compilation-scroll-output 'first-error
  compilation-auto-jump-to-first-error t
 
- recentf-max-saved-items 200
+ recentf-max-saved-items 2000
  indent-tabs-mode nil
 
  global-auto-revert-non-file-buffers t
@@ -208,9 +208,8 @@
     :non-normal-prefix "M-SPC"
     )
   (pe/leader-def
-    ;; :states '(normal visual)
-    "a" '(:ignore t :which-key "app")
     "ac" 'calc
+    "a" '(:ignore t :which-key "app")
     "am" 'mu4e
     ;; "bd" 'evil-delete-buffer
     "bd" 'kill-this-buffer
@@ -218,58 +217,64 @@
     "bm" 'pe/switch-to-messages-buffer
     "bn" 'evil-buffer-new
     "bs" 'pe/switch-to-scratch-buffer
+    "cd" 'pe/delete-compilation-window
     "c" '(:ignore t :which-key "compile/comment")
     "ck" 'kill-compilation
     "cl" 'comment-or-uncomment-region
-    "cd" 'pe/delete-compilation-window
     "e" '(:ignore t :which-key "error")
     "el" 'flycheck-list-errors
     "en" 'flycheck-next-error
     "ep" 'flycheck-previous-error
-    "'" 'vterm-other-window
+    "fc" 'write-file
+    "Fd" 'delete-frame
     "fF" 'consult-find
     "ff" 'find-file
     "f" '(:ignore t :which-key "file")
-    "fc" 'write-file
-    "fs" 'save-buffer
-    "fo" 'ff-find-other-file
-    "fO" 'ff-find-other-file-other-window
     "F" '(:ignore t :which-key "frame")
     "Fn" 'make-frame-command
-    "Fd" 'delete-frame
+    "fo" 'ff-find-other-file
+    "fO" 'ff-find-other-file-other-window
     "Fo" 'other-frame
+    "fs" 'save-buffer
     "g" '(:ignore t :which-key "git")
-    "j" '(:ignore t :which-key "jump")
-    "ji" 'consult-imenu
-    "jI" 'consult-imenu-multi
-    "jj" 'avy-goto-char-timer
-    "js" 'avy-goto-symbol-1
+    "hh" 'xref-go-back
     "i" '(:ignore t :which-key "insert")
     "is" 'yas/insert-snippet
+    "ji" 'consult-imenu
+    "jI" 'consult-imenu-multi
+    "j" '(:ignore t :which-key "jump")
+    "jj" 'avy-goto-char-timer
+    "js" 'avy-goto-symbol-1
+    "mb" 'bookmark-jump
+    "md" 'bookmark-delete
+    "ml" 'consult-bookmark
+    "mL" 'bookmark-bmenu-list
+    "mm" 'bookmark-set
     "o" '(:ignore t :which-key "org")
     "q" '(:ignore t :which-key "quit")
     "qq" 'save-buffers-kill-terminal
+    "*" 'rg-dwim
+    "r" 'lsp-find-references
     "s" '(:ignore t :which-key "search")
     "SPC" 'execute-extended-command
     "sr" 'consult-ripgrep
     "ss" 'swiper
     "sS" 'swiper-thing-at-point
+    ;; :states '(normal visual)
+    "TAB" 'pe/switch-to-previous-buffer
     "t" '(:ignore t :which-key "toggles")
-    "tw" 'whitespace-mode
     "tl" 'linum-mode
     "tt" 'indent-tabs-mode
-    "TAB" 'pe/switch-to-previous-buffer
+    "tw" 'whitespace-mode
+    "'" 'vterm-other-window
     "wd" 'delete-window
-    "w" '(:keymap evil-window-map :which-key "window")
     "w" '(:ignore t :which-key "window")
+    "w" '(:keymap evil-window-map :which-key "window")
     "wm" 'delete-other-windows
+    ;; "ws" 'split-window-below
     "wU" 'winner-redo
     "wu" 'winner-undo
-    "*" 'rg-dwim
-    ;; "ws" 'split-window-below
     ;; "wv" 'split-window-right
-    "hh" 'xref-go-back
-    "r" 'lsp-find-references
     )
  )
 
@@ -448,7 +453,7 @@
   (setq lsp-enabled-clients '(ccls pyright bash-ls rust-analyzer)
 	lsp-semantic-tokens-enable t) ;; ifdef gray outs
   (setq lsp-clients-clangd-args
-    '("--header-insertion=never" "--query-driver=/opt/gcc-arm/bin/arm-none-eabi-gcc")) ;; query-driver for cross compilation headers
+    '("-std=c++17" "--header-insertion=never" "--query-driver=/opt/gcc-arm/bin/arm-none-eabi-gcc")) ;; query-driver for cross compilation headers
   (pe/leader-def
     ;; :states '(normal visual)
     "L" '(:keymap lsp-command-map :which-key "lsp")))
@@ -706,6 +711,15 @@
   :ensure t
   :hook (org-mode . org-superstar-mode))
 
+;; (use-package org-bullets
+;;   :ensure t
+;;   :hook (org-mode . org-bullets-mode))
+
+;; (use-package org-modern
+;;   :ensure t
+;;   :hook (org-mode . org-modern-mode)
+;;   :hook (org-agenda-finalize . org-modern-agenda))
+
 ;; temporary fix for https://github.com/Somelauw/evil-org-mode/issues/93
 ;; (fset 'evil-redirect-digit-argument 'ignore)
 ;; (add-to-list 'evil-digit-bound-motions 'evil-org-beginning-of-line)
@@ -768,8 +782,8 @@
 (use-package erc
   :ensure t
   :config
-  (setq erc-nick "pekka"
-	erc-user-full-name "Pekka Ervasti"
+  (setq erc-nick "poko"
+	erc-user-full-name "pokomaister"
 	erc-track-shorten-start 8
 	erc-hide-list '("JOIN" "PART" "QUIT")
 	;; erc-autojoin-channels-alist '(("#systemcrafters"))
@@ -850,7 +864,7 @@
 
 (add-to-list 'load-path "~/.my-user-config")
 (require 'my-user-config)
-;;(require 'my-erc-sasl-config)
+(require 'my-erc-sasl-config)
 
 (add-hook 'edebug-mode-hook 'evil-normalize-keymaps)
 (add-hook 'dart-mode-hook 'lsp)
@@ -935,6 +949,13 @@
 ;; 				   :request "launch"
 ;; 				   :name "ep21_parser"))
 
+(dap-register-debug-template "GDB: Solaria ui-simulator"
+			     (list :type "gdb"
+				   :request "launch"
+				   :name "GDB::Run"
+				   :target "/home/pekka/projects/solaria-yocto/sources/meta-solaria/ext/ui_simulator/build/bin/solaria-ui-sim"
+				   :cwd nil))
+
 (defun pe/recompile-all-packages ()
     "Force re-compile all packages."
   (interactive)
@@ -944,7 +965,7 @@
 (pe/leader-def
   ;; :states '(normal visual)
   "ca" 'pe/recompile-all-packages
-  "ua" 'package-update-all)
+  "ua" 'package-upgrade-all)
 
 (use-package logview
   :config
@@ -1082,12 +1103,27 @@ argument the push-remote can be changed before pushed to it."
   )
 
 (use-package eat)
-(use-package zeal-at-point)
+(use-package zeal-at-point
+  :config
+  (pe/leader-def
+    "z" '(:ignore t :which-key "zeal")
+    "zp" 'zeal-at-point))
+
 ;; (use-package ob-restclient)
 ;; (use-package verb)
 
-(use-package wptool
+;; (use-package wptool
+;;   :config
+;;   (pe/leader-def
+;;     "a" '(:ignore t :which-key "app")
+;;     "aw" 'wptool-dispatch))
+
+(use-package graphviz-dot-mode
+  :ensure t
   :config
-  (pe/leader-def
-    "a" '(:ignore t :which-key "app")
-    "aw" 'wptool-dispatch))
+  (setq graphviz-dot-indent-width 4))
+
+(use-package devdocs
+  :ensure t)
+
+(require 'dap-gdb-lldb)
