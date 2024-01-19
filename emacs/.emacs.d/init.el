@@ -89,22 +89,25 @@
 
 (package-initialize)
 
-;; Bootstrap `use-package'
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
 (eval-when-compile
   (require 'use-package))
 
-(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
-(add-to-list 'load-path "/home/pekka/.emacs.d/auth-source-xoauth2")
-(require 'mu4e)
-(setq user-mail-address "pekka.ervasti@haltian.com"
-      mu4e-get-mail-command "offlineimap"
-      mu4e-view-show-addresses t
-      mu4e-attachment-dir (expand-file-name "~/Downloads/")
-      )
+(use-package quelpa
+  :ensure)
+
+(use-package quelpa-use-package
+  :demand
+  :config
+  (quelpa-use-package-activate-advice))
+
+;;(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
+;;(add-to-list 'load-path "/home/pekka/.emacs.d/auth-source-xoauth2")
+;;(require 'mu4e)
+;;(setq user-mail-address "pekka.ervasti@haltian.com"
+;;      mu4e-get-mail-command "offlineimap"
+;;      mu4e-view-show-addresses t
+;;      mu4e-attachment-dir (expand-file-name "~/Downloads/")
+;;      )
 
    ;;; Call the oauth2ms program to fetch the authentication token
 (defun fetch-access-token ()
@@ -444,6 +447,8 @@
   :ensure t
   :custom (lsp-enable-file-watchers nil)
   :config
+  (setq lsp-enable-on-type-formatting nil)
+  (setq lsp-enable-indentation nil)
   (add-hook 'c-ts-mode-hook 'lsp)
   (add-hook 'c++-ts-mode-hook 'lsp)
   (add-hook 'cpp-ts-mode-hook 'lsp)
@@ -1127,3 +1132,14 @@ argument the push-remote can be changed before pushed to it."
   :ensure t)
 
 (require 'dap-gdb-lldb)
+
+;; Github Copilot
+
+(use-package copilot
+  :quelpa (copilot :fetcher github
+                   :repo "zerolfx/copilot.el"
+                   :branch "main"
+                   :files ("dist" "*.el")))
+;; you can utilize :map :hook and :config to customize copilot
+
+(add-hook 'prog-mode-hook 'copilot-mode)
