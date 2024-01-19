@@ -26,6 +26,7 @@
  custom-file (locate-user-emacs-file "custom-vars.el")
  )
 
+;; Tree-sitter mode remap
 (setq major-mode-remap-alist
  '((yaml-mode . yaml-ts-mode)
    (bash-mode . bash-ts-mode)
@@ -1139,7 +1140,8 @@ argument the push-remote can be changed before pushed to it."
   :quelpa (copilot :fetcher github
                    :repo "zerolfx/copilot.el"
                    :branch "main"
-                   :files ("dist" "*.el")))
-;; you can utilize :map :hook and :config to customize copilot
-
-(add-hook 'prog-mode-hook 'copilot-mode)
+                   :files ("dist" "*.el"))
+  :config
+  (add-hook 'prog-mode-hook 'copilot-mode)
+  (define-key copilot-mode-map (kbd "C-<tab>") 'copilot-accept-completion)
+  )
