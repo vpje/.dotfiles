@@ -315,6 +315,10 @@
 	vertico-sort-function 'vertico-sort-history-alpha)
   (vertico-mode 1))
 
+;; (use-package vertico-repeat
+;; 	      :after vertico
+;; 	      :ensure nil)
+
 (use-package orderless
   :init
   (setq completion-styles '(orderless)
@@ -944,24 +948,6 @@
    "dd" 'docker)
   )
 
-;; (require 'dap-python)
-;; (setq dap-python-debugger 'debugpy)
-;; (dap-register-debug-template "ep21_parser"
-;; 			     (list :type "python"
-;; 				   :args "-i"
-;; 				   :cwd nil
-;; 				   :env '(("DEBUG" . "1"))
-;; 				   :target-module (expand-file-name "/home/pekka/projects/rhineheart-n6/sources/meta-rhineheart/scripts/wptool/ep21_parser.py")
-;; 				   :request "launch"
-;; 				   :name "ep21_parser"))
-
-(dap-register-debug-template "GDB: Solaria ui-simulator"
-			     (list :type "gdb"
-				   :request "launch"
-				   :name "GDB::Run"
-				   :target "/home/pekka/projects/solaria-yocto/sources/meta-solaria/ext/ui_simulator/build/bin/solaria-ui-sim"
-				   :cwd nil))
-
 (defun pe/recompile-all-packages ()
     "Force re-compile all packages."
   (interactive)
@@ -1133,6 +1119,8 @@ argument the push-remote can be changed before pushed to it."
   :ensure t)
 
 (require 'dap-gdb-lldb)
+(add-hook 'dap-stopped-hook
+          (lambda (arg) (call-interactively #'dap-hydra)))
 
 ;; Github Copilot
 
