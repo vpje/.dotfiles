@@ -454,6 +454,7 @@
   :config
   (setq lsp-enable-on-type-formatting nil)
   (setq lsp-enable-indentation nil)
+  (setq lsp-lens-enable nil)
   (add-hook 'c-ts-mode-hook 'lsp)
   (add-hook 'c++-ts-mode-hook 'lsp)
   (add-hook 'cpp-ts-mode-hook 'lsp)
