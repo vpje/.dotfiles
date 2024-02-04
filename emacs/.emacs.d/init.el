@@ -1161,3 +1161,13 @@ argument the push-remote can be changed before pushed to it."
    ("C-c n b" . consult-org-roam-backlinks)
    ("C-c n l" . consult-org-roam-forward-links)
    ("C-c n r" . consult-org-roam-search))
+
+(use-package proced
+  :ensure t
+  :defer t
+  :custom
+  (proced-enable-color-flag t)
+  (proced-tree-flag t)
+  :config
+  (pe/leader-def
+    "ip" 'proced))
