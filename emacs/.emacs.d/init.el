@@ -24,7 +24,8 @@
  global-auto-revert-non-file-buffers t
 
  custom-file (locate-user-emacs-file "custom-vars.el")
- )
+ bookmark-save-flag 1
+)
 
 ;; Tree-sitter mode remap
 (setq major-mode-remap-alist
