@@ -364,7 +364,7 @@
     "ar" 'ranger)
   (general-define-key
    :states 'normal
-   :keymaps 'override
+   ;; :keymaps 'override
    "-" 'deer))
 
 ;; minibuffer input history
