@@ -25,6 +25,10 @@
 
  custom-file (locate-user-emacs-file "custom-vars.el")
  bookmark-save-flag 1
+
+ # symbolic links to not ask for confirmation
+ vc-handled-backends nil
+ find-file-visit-truename nil
 )
 
 ;; Tree-sitter mode remap
