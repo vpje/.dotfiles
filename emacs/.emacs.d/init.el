@@ -26,7 +26,7 @@
  custom-file (locate-user-emacs-file "custom-vars.el")
  bookmark-save-flag 1
 
- # symbolic links to not ask for confirmation
+ ;; symbolic links to not ask for confirmation
  vc-handled-backends nil
  find-file-visit-truename nil
 )
@@ -435,7 +435,7 @@
 	   (setq rg-ignorefile
 		 (concat "--ignore-file" " "
 			 (expand-file-name "rg_ignore" user-emacs-directory)))
-	   (concat "rg -0 --files --color=never --hidden" rg-cmd " " rg-ignorefile)))
+	   (concat "rg -L -0 --files --color=never --hidden" rg-cmd " " rg-ignorefile)))
 
   (pe/leader-def
     ;; :states '(normal visual)
