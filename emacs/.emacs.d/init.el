@@ -363,6 +363,7 @@
 
 (use-package ranger
   :config
+  (setq ranger-show-hidden t)
   (pe/leader-def
     ;; :states '(normal visual)
     "ar" 'ranger)
