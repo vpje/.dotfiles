@@ -1184,5 +1184,8 @@ argument the push-remote can be changed before pushed to it."
   (pe/leader-def
     "lI" 'lorem-ipsum-insert-paragraphs))
 
+(use-package pyenv-mode
+  :ensure t)
+
 (use-package pyvenv
   :ensure t)
