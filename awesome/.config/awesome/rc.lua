@@ -265,10 +265,10 @@ root.buttons(gears.table.join(
 globalkeys = gears.table.join(
     awful.key({ modkey,           }, "S",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
-    awful.key({ modkey,           }, "q",   awful.tag.viewprev,
-              {description = "view previous", group = "tag"}),
-    awful.key({ modkey,           }, "w",  awful.tag.viewnext,
-              {description = "view next", group = "tag"}),
+    -- awful.key({ modkey,           }, "q",   awful.tag.viewprev,
+    --           {description = "view previous", group = "tag"}),
+    -- awful.key({ modkey,           }, "w",  awful.tag.viewnext,
+    --           {description = "view next", group = "tag"}),
     awful.key({ modkey,           }, "Escape", awful.tag.history.restore,
               {description = "go back", group = "tag"}),
 
@@ -354,8 +354,8 @@ globalkeys = gears.table.join(
               {description = "restore minimized", group = "client"}),
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
-              {description = "run prompt", group = "launcher"}),
+    -- awful.key({ modkey },            "r",     function () awful.screen.focused().mypromptbox:run() end,
+    --           {description = "run prompt", group = "launcher"}),
 
     awful.key({ modkey }, "x",
               function ()
@@ -499,14 +499,14 @@ clientbuttons = gears.table.join(
 )
 
 globalkeys = gears.table.join(globalkeys,
-    awful.key({ modkey, "Control"  }, "l", function ()
-         awful.util.spawn("i3lock -c 000000") end)
+    awful.key({ modkey }, "l", function ()
+         awful.util.spawn("i3lock -c 000000") end),
 
-    -- awful.key({ modkey, "Control"  }, "w", function ()
-    --      awful.util.spawn("rofi -show window") end),
+    awful.key({ modkey }, "w", function ()
+         awful.util.spawn("rofi -show window") end),
 
-    -- awful.key({ modkey,           }, "space", function ()
-    --      awful.util.spawn("rofi -show run") end)
+    awful.key({ modkey }, "r", function ()
+         awful.util.spawn("rofi -show drun") end)
 )
 
 -- Set keys
