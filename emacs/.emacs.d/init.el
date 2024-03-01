@@ -1189,3 +1189,9 @@ argument the push-remote can be changed before pushed to it."
 
 (use-package pyvenv
   :ensure t)
+
+(use-package tmr
+  :ensure t
+  :config
+  (pe/leader-def
+    "at" 'tmr))
