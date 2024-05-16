@@ -1203,7 +1203,7 @@ argument the push-remote can be changed before pushed to it."
   :config
   ;; Don't worry, Dirvish is still performant even if you enable all these attributes
   (setq dirvish-attributes
-	'(vc-state subtree-state all-the-icons collapse git-msg file-time file-size))
+	'(vc-state subtree-state all-the-icons collapse file-time file-size))
   (dirvish-override-dired-mode)
   (general-define-key
    :states 'normal
@@ -1212,6 +1212,7 @@ argument the push-remote can be changed before pushed to it."
     "q" 'dirvish-quit
     "h" 'dired-up-directory
     "l" 'dired-find-file
+    " " nil ;; unbind SPC in dired-mode-map
     )
   )
 
