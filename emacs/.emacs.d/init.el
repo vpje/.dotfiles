@@ -1210,3 +1210,12 @@ argument the push-remote can be changed before pushed to it."
     "l" 'dired-find-file
     )
   )
+
+(use-package clang-format
+  :ensure t
+  :config
+  (pe/leader-def
+    "cf" 'clang-format-buffer))
+
+(use-package octave
+  :ensure t)
