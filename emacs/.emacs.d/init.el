@@ -1201,7 +1201,9 @@ argument the push-remote can be changed before pushed to it."
 (use-package dirvish
   :ensure t
   :config
-  (setq dirvish-hide-details nil)
+  ;; Don't worry, Dirvish is still performant even if you enable all these attributes
+  (setq dirvish-attributes
+	'(vc-state subtree-state all-the-icons collapse git-msg file-time file-size))
   (dirvish-override-dired-mode)
   (general-define-key
    :states 'normal
@@ -1212,6 +1214,9 @@ argument the push-remote can be changed before pushed to it."
     "l" 'dired-find-file
     )
   )
+
+(use-package all-the-icons
+  :ensure t)
 
 (use-package clang-format
   :ensure t
