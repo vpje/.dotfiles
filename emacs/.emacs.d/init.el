@@ -465,10 +465,12 @@
   (add-hook 'python-ts-mode-hook 'lsp)
   (add-hook 'javascript-ts-mode-hook 'lsp)
   (add-hook 'sh-ts-mode-hook 'lsp)
-  (setq lsp-enabled-clients '(ccls pyright bash-ls rust-analyzer)
+  (setq lsp-enabled-clients '(clangd pyright bash-ls rust-analyzer) ;; ccls
 	lsp-semantic-tokens-enable t) ;; ifdef gray outs
+  ;; (setq lsp-clients-clangd-args
+  ;;   '("-std=c++17" "--header-insertion=never" "--query-driver=/opt/gcc-arm/bin/arm-none-eabi-gcc")) ;; query-driver for cross compilation headers
   (setq lsp-clients-clangd-args
-    '("-std=c++17" "--header-insertion=never" "--query-driver=/opt/gcc-arm/bin/arm-none-eabi-gcc")) ;; query-driver for cross compilation headers
+    '("--header-insertion=never" "--query-driver=/opt/gcc-arm/bin/arm-none-eabi-gcc")) ;; query-driver for cross compilation headers
   (pe/leader-def
     ;; :states '(normal visual)
     "L" '(:keymap lsp-command-map :which-key "lsp")))
