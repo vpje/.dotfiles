@@ -361,16 +361,14 @@
   :hook
   (embark-collect-mode . consult-preview-at-point-mode))
 
-(use-package ranger
-  :config
-  (setq ranger-show-hidden t)
-  (pe/leader-def
-    ;; :states '(normal visual)
-    "ar" 'ranger)
-  (general-define-key
-   :states 'normal
-   ;; :keymaps 'override
-   "-" 'deer))
+;; (use-package ranger
+;;   :config
+;;   (setq ranger-show-hidden t)
+;;   (pe/leader-def
+;;     "ar" 'ranger)
+;;   (general-define-key
+;;    :states 'normal
+;;    "-" 'deer))
 
 ;; minibuffer input history
 (savehist-mode 1)
@@ -1195,3 +1193,16 @@ argument the push-remote can be changed before pushed to it."
   :config
   (pe/leader-def
     "at" 'tmr))
+
+(use-package dirvish
+  :ensure t
+  :config
+  (dirvish-override-dired-mode)
+  (general-define-key
+   :states 'normal
+   "-" 'dirvish)
+  (evil-collection-define-key 'normal 'dired-mode-map
+    "h" 'dired-up-directory
+    "l" 'dired-find-file
+    )
+  )
