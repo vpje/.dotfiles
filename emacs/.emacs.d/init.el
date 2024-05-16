@@ -1201,11 +1201,13 @@ argument the push-remote can be changed before pushed to it."
 (use-package dirvish
   :ensure t
   :config
+  (setq dirvish-hide-details nil)
   (dirvish-override-dired-mode)
   (general-define-key
    :states 'normal
    "-" 'dirvish)
   (evil-collection-define-key 'normal 'dired-mode-map
+    "q" 'dirvish-quit
     "h" 'dired-up-directory
     "l" 'dired-find-file
     )
