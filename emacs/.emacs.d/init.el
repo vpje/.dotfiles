@@ -466,37 +466,34 @@
 
 (use-package ccls)
 
-(use-package lsp-mode
-  :ensure t
-  :custom (lsp-enable-file-watchers nil)
-  :config
-  (setq lsp-enable-on-type-formatting nil)
-  (setq lsp-enable-indentation nil)
-  (setq lsp-lens-enable nil)
-  (add-hook 'c-ts-mode-hook 'lsp)
-  (add-hook 'c++-ts-mode-hook 'lsp)
-  (add-hook 'cpp-ts-mode-hook 'lsp)
-  (add-hook 'python-ts-mode-hook 'lsp)
-  (add-hook 'javascript-ts-mode-hook 'lsp)
-  (add-hook 'sh-ts-mode-hook 'lsp)
-  (setq lsp-enabled-clients '(clangd pyright bash-ls rust-analyzer) ;; ccls
-	lsp-semantic-tokens-enable t) ;; ifdef gray outs
-  ;; (setq lsp-clients-clangd-args
-  ;;   '("-std=c++17" "--header-insertion=never" "--query-driver=/opt/gcc-arm/bin/arm-none-eabi-gcc")) ;; query-driver for cross compilation headers
-  (setq lsp-clients-clangd-args
-    '("--header-insertion=never" "--query-driver=/opt/gcc-arm/bin/arm-none-eabi-gcc")) ;; query-driver for cross compilation headers
-  (pe/leader-def
-    ;; :states '(normal visual)
-    "L" '(:keymap lsp-command-map :which-key "lsp")))
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :custom (lsp-enable-file-watchers nil)
+;;   :config
+;;   (setq lsp-enable-on-type-formatting nil)
+;;   (setq lsp-enable-indentation nil)
+;;   (setq lsp-lens-enable nil)
+;;   (add-hook 'c-ts-mode-hook 'lsp)
+;;   (add-hook 'c++-ts-mode-hook 'lsp)
+;;   (add-hook 'cpp-ts-mode-hook 'lsp)
+;;   (add-hook 'python-ts-mode-hook 'lsp)
+;;   (add-hook 'javascript-ts-mode-hook 'lsp)
+;;   (add-hook 'sh-ts-mode-hook 'lsp)
+;;   (setq lsp-enabled-clients '(clangd pyright bash-ls rust-analyzer) ;; ccls
+;; 	lsp-semantic-tokens-enable t) ;; ifdef gray outs
+;;   (setq lsp-clients-clangd-args
+;;     '("--header-insertion=never" "--query-driver=/opt/gcc-arm/bin/arm-none-eabi-gcc")) ;; query-driver for cross compilation headers
+;;   (pe/leader-def
+;;     "L" '(:keymap lsp-command-map :which-key "lsp")))
 
-(use-package lsp-ui)
+;; (use-package lsp-ui)
 
-(use-package lsp-pyright
-  :ensure t
-  :custom (lsp-pyright-multi-root nil)
-  :hook (python-mode . (lambda ()
-			 (require 'lsp-pyright)
-			 (lsp))))
+;; (use-package lsp-pyright
+;;   :ensure t
+;;   :custom (lsp-pyright-multi-root nil)
+;;   :hook (python-mode . (lambda ()
+;; 			 (require 'lsp-pyright)
+;; 			 (lsp))))
 
 (use-package company
   :ensure t
@@ -780,7 +777,7 @@
   (pe/leader-def
     ;; :states '(normal visual)
     "l" '(:keymap perspective-map :which-key "persp")
-    "ll" 'lsp-find-definition
+    "ll" 'xref-find-definitions
     "lL" 'xref-find-definitions-other-window)
   (setq persp-suppress-no-prefix-key-warning t
 	persp-initial-frame-name "1")
@@ -1139,9 +1136,51 @@ argument the push-remote can be changed before pushed to it."
 (use-package devdocs
   :ensure t)
 
-(require 'dap-gdb-lldb)
-(add-hook 'dap-stopped-hook
-          (lambda (arg) (call-interactively #'dap-hydra)))
+;; (require 'dap-gdb-lldb)
+;; (add-hook 'dap-stopped-hook
+;;           (lambda (arg) (call-interactively #'dap-hydra)))
+
+(use-package dape
+  :ensure t
+  ;; :preface
+  ;; By default dape shares the same keybinding prefix as `gud'
+  ;; If you do not want to use any prefix, set it to nil.
+  ;; (setq dape-key-prefix "\C-x\C-a")
+
+  ;; :hook
+  ;; Save breakpoints on quit
+  ;; ((kill-emacs . dape-breakpoint-save)
+  ;; Load breakpoints on startup
+  ;;  (after-init . dape-breakpoint-load))
+
+  :init
+  ;; To use window configuration like gud (gdb-mi)
+  (setq dape-buffer-window-arrangement 'gud)
+
+  :config
+  ;; Info buffers to the right
+  (setq dape-buffer-window-arrangement 'right)
+
+  ;; Global bindings for setting breakpoints with mouse
+  ;; (dape-breakpoint-global-mode)
+
+  ;; To not display info and/or buffers on startup
+  ;; (remove-hook 'dape-on-start-hooks 'dape-info)
+  ;; (remove-hook 'dape-on-start-hooks 'dape-repl)
+
+  ;; To display info and/or repl buffers on stopped
+  (add-hook 'dape-on-stopped-hooks 'dape-info)
+  (add-hook 'dape-on-stopped-hooks 'dape-repl)
+
+  ;; Kill compile buffer on build success
+  (add-hook 'dape-compile-compile-hooks 'kill-buffer)
+
+  ;; Save buffers on startup, useful for interpreted languages
+  ;; (add-hook 'dape-on-start-hooks (lambda () (save-some-buffers t t)))
+
+  ;; Projectile users
+  (setq dape-cwd-fn 'projectile-project-root)
+  )
 
 ;; Github Copilot
 
