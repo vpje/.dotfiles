@@ -1180,6 +1180,8 @@ argument the push-remote can be changed before pushed to it."
 
   ;; Projectile users
   (setq dape-cwd-fn 'projectile-project-root)
+  (pe/leader-def
+    "dd" 'dape)
   )
 
 ;; Github Copilot
