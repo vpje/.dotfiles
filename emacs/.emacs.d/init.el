@@ -248,6 +248,7 @@
     "g" '(:ignore t :which-key "git")
     "hh" 'xref-go-back
     "i" '(:ignore t :which-key "insert")
+    "ii" 'xref-find-references
     "is" 'yas/insert-snippet
     "ji" 'consult-imenu
     "jI" 'consult-imenu-multi
@@ -263,7 +264,6 @@
     "q" '(:ignore t :which-key "quit")
     "qq" 'save-buffers-kill-terminal
     "*" 'rg-dwim
-    "r" 'lsp-find-references
     "s" '(:ignore t :which-key "search")
     "SPC" 'execute-extended-command
     "sr" 'consult-ripgrep
