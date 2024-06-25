@@ -221,7 +221,7 @@
     "a" '(:ignore t :which-key "app")
     "am" 'mu4e
     ;; "bd" 'evil-delete-buffer
-    "bd" 'kill-this-buffer
+    "bd" 'kill-current-buffer
     "b" '(:ignore t :which-key "buffer")
     "bm" 'pe/switch-to-messages-buffer
     "bn" 'evil-buffer-new
