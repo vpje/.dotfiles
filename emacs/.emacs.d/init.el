@@ -1233,25 +1233,25 @@ argument the push-remote can be changed before pushed to it."
   (pe/leader-def
     "ip" 'proced))
 
-;; (use-package lorem-ipsum
-;;   :ensure t
-;;   :config
-;;   (pe/leader-def
-;;     "lI" 'lorem-ipsum-insert-paragraphs))
+(use-package lorem-ipsum
+  :ensure t
+  :config
+  (pe/leader-def
+    "lI" 'lorem-ipsum-insert-paragraphs))
 
 (use-package pyenv-mode
   :ensure t
   :config
   (pyenv-mode))
 
-;; (use-package pyvenv
-;;   :ensure t)
+(use-package pyvenv
+  :ensure t)
 
-;; (use-package tmr
-;;   :ensure t
-;;   :config
-;;   (pe/leader-def
-;;     "at" 'tmr))
+(use-package tmr
+  :ensure t
+  :config
+  (pe/leader-def
+    "at" 'tmr))
 
 (use-package dirvish
   :ensure t
