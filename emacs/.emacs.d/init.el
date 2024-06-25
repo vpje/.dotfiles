@@ -963,7 +963,7 @@
   :config
   (pe/leader-def
    ;; :states '(normal visual)
-   "dd" 'docker)
+   "do" 'docker)
   )
 
 (defun pe/recompile-all-packages ()
