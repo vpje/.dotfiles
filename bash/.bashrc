@@ -121,7 +121,7 @@ fi
 . "$HOME/.cargo/env"
 source /home/pekka/tools/alacritty/extra/completions/alacritty.bash
 source /usr/share/doc/fzf/examples/key-bindings.bash
-source /usr/share/autojump/autojump.sh
+#source /usr/share/autojump/autojump.sh
 if [ "$TERM" != "linux" ]; then
     source ~/tools/pureline/pureline ~/.pureline.conf
 fi
