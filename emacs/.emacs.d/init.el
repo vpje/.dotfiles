@@ -203,9 +203,8 @@
 ;;    )
 ;;   )
 
-(use-package flycheck
-  :ensure t)
-  ;; :custom (flycheck-cppcheck-checks "all"))
+;; (use-package flycheck
+;;   :ensure t)
 
 (use-package general
   :ensure t
@@ -231,9 +230,9 @@
     "ck" 'kill-compilation
     "cl" 'comment-or-uncomment-region
     "e" '(:ignore t :which-key "error")
-    "el" 'flycheck-list-errors
-    "en" 'flycheck-next-error
-    "ep" 'flycheck-previous-error
+    "el" 'consult-flymake
+    "en" 'flymake-goto-next-error
+    "ep" 'flymake-goto-prev-error
     "fc" 'write-file
     "Fd" 'delete-frame
     "fF" 'consult-find
