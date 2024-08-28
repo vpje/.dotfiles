@@ -1119,7 +1119,12 @@ argument the push-remote can be changed before pushed to it."
     "zp" 'zeal-at-point))
 
 ;; (use-package ob-restclient)
-;; (use-package verb)
+(use-package restclient)
+(use-package verb
+  :ensure t
+  :init
+  (pe/leader-def
+      "ov" '(:keymap verb-command-map :which-key "verb")))
 
 ;; (use-package wptool
 ;;   :config
