@@ -1263,11 +1263,12 @@ argument the push-remote can be changed before pushed to it."
   ;; Don't worry, Dirvish is still performant even if you enable all these attributes
   (setq dirvish-attributes
 	'(vc-state subtree-state all-the-icons collapse file-time file-size))
-  (setq dirvish-default-layout '(0 0 0)) ;; no parent nor preview
+  (setq dirvish-default-layout '(0 0 0)) ;; no parent
   (dirvish-override-dired-mode)
   (general-define-key
    :states 'normal
-   "-" 'dirvish)
+   "_" 'dirvish
+   "-" 'dired)
   (evil-collection-define-key 'normal 'dired-mode-map
     "q" 'dirvish-quit
     "h" 'dired-up-directory
