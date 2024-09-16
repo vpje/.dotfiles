@@ -3,8 +3,7 @@ mkdir ~/tools && pushd ~/tools
 git clone https://github.com/alacritty/alacritty.git
 git clone https://github.com/pyenv/pyenv.git ~/.pyenv
 git clone https://git.savannah.gnu.org/git/emacs.git
-git clone https://github.com/chris-marsh/pureline.git
-cp pureline/configs/powerline_full_256col.conf ~/.pureline.conf
+curl -sS https://starship.rs/install.sh | sh
 popd
 
 # extra packages and build deps

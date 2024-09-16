@@ -122,9 +122,6 @@ fi
 source /home/pekka/tools/alacritty/extra/completions/alacritty.bash
 source /usr/share/doc/fzf/examples/key-bindings.bash
 #source /usr/share/autojump/autojump.sh
-if [ "$TERM" != "linux" ]; then
-    source ~/tools/pureline/pureline ~/.pureline.conf
-fi
 
 # line edit in vim mode
 set -o vi
@@ -136,3 +133,6 @@ eval "$(pyenv init -)"
 
 # fzf tools
 source .fzf
+
+# https://github.com/starship/starship
+eval "$(starship init bash)"
