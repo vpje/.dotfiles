@@ -494,10 +494,16 @@
 ;; 			 (require 'lsp-pyright)
 ;; 			 (lsp))))
 
-(use-package company
+;; (use-package company
+;;   :ensure t
+;;   :config
+;;   (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package corfu
   :ensure t
   :config
-  (add-hook 'after-init-hook 'global-company-mode))
+  (setq corfu-auto t)
+  (add-hook 'after-init-hook 'global-corfu-mode))
 
 ;; (use-package ccls
 ;;   :hook ((c-mode c++-mode objc-mode cuda-mode) .
@@ -830,6 +836,7 @@
 	  ("https://www.kaleva.fi/rss" uutiset kaleva)
 	  ("http://feeds.arstechnica.com/arstechnica/technology-lab" tech ars)
 	  ("https://lwn.net/headlines/rss" tech lwn)
+	  ("https://hnrss.github.io/#firehose-feeds" tech hackernews)
 	  ))
   (pe/leader-def
     "ae" 'elfeed))
