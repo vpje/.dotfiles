@@ -836,7 +836,7 @@
 	  ("https://www.kaleva.fi/rss" uutiset kaleva)
 	  ("http://feeds.arstechnica.com/arstechnica/technology-lab" tech ars)
 	  ("https://lwn.net/headlines/rss" tech lwn)
-	  ("https://hnrss.github.io/#firehose-feeds" tech hackernews)
+	  ("https://hnrss.org/frontpage" tech hn)
 	  ))
   (pe/leader-def
     "ae" 'elfeed))
