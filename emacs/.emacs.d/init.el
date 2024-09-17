@@ -1041,7 +1041,7 @@
 	(lua . ("https://github.com/Azganoth/tree-sitter-lua"))
 	(make . ("https://github.com/alemuller/tree-sitter-make"))
 	(ocaml . ("https://github.com/tree-sitter/tree-sitter-ocaml" "ocaml/src" "ocaml"))
-	(python . ("https://github.com/tree-sitter/tree-sitter-python"))
+	(python . ("https://github.com/tree-sitter/tree-sitter-python" "v0.20.0"))
 	(php . ("https://github.com/tree-sitter/tree-sitter-php"))
 	(typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "typescript/src" "typescript"))
 	(ruby . ("https://github.com/tree-sitter/tree-sitter-ruby"))
