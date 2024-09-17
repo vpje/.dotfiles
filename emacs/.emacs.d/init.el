@@ -227,6 +227,7 @@
     "bs" 'pe/switch-to-scratch-buffer
     "cd" 'pe/delete-compilation-window
     "c" '(:ignore t :which-key "compile/comment")
+    "cc" 'calc
     "ck" 'kill-compilation
     "cl" 'comment-or-uncomment-region
     "e" '(:ignore t :which-key "error")
