@@ -1267,6 +1267,12 @@ argument the push-remote can be changed before pushed to it."
   (pe/leader-def
     "at" 'tmr))
 
+(defun vpj-dired ()
+  "Open dired in the current buffers directory"
+  (interactive)
+  (if (buffer-file-name)
+      (dired (file-name-directory (buffer-file-name)))))
+
 (use-package dirvish
   :ensure t
   :config
@@ -1278,7 +1284,7 @@ argument the push-remote can be changed before pushed to it."
   (general-define-key
    :states 'normal
    "_" 'dirvish
-   "-" 'dired)
+   "-" 'vpj-dired)
   (evil-collection-define-key 'normal 'dired-mode-map
     "q" 'dirvish-quit
     "h" 'dired-up-directory
