@@ -843,7 +843,9 @@
     "ae" 'elfeed))
 
 (use-package vterm
-  :ensure t)
+  :ensure t
+  :config
+  (setq vterm-max-scrollback 10000))
 
 (display-time-mode 1)
 
