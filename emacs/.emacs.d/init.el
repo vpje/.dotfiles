@@ -1304,3 +1304,6 @@ argument the push-remote can be changed before pushed to it."
 
 (use-package octave
   :ensure t)
+
+(use-package 0xc
+  :ensure t)
