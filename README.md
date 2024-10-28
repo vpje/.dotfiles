@@ -60,3 +60,6 @@ cd .dotfiles && stow *
 popd
 
 # alacritty: install rust, compile and symlink executable to PATH (~/bin/)
+
+# zsh plugins
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
