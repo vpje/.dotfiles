@@ -425,6 +425,9 @@
 
 (use-package magit-section) ;; used by org-roam
 
+(use-package magit-todos
+  :ensure t)
+
 (use-package git-timemachine
   :ensure t
   :config
