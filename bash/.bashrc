@@ -135,3 +135,9 @@ source .fzf
 
 # https://github.com/starship/starship
 eval "$(starship init bash)"
+
+EDITOR=emacsclient
+ALTERNATE_EDITOR=emacs
+
+# zoxide
+eval "$(zoxide init bash)"
