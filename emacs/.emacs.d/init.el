@@ -1034,7 +1034,7 @@
 (setq treesit-language-source-alist
       '((bash . ("https://github.com/tree-sitter/tree-sitter-bash"))
 	(c . ("https://github.com/tree-sitter/tree-sitter-c"))
-	(cpp . ("https://github.com/tree-sitter/tree-sitter-cpp"))
+	(cpp . ("https://github.com/tree-sitter/tree-sitter-cpp" "v0.21.0"))
 	(cmake . ("https://github.com/uyha/tree-sitter-cmake"))
 	(css . ("https://github.com/tree-sitter/tree-sitter-css"))
 	(go . ("https://github.com/tree-sitter/tree-sitter-go"))
