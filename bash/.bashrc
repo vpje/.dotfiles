@@ -90,8 +90,7 @@ fi
 # some more ls aliases
 # alias ll='ls -alF'
 alias ll='exa -al --group-directories-first'
-alias la='ls -A'
-alias l='ls -CF'
+alias l='exa -a --group-directories-first'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
