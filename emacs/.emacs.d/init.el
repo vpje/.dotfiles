@@ -1139,11 +1139,12 @@ argument the push-remote can be changed before pushed to it."
   (pe/leader-def
       "ov" '(:keymap verb-command-map :which-key "verb")))
 
-;; (use-package wptool
-;;   :config
-;;   (pe/leader-def
-;;     "a" '(:ignore t :which-key "app")
-;;     "aw" 'wptool-dispatch))
+(use-package wptool
+  :load-path "/home/pekka/projects/wptool/emacs/wptool-0.0.1"
+  :config
+  (pe/leader-def
+    "a" '(:ignore t :which-key "app")
+    "aw" 'wptool-dispatch))
 
 (use-package graphviz-dot-mode
   :ensure t
