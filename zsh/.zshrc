@@ -54,3 +54,8 @@ source /usr/share/doc/fzf/examples/key-bindings.zsh
 
 # Starship prompt, note: remove normal prompt setup at the beginning of this file
 eval "$(starship init zsh)"
+
+# pyenv
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
