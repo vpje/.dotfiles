@@ -1317,3 +1317,5 @@ argument the push-remote can be changed before pushed to it."
 
 (use-package 0xc
   :ensure t)
+
+(server-start)
