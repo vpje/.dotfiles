@@ -1096,9 +1096,15 @@ argument the push-remote can be changed before pushed to it."
   :config
   (pe/leader-def
     "R" 'repo-status)
-  (general-def repo-mode-map
+  (general-define-key
+   ;; :states 'motion
+   :keymaps 'repo-mode-map
     "j" #'next-line
-    "k" #'previous-line))
+    "k" #'previous-line
+    "<RET>" #'repo-find
+    "M-n" #'repo-next-project
+    "M-p" #'repo-previous-project
+    ))
 
 
 (use-package yaml-mode :ensure t)
