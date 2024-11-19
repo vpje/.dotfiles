@@ -125,11 +125,6 @@ source /usr/share/doc/fzf/examples/key-bindings.bash
 # line edit in vim mode
 set -o vi
 
-# pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-
 # fzf tools
 source .fzf
 
