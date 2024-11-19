@@ -63,3 +63,7 @@ popd
 
 # zsh plugins
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+
+# zsh completions
+git clone https://github.com/zsh-users/zsh-completions.git
+compinit -U

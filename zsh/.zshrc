@@ -66,3 +66,6 @@ eval "$(pyenv init -)"
 
 # Zoxide
 eval "$(zoxide init zsh)"
+
+# zsh-completions
+fpath=(/home/pekka/.zsh/zsh-completions/src $fpath)
