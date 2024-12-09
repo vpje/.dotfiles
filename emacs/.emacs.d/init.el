@@ -1225,6 +1225,10 @@ argument the push-remote can be changed before pushed to it."
   (define-key copilot-mode-map (kbd "C-<tab>") 'copilot-accept-completion)
   )
 
+;; LLM support
+(use-package gptel
+  :ensure t)
+
 (use-package consult-org-roam
    :ensure t
    :after org-roam
