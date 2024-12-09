@@ -967,8 +967,13 @@
 (add-hook 'c++-ts-mode-hook 'my-c-mode-common-hook)
 (org-indent-mode 1)
 
-;; (add-to-list 'load-path "~/.emacs.d/vpe/")
-;; (require 'projectile-transient-menu)
+(if (file-directory-p "~/.emacs.d/vpe")
+    (progn
+      (add-to-list 'load-path "~/.emacs.d/vpe/")
+      (require 'ansi-color-mode)
+      ;; (require 'projectile-transient-menu)
+
+      ))
 
 (use-package docker
   :ensure t
