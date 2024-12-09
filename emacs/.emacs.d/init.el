@@ -1102,7 +1102,7 @@ argument the push-remote can be changed before pushed to it."
   (pe/leader-def
     "R" 'repo-status)
   (general-define-key
-   ;; :states 'motion
+   :states 'motion
    :keymaps 'repo-mode-map
     "j" #'next-line
     "k" #'previous-line
