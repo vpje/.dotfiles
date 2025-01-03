@@ -1228,7 +1228,11 @@ argument the push-remote can be changed before pushed to it."
 
 ;; LLM support
 (use-package gptel
-  :ensure t)
+  :ensure t
+  :config
+  (gptel-make-anthropic "Claude"
+    :stream t
+    :key #'vpj-claude-api-key))
 
 (use-package consult-org-roam
    :ensure t
