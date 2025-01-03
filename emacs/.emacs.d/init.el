@@ -1152,6 +1152,7 @@ argument the push-remote can be changed before pushed to it."
 
 (use-package wptool
   :load-path "/home/pekka/projects/wptool/emacs/wptool-0.0.1"
+  :if (locate-library "wptool.el")
   :config
   (pe/leader-def
     "a" '(:ignore t :which-key "app")
