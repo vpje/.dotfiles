@@ -421,7 +421,8 @@
     ;; :states '(normal visual)
     "gs" 'magit-status
     "gb" 'magit-blame
-    "gl" 'magit-log-buffer-file))
+    "gl" 'magit-log-buffer-file
+    "gd" 'magit-diff-dwim))
 
 (use-package magit-section) ;; used by org-roam
 
