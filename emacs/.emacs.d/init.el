@@ -1070,33 +1070,33 @@
       (sit-for 0.75))))
 
 ;; Simple gerrit support for magit
-(transient-define-suffix magit-push-current-for-gerrit-review (args)
-  "Push the current branch to its push-remote for gerrit review.
+;; (transient-define-suffix magit-push-current-for-gerrit-review (args)
+;;   "Push the current branch to its push-remote for gerrit review.
 
-When the push-remote is not configured, then read the push-remote
-from the user, set it, and then push to it.  With a prefix
-argument the push-remote can be changed before pushed to it."
-  :if #'magit-get-current-branch
-  :description #'magit-push--pushbranch-for-review-description
-  (interactive (list (magit-push-arguments)))
-  (pcase-let ((`(,branch ,remote ,changed)
-               (magit--select-push-remote "push there")))
-    (when changed
-      (magit-confirm 'set-and-push
-        (string-replace
-         "%" "%%"
-         (format "Really use \"%s\" as push-remote and push \"%s\" there"
-                 remote branch))))
-    (run-hooks 'magit-credential-hook)
-    (magit-run-git-async "push" "-v" args remote
-                         (format "refs/heads/%s:refs/for/%s"
-                                 branch branch))))
+;; When the push-remote is not configured, then read the push-remote
+;; from the user, set it, and then push to it.  With a prefix
+;; argument the push-remote can be changed before pushed to it."
+;;   :if #'magit-get-current-branch
+;;   :description #'magit-push--pushbranch-for-review-description
+;;   (interactive (list (magit-push-arguments)))
+;;   (pcase-let ((`(,branch ,remote ,changed)
+;;                (magit--select-push-remote "push there")))
+;;     (when changed
+;;       (magit-confirm 'set-and-push
+;;         (string-replace
+;;          "%" "%%"
+;;          (format "Really use \"%s\" as push-remote and push \"%s\" there"
+;;                  remote branch))))
+;;     (run-hooks 'magit-credential-hook)
+;;     (magit-run-git-async "push" "-v" args remote
+;;                          (format "refs/heads/%s:refs/for/%s"
+;;                                  branch branch))))
 
-(defun magit-push--pushbranch-for-review-description ()
-  (format "gerrit review for %s" (magit-push--pushbranch-description)))
+;; (defun magit-push--pushbranch-for-review-description ()
+;;   (format "gerrit review for %s" (magit-push--pushbranch-description)))
 
-(transient-append-suffix 'magit-push "p"
-  '("g" magit-push-current-for-gerrit-review))
+;; (transient-append-suffix 'magit-push "p"
+;;   '("g" magit-push-current-for-gerrit-review))
 
 (use-package repo
   :ensure t
