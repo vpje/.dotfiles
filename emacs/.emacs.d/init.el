@@ -1220,7 +1220,8 @@ argument the push-remote can be changed before pushed to it."
 
 (use-package copilot
   :quelpa (copilot :fetcher github
-                   :repo "zerolfx/copilot.el"
+                   ;; :repo "zerolfx/copilot.el"
+                   :repo "copilot/copilot.el"
                    :branch "main"
                    :files ("dist" "*.el"))
   :config
