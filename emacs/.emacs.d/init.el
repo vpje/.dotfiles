@@ -10,6 +10,7 @@
  kill-whole-line t
  case-fold-search nil
  make-backup-files nil
+ warning-minimum-level :error
 
  ediff-window-setup-function 'ediff-setup-windows-plain
  ediff-split-window-function 'split-window-horizontally
