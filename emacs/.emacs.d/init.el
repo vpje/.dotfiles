@@ -1334,5 +1334,9 @@ argument the push-remote can be changed before pushed to it."
 
 (use-package 0xc
   :ensure t)
+(use-package magit-gerrit
+  :ensure t
+  :after magit
+  :config #'vpj-magit-gerrit-setup)
 
 (server-start)
