@@ -46,6 +46,7 @@ setopt extended_history
 alias ll='exa -al --group-directories-first'
 alias l='exa -a --group-directories-first'
 alias ls='ls --color=auto'
+alias ec='emacsclient'
 
 # zsh plugins
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
