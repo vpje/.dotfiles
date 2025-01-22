@@ -210,10 +210,10 @@
   :ensure t
   :init
   (general-create-definer pe/leader-def
-    :keymaps '(dired-mode-map override)
-    :states 'motion
     :prefix "SPC"
     :non-normal-prefix "M-SPC"
+    :keymaps 'override
+    :states 'normal
     )
   (pe/leader-def
     "ac" 'calc
