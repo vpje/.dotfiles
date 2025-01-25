@@ -1229,6 +1229,8 @@
   (define-key copilot-mode-map (kbd "C-<tab>") 'copilot-accept-completion)
   )
 
+(use-package copilot-chat :ensure t)
+
 ;; LLM support
 (use-package gptel
   :ensure t
