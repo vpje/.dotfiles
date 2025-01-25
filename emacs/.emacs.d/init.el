@@ -43,6 +43,7 @@
    (c++-mode . c++-ts-mode)
    (cpp-mode . cpp-ts-mode)
    (css-mode . css-ts-mode)
+   (kotlin-mode . kotlin-ts-mode)
    (python-mode . python-ts-mode)))
 
 (setq gdb-many-windows t
@@ -1058,6 +1059,7 @@
 	(rust . ("https://github.com/tree-sitter/tree-sitter-rust"))
 	(sql . ("https://github.com/m-novikov/tree-sitter-sql"))
 	(toml . ("https://github.com/tree-sitter/tree-sitter-toml"))
+	(kotlin . ("https://github.com/fwcd/tree-sitter-kotlin.git"))
 	(zig . ("https://github.com/GrayJack/tree-sitter-zig"))))
 
 (defun nf/treesit-install-all-languages ()
@@ -1342,3 +1344,6 @@
   :config #'vpj-magit-gerrit-setup)
 
 (server-start)
+
+(use-package kotlin-mode
+  :ensure t)
