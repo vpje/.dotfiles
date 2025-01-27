@@ -215,7 +215,7 @@
     :prefix "SPC"
     :non-normal-prefix "M-SPC"
     :keymaps 'override
-    :states 'normal
+    :states '(normal visual)
     )
   (pe/leader-def
     "ac" 'calc
