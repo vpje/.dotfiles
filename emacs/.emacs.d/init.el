@@ -1338,10 +1338,13 @@
 
 (use-package 0xc
   :ensure t)
-(use-package magit-gerrit
+
+(use-package google-this
   :ensure t
-  :after magit
-  :config #'vpj-magit-gerrit-setup)
+  :config
+  (pe/leader-def
+    "gg" 'google-this)
+  (google-this-mode 1))
 
 (server-start)
 
