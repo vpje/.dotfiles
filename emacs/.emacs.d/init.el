@@ -299,6 +299,7 @@
     )
   (setq xref-show-xrefs-function 'consult-xref
 	xref-show-definitions-function 'consult-xref)
+  (setq consult-ripgrep-args "rg --follow --null --line-buffered --color=never --max-columns=1000 --path-separator / --smart-case --no-heading --with-filename --line-number --search-zip")
   )
 
 (use-package which-key
@@ -520,7 +521,9 @@
   :ensure t)
 
 (use-package rg
-  :ensure t)
+  :ensure t
+  :config
+  (setq rg-command-line-flags '("--follow")))
 
 (use-package ag
   :ensure t)
@@ -1350,3 +1353,44 @@
 
 (use-package kotlin-mode
   :ensure t)
+
+(use-package gerrit
+  :ensure t
+  :custom
+  (gerrit-host "gerrit.in.haltian.com:8443")
+  :config
+  (progn
+    (add-hook 'magit-status-sections-hook #'gerrit-magit-insert-status t)
+    (global-set-key (kbd "C-x i") 'gerrit-upload-transient)
+    (global-set-key (kbd "C-x o") 'gerrit-download)
+
+  (evil-collection-define-key 'normal 'gerrit-dashboard-mode-map
+    " "         nil ;; unbind SPC in dired-mode-map
+    "A"         'gerrit-dashboard-assign-change-to-me
+    "C"         'gerrit-dashboard-set-cr-vote-topic
+    "M-<left>"  'tabulated-list-previous-column
+    "M-<right>" 'tabulated-list-next-column
+    "<RET>"     'gerrit-dashboard-open-change
+    "S"         'tabulated-list-sort
+    "V"         'gerrit-dashboard-set-verified-vote-topic
+    "a"         'gerrit-dashboard-assign-change
+    "d"         'gerrit-dashboard-download-change
+    "e"         'gerrit-dashboard-edit-query
+    "g"         'gerrit-dashboard--refresh--and-point-restore
+    "o"         'gerrit-dashboard-browse-change
+    "q"         'quit-window
+    "t"         'gerrit-dashboard-open-topic
+    "{"         'tabulated-list-narrow-current-column
+    "}"         'tabulated-list-widen-current-column
+    )
+
+    (pe/leader-def
+      "gu" 'gerrit-upload-transient
+      "gd" 'gerrit-download)))
+
+(use-package eglot-inactive-regions
+  :custom
+  (eglot-inactive-regions-style 'darken-foreground)
+  (eglot-inactive-regions-opacity 0.4)
+  :config
+  (eglot-inactive-regions-mode 1))
