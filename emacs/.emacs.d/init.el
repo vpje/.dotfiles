@@ -1235,7 +1235,7 @@
   )
 
 (use-package copilot-chat
-  :ensure ti
+  :ensure t
   :config
   (pe/leader-def
     "cc" 'copilot-chat-display
@@ -1402,9 +1402,9 @@
   :config
   (eglot-inactive-regions-mode 1))
 
-(use-package breadcrumb
-  :ensure t
-  :config
-  (breadcrumb-mode 1))
+;; breadcrumbs with treesitter-context.el
+(add-to-list 'load-path "~/.emacs.d/git/treesitter-context.el/")
+(require 'treesitter-context)
+(add-hook 'c-ts-mode-hook #'treesitter-context-mode)
 
 (message "End of init.el")
