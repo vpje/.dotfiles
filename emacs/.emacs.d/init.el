@@ -471,7 +471,7 @@
   :init
   (smartparens-global-mode 1))
 
-(use-package ccls)
+;; (use-package ccls)
 
 ;; (use-package lsp-mode
 ;;   :ensure t
@@ -871,12 +871,12 @@
 ;; Flutter / Dart
 
 (use-package dart-mode)
-(use-package lsp-dart
-  :after dart-mode
-  :config
-  (setq lsp-dart-flutter-sdk-dir "/home/pekka/snap/flutter/common/flutter"))
+;; (use-package lsp-dart
+;;   :after dart-mode
+;;   :config
+;;   (setq lsp-dart-flutter-sdk-dir "/home/pekka/snap/flutter/common/flutter"))
 
-(use-package lsp-treemacs)
+;; (use-package lsp-treemacs)
 (use-package hover)
 
 (use-package popup :ensure t)
@@ -1234,7 +1234,14 @@
   (define-key copilot-mode-map (kbd "C-<tab>") 'copilot-accept-completion)
   )
 
-(use-package copilot-chat :ensure t)
+(use-package copilot-chat
+  :ensure ti
+  :config
+  (pe/leader-def
+    "cc" 'copilot-chat-display
+    "cs" 'copilot-chat-custom-prompt-selection
+    "cb" 'copilot-chat-custom-prompt-buffer
+    ))
 
 ;; LLM support
 (use-package gptel
@@ -1394,3 +1401,10 @@
   (eglot-inactive-regions-opacity 0.4)
   :config
   (eglot-inactive-regions-mode 1))
+
+(use-package breadcrumb
+  :ensure t
+  :config
+  (breadcrumb-mode 1))
+
+(message "End of init.el")
