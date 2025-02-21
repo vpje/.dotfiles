@@ -1406,5 +1406,6 @@
 (add-to-list 'load-path "~/.emacs.d/git/treesitter-context.el/")
 (require 'treesitter-context)
 (add-hook 'c-ts-mode-hook #'treesitter-context-mode)
+(add-hook 'python-ts-mode-hook #'treesitter-context-mode)
 
 (message "End of init.el")
