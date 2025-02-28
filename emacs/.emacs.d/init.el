@@ -1226,7 +1226,7 @@
 (use-package copilot
   :quelpa (copilot :fetcher github
                    ;; :repo "zerolfx/copilot.el"
-                   :repo "copilot/copilot.el"
+                   :repo "copilot-emacs/copilot.el"
                    :branch "main"
                    :files ("dist" "*.el"))
   :config
