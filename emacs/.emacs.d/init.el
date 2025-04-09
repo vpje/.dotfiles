@@ -275,6 +275,7 @@
     "TAB" 'pe/switch-to-previous-buffer
     "t" '(:ignore t :which-key "toggles")
     "tl" 'linum-mode
+    "tr" 'toggle-truncate-lines
     "tt" 'indent-tabs-mode
     "tw" 'whitespace-mode
     "'" 'vterm-other-window
@@ -1408,5 +1409,7 @@
 (add-hook 'c-ts-mode-hook #'treesitter-context-mode)
 (add-hook 'c++-ts-mode-hook #'treesitter-context-mode)
 (add-hook 'python-ts-mode-hook #'treesitter-context-mode)
+
+(use-package casual :ensure t)
 
 (message "End of init.el")
