@@ -280,6 +280,7 @@
     "tr" 'toggle-truncate-lines
     "tt" 'indent-tabs-mode
     "tw" 'whitespace-mode
+    "tc" 'treesitter-context-mode
     "'" 'vterm-other-window
     "wd" 'delete-window
     "w" '(:ignore t :which-key "window")
