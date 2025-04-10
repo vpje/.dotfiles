@@ -16,6 +16,8 @@
  ediff-split-window-function 'split-window-horizontally
  ediff-merge-split-window-function 'split-window-horizontally
 
+ ;; compilation
+ compilation-max-output-line-length 2048
  compilation-scroll-output 'first-error
  compilation-auto-jump-to-first-error t
 
