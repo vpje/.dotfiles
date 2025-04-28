@@ -46,6 +46,7 @@
    (cpp-mode . cpp-ts-mode)
    (css-mode . css-ts-mode)
    (kotlin-mode . kotlin-ts-mode)
+   ;; (xml-mode . xml-ts-mode)
    (python-mode . python-ts-mode)))
 
 (setq gdb-many-windows t
@@ -276,6 +277,7 @@
     ;; :states '(normal visual)
     "TAB" 'pe/switch-to-previous-buffer
     "t" '(:ignore t :which-key "toggles")
+    "th" 'hs-minor-mode
     "tl" 'linum-mode
     "tr" 'toggle-truncate-lines
     "tt" 'indent-tabs-mode
@@ -1067,6 +1069,7 @@
 	(sql . ("https://github.com/m-novikov/tree-sitter-sql"))
 	(toml . ("https://github.com/tree-sitter/tree-sitter-toml"))
 	(kotlin . ("https://github.com/fwcd/tree-sitter-kotlin.git"))
+	(xml . ("https://github.com/tree-sitter-grammars/tree-sitter-xml.git"))
 	(zig . ("https://github.com/GrayJack/tree-sitter-zig"))))
 
 (defun nf/treesit-install-all-languages ()
@@ -1414,5 +1417,7 @@
 (add-hook 'python-ts-mode-hook #'treesitter-context-mode)
 
 (use-package casual :ensure t)
+(use-package xref-rst :ensure t)
+(use-package dts-mode :ensure t)
 
 (message "End of init.el")
