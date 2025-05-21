@@ -32,6 +32,9 @@
  ;; symbolic links to not ask for confirmation
  vc-handled-backends nil
  find-file-visit-truename nil
+
+ dired-dwim-target t
+ dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"
 )
 
 ;; Tree-sitter mode remap
@@ -461,7 +464,7 @@
 	   (setq rg-ignorefile
 		 (concat "--ignore-file" " "
 			 (expand-file-name "rg_ignore" user-emacs-directory)))
-	   (concat "rg -L -0 --files --color=never --hidden" rg-cmd " " rg-ignorefile)))
+	   (concat "rg -L --no-messages -0 --files --color=never --hidden" rg-cmd " " rg-ignorefile)))
 
   (pe/leader-def
     ;; :states '(normal visual)
@@ -1348,7 +1351,8 @@
   :ensure t
   :config
   (pe/leader-def
-    "cf" 'clang-format-buffer))
+    "cf" 'clang-format-buffer
+    "cr" 'clang-format-region))
 
 (use-package octave
   :ensure t)
@@ -1419,5 +1423,6 @@
 (use-package casual :ensure t)
 (use-package xref-rst :ensure t)
 (use-package dts-mode :ensure t)
+(use-package cmake-mode :ensure t)
 
 (message "End of init.el")
