@@ -1420,7 +1420,6 @@
 (add-hook 'c++-ts-mode-hook #'treesitter-context-mode)
 (add-hook 'python-ts-mode-hook #'treesitter-context-mode)
 
-(use-package casual :ensure t)
 (use-package xref-rst :ensure t)
 (use-package dts-mode :ensure t)
 (use-package cmake-mode :ensure t)
