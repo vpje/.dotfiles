@@ -1051,29 +1051,62 @@
 
 ;; (add-hook 'logview-mode-hook 'pe/logview-activate-map)
 
-(setq treesit-language-source-alist
-      '((bash . ("https://github.com/tree-sitter/tree-sitter-bash"))
-	(c . ("https://github.com/tree-sitter/tree-sitter-c"))
-	(cpp . ("https://github.com/tree-sitter/tree-sitter-cpp" "v0.21.0"))
-	(cmake . ("https://github.com/uyha/tree-sitter-cmake"))
-	(css . ("https://github.com/tree-sitter/tree-sitter-css"))
-	(go . ("https://github.com/tree-sitter/tree-sitter-go"))
-	(html . ("https://github.com/tree-sitter/tree-sitter-html"))
-	(javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))
-	(json . ("https://github.com/tree-sitter/tree-sitter-json"))
-	(lua . ("https://github.com/Azganoth/tree-sitter-lua"))
-	(make . ("https://github.com/alemuller/tree-sitter-make"))
-	(ocaml . ("https://github.com/tree-sitter/tree-sitter-ocaml" "ocaml/src" "ocaml"))
-	(python . ("https://github.com/tree-sitter/tree-sitter-python" "v0.21.0"))
-	(php . ("https://github.com/tree-sitter/tree-sitter-php"))
-	(typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "typescript/src" "typescript"))
-	(ruby . ("https://github.com/tree-sitter/tree-sitter-ruby"))
-	(rust . ("https://github.com/tree-sitter/tree-sitter-rust"))
-	(sql . ("https://github.com/m-novikov/tree-sitter-sql"))
-	(toml . ("https://github.com/tree-sitter/tree-sitter-toml"))
-	(kotlin . ("https://github.com/fwcd/tree-sitter-kotlin.git"))
-	(xml . ("https://github.com/tree-sitter-grammars/tree-sitter-xml.git"))
-	(zig . ("https://github.com/GrayJack/tree-sitter-zig"))))
+(use-package treesit-auto
+  :custom
+  (treesit-auto-install 'prompt)
+  :config
+  (treesit-auto-add-to-auto-mode-alist 'all)
+  (global-treesit-auto-mode))
+
+;; this fixes a problem where v0.20.4 of this grammar blows up with emacs
+(defvar genehack/tsx-treesit-auto-recipe
+  (make-treesit-auto-recipe
+   :lang 'tsx
+   :ts-mode 'tsx-ts-mode
+   :remap '(typescript-tsx-mode)
+   :requires 'typescript
+   :url "https://github.com/tree-sitter/tree-sitter-typescript"
+   :revision "v0.20.3"
+   :source-dir "tsx/src"
+   :ext "\\.tsx\\'")
+  "Recipe for libtree-sitter-tsx.dylib")
+(add-to-list 'treesit-auto-recipe-list genehack/tsx-treesit-auto-recipe)
+
+(defvar genehack/typescript-treesit-auto-recipe
+  (make-treesit-auto-recipe
+   :lang 'typescript
+   :ts-mode 'typescript-ts-mode
+   :remap 'typescript-mode
+   :requires 'tsx
+   :url "https://github.com/tree-sitter/tree-sitter-typescript"
+   :revision "v0.20.3"
+   :source-dir "typescript/src"
+   :ext "\\.ts\\'")
+  "Recipe for libtree-sitter-typescript.dylib")
+(add-to-list 'treesit-auto-recipe-list genehack/typescript-treesit-auto-recipe)
+
+;; (setq treesit-language-source-alist
+;;       '((bash . ("https://github.com/tree-sitter/tree-sitter-bash"))
+;; 	(c . ("https://github.com/tree-sitter/tree-sitter-c"))
+;; 	(cpp . ("https://github.com/tree-sitter/tree-sitter-cpp" "v0.21.0"))
+;; 	(cmake . ("https://github.com/uyha/tree-sitter-cmake"))
+;; 	(css . ("https://github.com/tree-sitter/tree-sitter-css"))
+;; 	(go . ("https://github.com/tree-sitter/tree-sitter-go"))
+;; 	(html . ("https://github.com/tree-sitter/tree-sitter-html"))
+;; 	(javascript . ("https://github.com/tree-sitter/tree-sitter-javascript"))
+;; 	(json . ("https://github.com/tree-sitter/tree-sitter-json"))
+;; 	(lua . ("https://github.com/Azganoth/tree-sitter-lua"))
+;; 	(make . ("https://github.com/alemuller/tree-sitter-make"))
+;; 	(ocaml . ("https://github.com/tree-sitter/tree-sitter-ocaml" "master" "ocaml/src"))
+;; 	(python . ("https://github.com/tree-sitter/tree-sitter-python" "v0.21.0"))
+;; 	(php . ("https://github.com/tree-sitter/tree-sitter-php"))
+;; 	(typescript . ("https://github.com/tree-sitter/tree-sitter-typescript" "v0.20.3" "typescript/src"))
+;; 	(ruby . ("https://github.com/tree-sitter/tree-sitter-ruby"))
+;; 	(rust . ("https://github.com/tree-sitter/tree-sitter-rust"))
+;; 	(sql . ("https://github.com/m-novikov/tree-sitter-sql"))
+;; 	(toml . ("https://github.com/tree-sitter/tree-sitter-toml"))
+;; 	(kotlin . ("https://github.com/fwcd/tree-sitter-kotlin.git"))
+;; 	(zig . ("https://github.com/GrayJack/tree-sitter-zig"))))
 
 (defun nf/treesit-install-all-languages ()
   "Install all languages specified by `treesit-language-source-alist'."
@@ -1249,6 +1282,7 @@
   :config
   (pe/leader-def
     "cc" 'copilot-chat-display
+    "ct" 'copilot-chat-transient
     "cs" 'copilot-chat-custom-prompt-selection
     "cb" 'copilot-chat-custom-prompt-buffer
     ))
@@ -1260,6 +1294,27 @@
   (gptel-make-anthropic "Claude"
     :stream t
     :key #'vpj-claude-api-key))
+
+;; LLM: gptel with integrations
+(require 'gptel-integrations)
+
+;; LLM MCP
+(use-package mcp
+  :ensure t
+  :after gptel
+  :custom (mcp-hub-servers
+	   `(("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" "/home/pekka/projects/restaurant")))
+	     ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+	     ("qdrant" . (:url "http://localhost:8000/sse"))
+	     ("graphlit" . (
+			    :command "npx"
+			    :args ("-y" "graphlit-mcp-server")
+			    :env (
+				  :GRAPHLIT_ORGANIZATION_ID "your-organization-id"
+				  :GRAPHLIT_ENVIRONMENT_ID "your-environment-id"
+				  :GRAPHLIT_JWT_SECRET "your-jwt-secret")))))
+  :config (require 'mcp-hub)
+  :hook (after-init . mcp-hub-start-all-server))
 
 (use-package consult-org-roam
    :ensure t
@@ -1423,5 +1478,13 @@
 (use-package xref-rst :ensure t)
 (use-package dts-mode :ensure t)
 (use-package cmake-mode :ensure t)
+
+(use-package ultra-scroll
+  ;:vc (:url "https://github.com/jdtsmith/ultra-scroll") ; if desired (emacs>=v30)
+  :init
+  (setq scroll-conservatively 3 ; or whatever value you prefer, since v0.4
+        scroll-margin 0)        ; important: scroll-margin>0 not yet supported
+  :config
+  (ultra-scroll-mode 1))
 
 (message "End of init.el")
