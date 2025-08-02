@@ -73,3 +73,6 @@ eval "$(zoxide init zsh)"
 
 # zsh-completions
 fpath=(/home/pekka/.zsh/zsh-completions/src $fpath)
+
+# arm cross compiler
+export PATH=/home/pekka/tools/arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi/bin:$PATH
