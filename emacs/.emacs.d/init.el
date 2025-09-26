@@ -37,6 +37,21 @@
  dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"
 )
 
+;; Bootstrap Elpaca packet manager
+(load "~/.emacs.d/elpaca-init.el")
+
+;; Enable use-package support for Elpaca
+(elpaca elpaca-use-package
+  ;; Enable use-package :ensure support for Elpaca.
+  (elpaca-use-package-mode))
+;; Without this, have to add ":ensure t" to most recipes to get them to install,
+;; otherwise elpaca just tries to load it.
+(setq use-package-always-ensure t)
+
+;; Built-in version lags behind
+(use-package transient
+  :ensure t)
+
 ;; Tree-sitter mode remap
 (setq major-mode-remap-alist
  '((yaml-mode . yaml-ts-mode)
@@ -162,11 +177,19 @@
   :init
   (setq evil-want-integration t
 	evil-want-keybinding nil
-	evil-symbol-word-search t)
+	evil-symbol-word-search t
+	evil-want-minibuffer t)
   :config
   (evil-mode 1)
   (evil-set-undo-system 'undo-tree)
   (global-evil-surround-mode 1)
+  ;; https://www.reddit.com/r/emacs/comments/1b8hso1/evil_mode_help_rebinding_cn_and_cp_in_minibuffer/
+  (dolist (map '(evil-motion-state-map
+		 evil-insert-state-map
+		 evil-emacs-state-map))
+    (define-key (symbol-value map) "\C-n" nil)
+    (define-key (symbol-value map) "\C-p" nil)
+    )
   )
 
 (use-package evil-collection
@@ -1291,9 +1314,57 @@
 (use-package gptel
   :ensure t
   :config
-  (gptel-make-anthropic "Claude"
-    :stream t
-    :key #'vpj-claude-api-key))
+  (setq gptel-use-tools t
+	gptel-model 'claude-sonnet-4
+	gptel-backend (gptel-make-gh-copilot "Copilot")))
+
+;; Agentic AI interaction framework
+(use-package macher
+  :ensure (:host github :repo "kmontag/macher")
+
+  :custom
+  ;; The org UI has structured navigation and nice content folding.
+  (macher-action-buffer-ui 'org)
+
+  :config
+  ;; Adjust buffer positioning to taste.
+  ;; (add-to-list
+  ;;  'display-buffer-alist
+  ;;  '("\\*macher:.*\\*"
+  ;;    (display-buffer-in-side-window)
+  ;;    (side . bottom)))
+  ;; (add-to-list
+  ;;  'display-buffer-alist
+  ;;  '("\\*macher-patch:.*\\*"
+  ;;    (display-buffer-in-side-window)
+  ;;    (side . right)))
+  )
+
+;; Optional - register macher presets for use with any gptel request.
+(use-package gptel
+  ;; ...
+  :config
+  (macher-install))
+;; MCP - Model Context Protocol
+;; (use-package mcp
+;;   :ensure t
+;;   :after gptel
+;;   :custom (mcp-hub-servers
+;;            `(("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" "/home/pekka/projects/")))
+;;              ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+;;              ;; ("qdrant" . (:url "http://localhost:8000/sse"))
+;;              ;; ("graphlit" . (
+;;              ;;                :command "npx"
+;;              ;;                :args ("-y" "graphlit-mcp-server")
+;;              ;;                :env (
+;;              ;;                      :GRAPHLIT_ORGANIZATION_ID "your-organization-id"
+;;              ;;                      :GRAPHLIT_ENVIRONMENT_ID "your-environment-id"
+;;              ;;                      :GRAPHLIT_JWT_SECRET "your-jwt-secret")))
+;; 	     ))
+;;   :config (require 'mcp-hub)
+;;   :hook (after-init . mcp-hub-start-all-server))
+
+(require 'gptel-integrations)
 
 ;; LLM: gptel with integrations
 (require 'gptel-integrations)
@@ -1469,11 +1540,11 @@
   (eglot-inactive-regions-mode 1))
 
 ;; breadcrumbs with treesitter-context.el
-(add-to-list 'load-path "~/.emacs.d/git/treesitter-context.el/")
-(require 'treesitter-context)
-(add-hook 'c-ts-mode-hook #'treesitter-context-mode)
-(add-hook 'c++-ts-mode-hook #'treesitter-context-mode)
-(add-hook 'python-ts-mode-hook #'treesitter-context-mode)
+;; (add-to-list 'load-path "~/.emacs.d/git/treesitter-context.el/")
+;; (require 'treesitter-context)
+;; (add-hook 'c-ts-mode-hook #'treesitter-context-mode)
+;; (add-hook 'c++-ts-mode-hook #'treesitter-context-mode)
+;; (add-hook 'python-ts-mode-hook #'treesitter-context-mode)
 
 (use-package xref-rst :ensure t)
 (use-package dts-mode :ensure t)
@@ -1486,5 +1557,23 @@
 ;;         scroll-margin 0)        ; important: scroll-margin>0 not yet supported
 ;;   :config
 ;;   (ultra-scroll-mode 1))
+
+;; (use-package popper
+;;   :ensure t ; or :straight t
+;;   :init
+;;   (setq popper-reference-buffers
+;; 	'("\\*Messages\\*"
+;; 	  "Output\\*$"
+;; 	  "\\*Async Shell Command\\*"
+;; 	  help-mode
+;; 	  compilation-mode))
+;;   (popper-mode +1)
+;;   (popper-echo-mode +1)
+;;   :config
+;;   (pe/leader-def
+;;     "Pt" 'popper-toggle
+;;     "PT" 'popper-toggle-type
+;;     "Pc" 'popper-cycle)
+;;   )                ; For echo area hints
 
 (message "End of init.el")
