@@ -1358,11 +1358,19 @@
 ;;     "Pc" 'popper-cycle)
 ;;   )                ; For echo area hints
 
-(elpaca-wait)
+;; End of package installations and configurations
 
-(add-to-list 'load-path "~/.my-user-config")
-(require 'my-user-config)
-(require 'my-erc-sasl-config)
+;; Custom user configurations loaded after elpaca has processed its queues
+(defun pe/elpaca-post-queues-hook ()
+  "Hook run after elpaca has processed its queues."
+  (progn
+  (message "elpaca has finished processing its queues."))
+  ;; Add post queue actions here
+  (add-to-list 'load-path "~/.my-user-config")
+  (require 'my-user-config)
+  (require 'my-erc-sasl-config)
+  )
 
+(add-hook 'elpaca--post-queues-hook 'pe/elpaca-post-queues-hook)
 
 (message "End of init.el")
