@@ -1,3 +1,9 @@
+;; make sure package.el doesn't pre-load things
+(setq package-enable-at-startup nil)
+
+;; Bootstrap Elpaca packet manager
+(load "~/.emacs.d/elpaca-init.el")
+
 (setq
  gc-cons-threshold 100000000
  use-package-always-ensure t
@@ -37,16 +43,16 @@
  dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"
 )
 
-;; Bootstrap Elpaca packet manager
-(load "~/.emacs.d/elpaca-init.el")
-
 ;; Enable use-package support for Elpaca
 (elpaca elpaca-use-package
-  ;; Enable use-package :ensure support for Elpaca.
-  (elpaca-use-package-mode))
-;; Without this, have to add ":ensure t" to most recipes to get them to install,
-;; otherwise elpaca just tries to load it.
-(setq use-package-always-ensure t)
+	;; Enable use-package :ensure support for Elpaca.
+	(elpaca-use-package-mode)
+	;; Without this, have to add ":ensure t" to most recipes to get them to install,
+	;; otherwise elpaca just tries to load it.
+	(setq use-package-always-ensure t)
+	)
+
+;;(elpaca-wait)
 
 ;; Built-in version lags behind
 (use-package transient
@@ -239,7 +245,8 @@
 
 (use-package general
   :ensure t
-  :init
+  :demand t
+  :config
   (general-create-definer pe/leader-def
     :prefix "SPC"
     :non-normal-prefix "M-SPC"
@@ -320,6 +327,13 @@
     ;; "wv" 'split-window-right
     )
  )
+
+  (general-create-definer pe/leader-def
+    :prefix "SPC"
+    :non-normal-prefix "M-SPC"
+    :keymaps 'override
+    :states '(normal visual)
+    )
 
 (use-package consult
   :ensure t
@@ -503,51 +517,11 @@
   :init
   (smartparens-global-mode 1))
 
-;; (use-package ccls)
-
-;; (use-package lsp-mode
-;;   :ensure t
-;;   :custom (lsp-enable-file-watchers nil)
-;;   :config
-;;   (setq lsp-enable-on-type-formatting nil)
-;;   (setq lsp-enable-indentation nil)
-;;   (setq lsp-lens-enable nil)
-;;   (add-hook 'c-ts-mode-hook 'lsp)
-;;   (add-hook 'c++-ts-mode-hook 'lsp)
-;;   (add-hook 'cpp-ts-mode-hook 'lsp)
-;;   (add-hook 'python-ts-mode-hook 'lsp)
-;;   (add-hook 'javascript-ts-mode-hook 'lsp)
-;;   (add-hook 'sh-ts-mode-hook 'lsp)
-;;   (setq lsp-enabled-clients '(clangd pyright bash-ls rust-analyzer) ;; ccls
-;; 	lsp-semantic-tokens-enable t) ;; ifdef gray outs
-;;   (setq lsp-clients-clangd-args
-;;     '("--header-insertion=never" "--query-driver=/opt/gcc-arm/bin/arm-none-eabi-gcc")) ;; query-driver for cross compilation headers
-;;   (pe/leader-def
-;;     "L" '(:keymap lsp-command-map :which-key "lsp")))
-
-;; (use-package lsp-ui)
-
-;; (use-package lsp-pyright
-;;   :ensure t
-;;   :custom (lsp-pyright-multi-root nil)
-;;   :hook (python-mode . (lambda ()
-;; 			 (require 'lsp-pyright)
-;; 			 (lsp))))
-
-;; (use-package company
-;;   :ensure t
-;;   :config
-;;   (add-hook 'after-init-hook 'global-company-mode))
-
 (use-package corfu
   :ensure t
   :config
   (setq corfu-auto t)
   (add-hook 'after-init-hook 'global-corfu-mode))
-
-;; (use-package ccls
-;;   :hook ((c-mode c++-mode objc-mode cuda-mode) .
-;;          (lambda () (require 'ccls) (lsp))))
 
 (use-package avy
   :ensure t)
@@ -598,176 +572,13 @@
 	 "* %?\nEntered on %U\n  %i\n  %a")))
   (setq org-clock-idle-time 10)
   (pe/leader-def
-    ;; :states '(normal visual)
-    ;; Clock
-    "oC" '(:ignore t :which-key "clock")
-    "oCc" 'org-clock-cancel
-    "oCd" 'org-clock-display
-    "oCe" 'org-evaluate-time-range
-    "oCg" 'org-clock-goto
-    "oCi" 'org-clock-in
-    "oCI" 'org-clock-in-last
-    "oCj" 'spacemacs/org-clock-jump-to-current-clock
-    "oCo" 'org-clock-out
-    "oCR" 'org-clock-report
-    "oCr" 'org-resolve-clocks
-
-    "od" '(:ignore t :which-key "time")
-    "odd" 'org-deadline
-    "ods" 'org-schedule
-    "odt" 'org-time-stamp
-    "odT" 'org-time-stamp-inactive
-
-    "oe" '(:ignore t :which-key "export")
-    "oee" 'org-export-dispatch
-
-    "of" '(:ignore t :which-key "feed")
-    "ofi" 'org-feed-goto-inbox
-    "ofu" 'org-feed-update-all
-
+    "o" '(:ignore t :which-key "org")
     "oa" 'org-agenda
-
     "oc" 'org-capture
-
     "op" 'org-priority
-
-    "oT" '(:ignore t :which-key "toggle/todo")
-    "oTc" 'org-toggle-checkbox
-    "oTe" 'org-toggle-pretty-entities
-    "oTi" 'org-toggle-inline-images
-    "oTn" 'org-num-mode
-    "oTl" 'org-toggle-link-display
-    "oTt" 'org-show-todo-tree
-    "oTT" 'org-todo
-    "oTV" 'space-doc-mode
-    "oTx" 'org-latex-preview
-
-    ;; More cycling options (timestamps, headlines, items, properties)
-    "oL" 'org-shiftright
-    "oH" 'org-shiftleft
-    "oJ" 'org-shiftdown
-    "oK" 'org-shiftup
-
-    ;; Change between TODO sets
-    "C-S-l" 'org-shiftcontrolright
-    "C-S-h" 'org-shiftcontrolleft
-    "C-S-j" 'org-shiftcontroldown
-    "C-S-k" 'org-shiftcontrolup
-
-    ;; Subtree editing
-    "os" '(:ignore t :which-key "subtree")
-    "osa" 'org-toggle-archive-tag
-    "osA" 'org-archive-subtree-default
-    "osb" 'org-tree-to-indirect-buffer
-    "osd" 'org-cut-subtree
-    "osy" 'org-copy-subtree
-    "osh" 'org-promote-subtree
-    "osj" 'org-move-subtree-down
-    "osk" 'org-move-subtree-up
-    "osl" 'org-demote-subtree
-    "osn" 'org-narrow-to-subtree
-    "osw" 'widen
-    "osr" 'org-refile
-    "oss" 'org-sparse-tree
-    "osS" 'org-sort
-
-    ;; tables
-    "ot" '(:ignore t :which-key "table")
-    "ota" 'org-table-align
-    "otb" 'org-table-blank-field
-    "otc" 'org-table-convert
-    "otdc" 'org-table-delete-column
-    "otdr" 'org-table-kill-row
-    "ote" 'org-table-eval-formula
-    "otE" 'org-table-export
-    "otf" 'org-table-field-info
-    "oth" 'org-table-previous-field
-    "otH" 'org-table-move-column-left
-    "otic" 'org-table-insert-column
-    "otih" 'org-table-insert-hline
-    "otiH" 'org-table-hline-and-move
-    "otir" 'org-table-insert-row
-    "otI" 'org-table-import
-    "otj" 'org-table-next-row
-    "otJ" 'org-table-move-row-down
-    "otK" 'org-table-move-row-up
-    "otl" 'org-table-next-field
-    "otL" 'org-table-move-column-right
-    "otn" 'org-table-create
-    "otN" 'org-table-create-with-table.el
-    "otr" 'org-table-recalculate
-    "otR" 'org-table-recalculate-buffer-tables
-    "ots" 'org-table-sort-lines
-    "ottf" 'org-table-toggle-formula-debugger
-    "otto" 'org-table-toggle-coordinate-overlays
-    "otw" 'org-table-wrap-region
-
-    ;; Source blocks / org-babel
-    "ob" '(:ignore t :which-key "babel")
-    "obp" 'org-babel-previous-src-block
-    "obn" 'org-babel-next-src-block
-    "obe" 'org-babel-execute-maybe
-    "obo" 'org-babel-open-src-block-result
-    "obv" 'org-babel-expand-src-block
-    "obu" 'org-babel-goto-src-block-head
-    "obg" 'org-babel-goto-named-src-block
-    "obr" 'org-babel-goto-named-result
-    "obb" 'org-babel-execute-buffer
-    "obs" 'org-babel-execute-subtree
-    "obd" 'org-babel-demarcate-block
-    "obt" 'org-babel-tangle
-    "obf" 'org-babel-tangle-file
-    "obc" 'org-babel-check-src-block
-    "obj" 'org-babel-insert-header-arg
-    "obl" 'org-babel-load-in-session
-    "obi" 'org-babel-lob-ingest
-    "obI" 'org-babel-view-src-block-info
-    "obz" 'org-babel-switch-to-session
-    "obZ" 'org-babel-switch-to-session-with-code
-    "oba" 'org-babel-sha1-hash
-    "obx" 'org-babel-do-key-sequence-in-edit-buffer
-    "ob." 'spacemacs/org-babel-transient-state/body
-    ;; Multi-purpose keys
-    ;; (or dotspacemacs-major-mode-leader-key ",") 'org-ctrl-c-ctrl-c
-    "o*" 'org-ctrl-c-star
-    "o-" 'org-ctrl-c-minus
-    "o#" 'org-update-statistics-cookies
-    "o RET"   'org-ctrl-c-ret
-    "o M-RET" 'org-meta-return
-    ;; attachments
-    "oA" 'org-attach
-    ;; insertion
-    "oi" '(:ignore t :which-key "insertion")
-    "oib" 'org-insert-structure-template
-    "oid" 'org-insert-drawer
-    "oie" 'org-set-effort
-    "oif" 'org-footnote-new
-    "oih" 'org-insert-heading
-    "oiH" 'org-insert-heading-after-current
-    "oii" 'org-insert-item
-    "oiK" 'spacemacs/insert-keybinding-org
-    "oil" 'org-insert-link
-    "oin" 'org-add-note
-    "oip" 'org-set-property
-    "ois" 'org-insert-subheading
-    "oit" 'org-set-tags-command
-    ;; region manipulation
-    ;; "xb" (spacemacs|org-emphasize spacemacs/org-bold ?*)
-    ;; "xc" (spacemacs|org-emphasize spacemacs/org-code ?~)
-    ;; "xi" (spacemacs|org-emphasize spacemacs/org-italic ?/)
-    ;; "xo" 'org-open-at-point
-    ;; "xr" (spacemacs|org-emphasize spacemacs/org-clear ? )
-    ;; "xs" (spacemacs|org-emphasize spacemacs/org-strike-through ?+)
-    ;; "xu" (spacemacs|org-emphasize spacemacs/org-underline ?_)
-    ;; "xv" (spacemacs|org-emphasize spacemacs/org-verbatim ?=))
-
     "or" '(:ignore t :which-key "roam")
-    "orl" 'org-roam-buffer-toggle
     "orf" 'org-roam-node-find
-    "org" 'org-roam-graph
-    "ori" 'org-roam-node-insert
     "orc" 'org-roam-capture
-    "orj" 'org-roam-dailies-capture-today
     )
   )
 
@@ -786,14 +597,14 @@
   :ensure t
   :hook (org-mode . org-superstar-mode))
 
-;; (use-package org-bullets
-;;   :ensure t
-;;   :hook (org-mode . org-bullets-mode))
+(use-package org-bullets
+  :ensure t
+  :hook (org-mode . org-bullets-mode))
 
-;; (use-package org-modern
-;;   :ensure t
-;;   :hook (org-mode . org-modern-mode)
-;;   :hook (org-agenda-finalize . org-modern-agenda))
+(use-package org-modern
+  :ensure t
+  :hook (org-mode . org-modern-mode)
+  :hook (org-agenda-finalize . org-modern-agenda))
 
 ;; temporary fix for https://github.com/Somelauw/evil-org-mode/issues/93
 ;; (fset 'evil-redirect-digit-argument 'ignore)
@@ -940,10 +751,6 @@
 (use-package pdf-tools :ensure t :config (setq revert-without-query '(".pdf")))
 (use-package sudo-edit :ensure t)
 
-(add-to-list 'load-path "~/.my-user-config")
-(require 'my-user-config)
-(require 'my-erc-sasl-config)
-
 (add-hook 'edebug-mode-hook 'evil-normalize-keymaps)
 (add-hook 'dart-mode-hook 'lsp)
 
@@ -1082,31 +889,31 @@
   (global-treesit-auto-mode))
 
 ;; this fixes a problem where v0.20.4 of this grammar blows up with emacs
-(defvar genehack/tsx-treesit-auto-recipe
-  (make-treesit-auto-recipe
-   :lang 'tsx
-   :ts-mode 'tsx-ts-mode
-   :remap '(typescript-tsx-mode)
-   :requires 'typescript
-   :url "https://github.com/tree-sitter/tree-sitter-typescript"
-   :revision "v0.20.3"
-   :source-dir "tsx/src"
-   :ext "\\.tsx\\'")
-  "Recipe for libtree-sitter-tsx.dylib")
-(add-to-list 'treesit-auto-recipe-list genehack/tsx-treesit-auto-recipe)
+;; (defvar genehack/tsx-treesit-auto-recipe
+;;   (make-treesit-auto-recipe
+;;    :lang 'tsx
+;;    :ts-mode 'tsx-ts-mode
+;;    :remap '(typescript-tsx-mode)
+;;    :requires 'typescript
+;;    :url "https://github.com/tree-sitter/tree-sitter-typescript"
+;;    :revision "v0.20.3"
+;;    :source-dir "tsx/src"
+;;    :ext "\\.tsx\\'")
+;;   "Recipe for libtree-sitter-tsx.dylib")
+;; (add-to-list 'treesit-auto-recipe-list genehack/tsx-treesit-auto-recipe)
 
-(defvar genehack/typescript-treesit-auto-recipe
-  (make-treesit-auto-recipe
-   :lang 'typescript
-   :ts-mode 'typescript-ts-mode
-   :remap 'typescript-mode
-   :requires 'tsx
-   :url "https://github.com/tree-sitter/tree-sitter-typescript"
-   :revision "v0.20.3"
-   :source-dir "typescript/src"
-   :ext "\\.ts\\'")
-  "Recipe for libtree-sitter-typescript.dylib")
-(add-to-list 'treesit-auto-recipe-list genehack/typescript-treesit-auto-recipe)
+;; (defvar genehack/typescript-treesit-auto-recipe
+;;   (make-treesit-auto-recipe
+;;    :lang 'typescript
+;;    :ts-mode 'typescript-ts-mode
+;;    :remap 'typescript-mode
+;;    :requires 'tsx
+;;    :url "https://github.com/tree-sitter/tree-sitter-typescript"
+;;    :revision "v0.20.3"
+;;    :source-dir "typescript/src"
+;;    :ext "\\.ts\\'")
+;;   "Recipe for libtree-sitter-typescript.dylib")
+;; (add-to-list 'treesit-auto-recipe-list genehack/typescript-treesit-auto-recipe)
 
 ;; (setq treesit-language-source-alist
 ;;       '((bash . ("https://github.com/tree-sitter/tree-sitter-bash"))
@@ -1224,6 +1031,7 @@
       "ov" '(:keymap verb-command-map :which-key "verb")))
 
 (use-package wptool
+  :defer t
   :load-path "/home/pekka/projects/wptool/emacs/wptool-0.0.1"
   :if (locate-library "wptool.el")
   :config
@@ -1290,11 +1098,11 @@
 ;; Github Copilot
 
 (use-package copilot
-  :quelpa (copilot :fetcher github
-                   ;; :repo "zerolfx/copilot.el"
-                   :repo "copilot-emacs/copilot.el"
-                   :branch "main"
-                   :files ("dist" "*.el"))
+  ;; :quelpa (copilot :fetcher github
+  ;;                  ;; :repo "zerolfx/copilot.el"
+  ;;                  :repo "copilot-emacs/copilot.el"
+  ;;                  :branch "main"
+  ;;                  :files ("dist" "*.el"))
   :config
   (add-hook 'prog-mode-hook 'copilot-mode)
   (define-key copilot-mode-map (kbd "C-<tab>") 'copilot-accept-completion)
@@ -1340,11 +1148,6 @@
   ;;    (side . right)))
   )
 
-;; Optional - register macher presets for use with any gptel request.
-(use-package gptel
-  ;; ...
-  :config
-  (macher-install))
 ;; MCP - Model Context Protocol
 ;; (use-package mcp
 ;;   :ensure t
@@ -1365,27 +1168,6 @@
 ;;   :hook (after-init . mcp-hub-start-all-server))
 
 (require 'gptel-integrations)
-
-;; LLM: gptel with integrations
-(require 'gptel-integrations)
-
-;; LLM MCP
-(use-package mcp
-  :ensure t
-  :after gptel
-  :custom (mcp-hub-servers
-	   `(("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" "/home/pekka/projects/restaurant")))
-	     ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
-	     ("qdrant" . (:url "http://localhost:8000/sse"))
-	     ("graphlit" . (
-			    :command "npx"
-			    :args ("-y" "graphlit-mcp-server")
-			    :env (
-				  :GRAPHLIT_ORGANIZATION_ID "your-organization-id"
-				  :GRAPHLIT_ENVIRONMENT_ID "your-environment-id"
-				  :GRAPHLIT_JWT_SECRET "your-jwt-secret")))))
-  :config (require 'mcp-hub)
-  :hook (after-init . mcp-hub-start-all-server))
 
 (use-package consult-org-roam
    :ensure t
@@ -1414,15 +1196,15 @@
    ("C-c n l" . consult-org-roam-forward-links)
    ("C-c n r" . consult-org-roam-search))
 
-(use-package proced
-  :ensure t
-  :defer t
-  :custom
-  (proced-enable-color-flag t)
-  (proced-tree-flag t)
-  :config
-  (pe/leader-def
-    "ip" 'proced))
+;; (use-package proced
+;;   :ensure t
+;;   :defer nil
+;;   :custom
+;;   (proced-enable-color-flag t)
+;;   (proced-tree-flag t)
+;;   :config
+;;   (pe/leader-def
+;;     "ip" 'proced))
 
 (use-package lorem-ipsum
   :ensure t
@@ -1480,8 +1262,8 @@
     "cf" 'clang-format-buffer
     "cr" 'clang-format-region))
 
-(use-package octave
-  :ensure t)
+;; (use-package octave
+;;   :ensure t)
 
 (use-package 0xc
   :ensure t)
@@ -1575,5 +1357,12 @@
 ;;     "PT" 'popper-toggle-type
 ;;     "Pc" 'popper-cycle)
 ;;   )                ; For echo area hints
+
+(elpaca-wait)
+
+(add-to-list 'load-path "~/.my-user-config")
+(require 'my-user-config)
+(require 'my-erc-sasl-config)
+
 
 (message "End of init.el")
