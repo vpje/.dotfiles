@@ -1122,9 +1122,20 @@
 (use-package gptel
   :ensure t
   :config
-  (setq gptel-use-tools t
-	gptel-model 'claude-sonnet-4
-	gptel-backend (gptel-make-gh-copilot "Copilot")))
+  (setq gptel-use-tools t)
+
+  (if (string= (system-name) "pekka-MS-7E26")
+      ;; Home google gemini
+      (setq
+       gptel-model 'gemini-2.5-pro-exp-03-25
+       gptel-backend (gptel-make-gemini "Gemini"
+		       :key (getenv "GEMINI_API_KEY")
+		       :stream t))
+    ;; Work github copilot
+    (setq gptel-model 'claude-sonnet-4
+	  gptel-backend (gptel-make-gh-copilot "Copilot"))
+    )
+  )
 
 ;; Agentic AI interaction framework
 (use-package macher
