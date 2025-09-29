@@ -1149,23 +1149,35 @@
   )
 
 ;; MCP - Model Context Protocol
-;; (use-package mcp
-;;   :ensure t
-;;   :after gptel
-;;   :custom (mcp-hub-servers
-;;            `(("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" "/home/pekka/projects/")))
-;;              ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
-;;              ;; ("qdrant" . (:url "http://localhost:8000/sse"))
-;;              ;; ("graphlit" . (
-;;              ;;                :command "npx"
-;;              ;;                :args ("-y" "graphlit-mcp-server")
-;;              ;;                :env (
-;;              ;;                      :GRAPHLIT_ORGANIZATION_ID "your-organization-id"
-;;              ;;                      :GRAPHLIT_ENVIRONMENT_ID "your-environment-id"
-;;              ;;                      :GRAPHLIT_JWT_SECRET "your-jwt-secret")))
-;; 	     ))
-;;   :config (require 'mcp-hub)
-;;   :hook (after-init . mcp-hub-start-all-server))
+(use-package mcp
+  :ensure t
+  :after gptel
+  :custom (mcp-hub-servers
+           `(
+	     ;; Filesystem sandboxed?!?
+	     ;; ("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" "/home/pekka/projects/")))
+
+	     ;; Web content fetching
+             ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+
+	     ;; Deepwiki
+	     ("deepwiki" . (:url "https://mcp.deepwiki.com/sse"))
+
+	     ;; Qdrant vector db
+             ;; ("qdrant" . (:url "http://localhost:8000/sse"))
+
+	     ;; Graphlit integration
+             ;; ("graphlit" . (
+             ;;                :command "npx"
+             ;;                :args ("-y" "graphlit-mcp-server")
+             ;;                :env (
+             ;;                      :GRAPHLIT_ORGANIZATION_ID "your-organization-id"
+             ;;                      :GRAPHLIT_ENVIRONMENT_ID "your-environment-id"
+             ;;                      :GRAPHLIT_JWT_SECRET "your-jwt-secret")))
+
+	     ))
+  :config (require 'mcp-hub)
+  :hook (after-init . mcp-hub-start-all-server))
 
 (require 'gptel-integrations)
 
