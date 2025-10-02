@@ -1032,6 +1032,7 @@
 
 (use-package wptool
   :defer t
+  :elpaca nil
   :load-path "/home/pekka/projects/wptool/emacs/wptool-0.0.1"
   :if (locate-library "wptool.el")
   :config
@@ -1123,6 +1124,7 @@
   :ensure t
   :config
   (setq gptel-use-tools t)
+  (defvar gptel-context nil) ;; fix the error, TODO: find out why
 
   (if (string= (system-name) "pekka-MS-7E26")
       ;; Home google gemini
@@ -1138,26 +1140,42 @@
   )
 
 ;; Agentic AI interaction framework
-(use-package macher
-  :ensure (:host github :repo "kmontag/macher")
 
-  :custom
-  ;; The org UI has structured navigation and nice content folding.
-  (macher-action-buffer-ui 'org)
+(when nil
+    (use-package macher
+      :ensure (:host github :repo "kmontag/macher")
 
+      :custom
+      ;; The org UI has structured navigation and nice content folding.
+      (macher-action-buffer-ui 'org)
+
+      :config
+      ;; Adjust buffer positioning to taste.
+      ;; (add-to-list
+      ;;  'display-buffer-alist
+      ;;  '("\\*macher:.*\\*"
+      ;;    (display-buffer-in-side-window)
+      ;;    (side . bottom)))
+      ;; (add-to-list
+      ;;  'display-buffer-alist
+      ;;  '("\\*macher-patch:.*\\*"
+      ;;    (display-buffer-in-side-window)
+      ;;    (side . right)))
+      ))
+
+(use-package aidermacs
+  ;; :bind (("C-c a" . aidermacs-transient-menu))
   :config
-  ;; Adjust buffer positioning to taste.
-  ;; (add-to-list
-  ;;  'display-buffer-alist
-  ;;  '("\\*macher:.*\\*"
-  ;;    (display-buffer-in-side-window)
-  ;;    (side . bottom)))
-  ;; (add-to-list
-  ;;  'display-buffer-alist
-  ;;  '("\\*macher-patch:.*\\*"
-  ;;    (display-buffer-in-side-window)
-  ;;    (side . right)))
-  )
+  (pe/leader-def
+	"ai" 'aidermacs-transient-menu)
+  ; Set API_KEY in .bashrc, that will automatically picked up by aider or in elisp
+;;  (setenv "ANTHROPIC_API_KEY" "sk-...")
+  ; defun my-get-openrouter-api-key yourself elsewhere for security reasons
+;;  (setenv "OPENROUTER_API_KEY" (my-get-openrouter-api-key))
+  :custom
+  ; See the Configuration section below
+  ;; (aidermacs-default-chat-mode 'architect)
+  (aidermacs-default-model "github_copilot/claude-sonnet-4"))
 
 ;; MCP - Model Context Protocol
 (use-package mcp
@@ -1166,7 +1184,7 @@
   :custom (mcp-hub-servers
            `(
 	     ;; Filesystem sandboxed?!?
-	     ;; ("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" "/home/pekka/projects/")))
+	     ("filesystem" . (:command "npx" :args ("-y" "@modelcontextprotocol/server-filesystem" "/home/pekka/projects/")))
 
 	     ;; Web content fetching
              ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
@@ -1363,23 +1381,27 @@
 ;;   :config
 ;;   (ultra-scroll-mode 1))
 
-;; (use-package popper
-;;   :ensure t ; or :straight t
-;;   :init
-;;   (setq popper-reference-buffers
-;; 	'("\\*Messages\\*"
-;; 	  "Output\\*$"
-;; 	  "\\*Async Shell Command\\*"
-;; 	  help-mode
-;; 	  compilation-mode))
-;;   (popper-mode +1)
-;;   (popper-echo-mode +1)
-;;   :config
-;;   (pe/leader-def
-;;     "Pt" 'popper-toggle
-;;     "PT" 'popper-toggle-type
-;;     "Pc" 'popper-cycle)
-;;   )                ; For echo area hints
+(use-package popper
+  :ensure t ; or :straight t
+  :init
+  (setq popper-reference-buffers
+	'("\\*Messages\\*"
+	  "Output\\*$"
+	  "\\*Async Shell Command\\*"
+	  help-mode
+	  compilation-mode))
+  (popper-mode +1)
+  (popper-echo-mode +1)
+  :config
+  (setq popper-group-function #'popper-group-by-projectile)
+  (setq popper-window-height 30)
+  (pe/leader-def
+    "Pt" 'popper-toggle
+    "PT" 'popper-toggle-type
+    "Pc" 'popper-cycle
+    "Pk" 'popper-kill-latest-popup
+    )
+  )                ; For echo area hints
 
 ;; End of package installations and configurations
 
@@ -1392,6 +1414,19 @@
   (add-to-list 'load-path "~/.my-user-config")
   (require 'my-user-config)
   (require 'my-erc-sasl-config)
+
+
+  (gptel-make-tool
+   :name "flash_device"                        ; javascript-style snake_case name
+   :function (lambda (filename)                  ; the function that will run
+	       (unless (file-exists-p filename)
+		 (error "error: filename %s does not exist." filename))
+	       (message "flashing device with firmware from %s" filename))
+   :description "flash a new firmware to a device"
+   :args (list '(:name "filename"
+		       :type string            ; :type value must be a symbol
+		       :description "the filename of the firmware to flash"))
+   :category "embedded software")                     ; An arbitrary label for grouping
   )
 
 (add-hook 'elpaca--post-queues-hook 'pe/elpaca-post-queues-hook)
