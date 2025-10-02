@@ -1119,6 +1119,9 @@
     "cb" 'copilot-chat-custom-prompt-buffer
     ))
 
+;; For voice control try:
+;; https://github.com/ileixe/whisper-api/blob/main/whisper-api.el
+
 ;; LLM support
 (use-package gptel
   :ensure t
