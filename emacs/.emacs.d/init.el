@@ -1170,15 +1170,15 @@
   ;; :bind (("C-c a" . aidermacs-transient-menu))
   :config
   (pe/leader-def
-	"ai" 'aidermacs-transient-menu)
-  ; Set API_KEY in .bashrc, that will automatically picked up by aider or in elisp
-;;  (setenv "ANTHROPIC_API_KEY" "sk-...")
-  ; defun my-get-openrouter-api-key yourself elsewhere for security reasons
-;;  (setenv "OPENROUTER_API_KEY" (my-get-openrouter-api-key))
-  :custom
-  ; See the Configuration section below
+    "ai" 'aidermacs-transient-menu)
+  (if (string= (system-name) "pekka-MS-7E26")
+      (setq aidermacs-default-model "gemini/gemini-2.5-pro")
+    (setq aidermacs-default-model "github_copilot/claude-sonnet-4"))
+  ;; :custom
   ;; (aidermacs-default-chat-mode 'architect)
-  (aidermacs-default-model "github_copilot/claude-sonnet-4"))
+  ;; (aidermacs-default-model "gemini/gemini-2.5-pro")
+  )
+
 
 ;; MCP - Model Context Protocol
 (use-package mcp
