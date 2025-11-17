@@ -591,7 +591,18 @@
 	org-return-follows-link  t)
   :config
   (setq org-startup-indented t)
-  (org-roam-db-autosync-mode))
+  (setq org-roam-graph-viewer "brave-browser")
+  (org-roam-db-autosync-mode)
+  )
+
+(use-package org-roam-ui
+  :ensure t
+  :after org-roam
+  :config
+   (setq org-roam-ui-sync-theme t
+          org-roam-ui-follow t
+          org-roam-ui-update-on-save t
+          org-roam-ui-open-on-start t))
 
 (use-package org-superstar
   :ensure t
@@ -846,33 +857,50 @@
     "lv" '(:keymap logview-mode-map :which-key "logview")
     )
   (setq auto-revert-verbose nil) ;; do not spam when live reverting log buffers
+  ;; (setq
+  ;; 	logview-additional-level-mappings
+  ;;       '(("WP SDK LOG"
+  ;;          (error       "E:")
+  ;; 	   (warning     "W:")
+  ;; 	   (information "I:")
+  ;; 	   (debug       "D:")
+  ;; 	   ))
+
+  ;;       logview-additional-timestamp-formats
+  ;;       '(("10ms counter"
+  ;;          (regexp . "\\w+")
+  ;;          ;; (regexp . "\[.*\]\[\([0-9]+\)\]")
+  ;;          (datetime-options :any-decimal-separator t)
+  ;;          ))
+
+  ;; 	logview-additional-submodes
+  ;; 	'(("WP SDK LOG"
+  ;; 	   ;; (format . "TIMESTAMP LEVEL MESSAGE")
+  ;; 	   (format . "THREAD LEVEL MESSAGE")
+  ;; 	   (levels . "WP SDK LOG")
+  ;; 	   ;; (timestamp "10ms counter")
+  ;; 	   )
+  ;; 	  ("Dummy"
+  ;; 	   (format . "MESSAGE")
+  ;; 	   ))
+  ;; 	)
+
   (setq
-	logview-additional-level-mappings
-        '(("WP SDK LOG"
-           (error       "E:")
-	   (warning     "W:")
-	   (information "I:")
-	   (debug       "D:")
-	   ))
+  logview-additional-submodes
+               '(("Custom OTAP Logs"
+                 (format . "%d %p [%c][%t] %l: %m")
+                 (levels . "D: I: W: E:")))
 
-        logview-additional-timestamp-formats
-        '(("10ms counter"
-           (regexp . "\\w+")
-           ;; (regexp . "\[.*\]\[\([0-9]+\)\]")
-           (datetime-options :any-decimal-separator t)
-           ))
+  logview-additional-timestamp-formats
+               '(("Finnish Syslog-like"
+                 (regexp . "\\([[:alpha:]]+ [0-9]+ [0-9:]+\\)")
+                 (format . "%b %e %H:%M:%S")))
 
-	logview-additional-submodes
-	'(("WP SDK LOG"
-	   ;; (format . "TIMESTAMP LEVEL MESSAGE")
-	   (format . "THREAD LEVEL MESSAGE")
-	   (levels . "WP SDK LOG")
-	   ;; (timestamp "10ms counter")
-	   )
-	  ("Dummy"
-	   (format . "MESSAGE")
-	   ))
-	))
+  ;; logview-additional-categories
+  ;;              '("OTAP Group"
+  ;;                (regexp . "\\[\\([A-Z]+\\)\\]")
+  ;;                (group . 1))
+  )
 
 ;; (defun pe/logview-activate-map ()
 ;;     ""
@@ -1173,12 +1201,8 @@
     "ai" 'aidermacs-transient-menu)
   (if (string= (system-name) "pekka-MS-7E26")
       (setq aidermacs-default-model "gemini/gemini-2.5-pro")
-    (setq aidermacs-default-model "github_copilot/claude-sonnet-4"))
-  ;; :custom
-  ;; (aidermacs-default-chat-mode 'architect)
-  ;; (aidermacs-default-model "gemini/gemini-2.5-pro")
+    (setq aidermacs-default-model "github_copilot/claude-sonnet-4.5"))
   )
-
 
 ;; MCP - Model Context Protocol
 (use-package mcp
@@ -1384,27 +1408,6 @@
 ;;   :config
 ;;   (ultra-scroll-mode 1))
 
-(use-package popper
-  :ensure t ; or :straight t
-  :init
-  (setq popper-reference-buffers
-	'("\\*Messages\\*"
-	  "Output\\*$"
-	  "\\*Async Shell Command\\*"
-	  help-mode
-	  compilation-mode))
-  (popper-mode +1)
-  (popper-echo-mode +1)
-  :config
-  (setq popper-group-function #'popper-group-by-projectile)
-  (setq popper-window-height 30)
-  (pe/leader-def
-    "Pt" 'popper-toggle
-    "PT" 'popper-toggle-type
-    "Pc" 'popper-cycle
-    "Pk" 'popper-kill-latest-popup
-    )
-  )                ; For echo area hints
 
 ;; End of package installations and configurations
 
