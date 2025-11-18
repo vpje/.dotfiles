@@ -1,3 +1,5 @@
+(message "Start of init.el")
+
 ;; make sure package.el doesn't pre-load things
 (setq package-enable-at-startup nil)
 
@@ -52,7 +54,7 @@
 	(setq use-package-always-ensure t)
 	)
 
-;;(elpaca-wait)
+;; (elpaca-wait)
 
 ;; Built-in version lags behind
 (use-package transient
@@ -328,12 +330,7 @@
     )
  )
 
-  (general-create-definer pe/leader-def
-    :prefix "SPC"
-    :non-normal-prefix "M-SPC"
-    :keymaps 'override
-    :states '(normal visual)
-    )
+(elpaca-wait) ;; wait for pe/leader-def to be defined
 
 (use-package consult
   :ensure t
@@ -427,7 +424,9 @@
 
 (use-package doom-themes
   :config
-  (load-theme 'doom-one t))
+  ;; (load-theme 'doom-one t)
+  (load-theme 'doom-dark+ t)
+  )
 
 (use-package winum
   :ensure t
@@ -473,7 +472,7 @@
     "gl" 'magit-log-buffer-file
     "gd" 'magit-diff-dwim))
 
-(use-package magit-section) ;; used by org-roam
+;; (use-package magit-section) ;; used by org-roam
 
 (use-package magit-todos
   :ensure t)
@@ -564,12 +563,11 @@
 (use-package org
   :ensure t
   :config
-  (org-indent-mode 1)
   (setq org-capture-templates
-      '(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
-	 "* TODO %?\n  %i\n  %a")
-	("j" "Journal" entry (file+datetree "~/org/journal.org")
-	 "* %?\nEntered on %U\n  %i\n  %a")))
+	'(("t" "Todo" entry (file+headline "~/org/gtd.org" "Tasks")
+	   "* TODO %?\n  %i\n  %a")
+	  ("j" "Journal" entry (file+datetree "~/org/journal.org")
+	   "* %?\nEntered on %U\n  %i\n  %a")))
   (setq org-clock-idle-time 10)
   (pe/leader-def
     "o" '(:ignore t :which-key "org")
@@ -580,10 +578,20 @@
     "orf" 'org-roam-node-find
     "orc" 'org-roam-capture
     )
+  (org-babel-do-load-languages 'org-babel-load-languages
+			       '(
+				 (shell . t)
+				 (C . t)
+				 (python . t)
+				 ;; (restclient . t)
+				 ;; (verb . t)
+				 ))
+  (setq org-confirm-babel-evaluate nil)
   )
 
 (use-package org-roam
   :ensure t
+  :after org
   :custom
   (org-roam-directory (file-truename "~/org-roam"))
   :init
@@ -630,16 +638,6 @@
   :config
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys))
-
-(org-babel-do-load-languages 'org-babel-load-languages
-			     '(
-			       (shell . t)
-			       (C . t)
-			       (python . t)
-			       ;; (restclient . t)
-			       ;; (verb . t)
-			       ))
-(setq org-confirm-babel-evaluate nil)
 
 (use-package perspective
   :config
@@ -821,7 +819,6 @@
 
 (add-hook 'c-ts-mode-hook 'my-c-mode-common-hook)
 (add-hook 'c++-ts-mode-hook 'my-c-mode-common-hook)
-(org-indent-mode 1)
 
 (if (file-directory-p "~/.emacs.d/vpe")
     (progn
@@ -849,6 +846,8 @@
   ;; :states '(normal visual)
   "ca" 'pe/recompile-all-packages
   "ua" 'package-upgrade-all)
+
+(message "Current line: 858")
 
 (use-package logview
   :config
@@ -886,20 +885,16 @@
   ;; 	)
 
   (setq
-  logview-additional-submodes
-               '(("Custom OTAP Logs"
-                 (format . "%d %p [%c][%t] %l: %m")
-                 (levels . "D: I: W: E:")))
+   logview-additional-submodes
+   '(("Custom OTAP Logs"
+      (format . "%d %p [%c][%t] %l: %m")
+      (levels . "D: I: W: E:")))
 
-  logview-additional-timestamp-formats
-               '(("Finnish Syslog-like"
-                 (regexp . "\\([[:alpha:]]+ [0-9]+ [0-9:]+\\)")
-                 (format . "%b %e %H:%M:%S")))
-
-  ;; logview-additional-categories
-  ;;              '("OTAP Group"
-  ;;                (regexp . "\\[\\([A-Z]+\\)\\]")
-  ;;                (group . 1))
+   logview-additional-timestamp-formats
+   '(("Finnish Syslog-like"
+      (regexp . "\\([[:alpha:]]+ [0-9]+ [0-9:]+\\)")
+      (format . "%b %e %H:%M:%S")))
+   )
   )
 
 ;; (defun pe/logview-activate-map ()
@@ -908,6 +903,8 @@
 ;;   )
 
 ;; (add-hook 'logview-mode-hook 'pe/logview-activate-map)
+
+(message "Current line: 915")
 
 (use-package treesit-auto
   :custom
@@ -975,6 +972,8 @@
       (message "`%s' parser was installed." lang)
       (sit-for 0.75))))
 
+(message "Current line: 983")
+
 ;; Simple gerrit support for magit
 ;; (transient-define-suffix magit-push-current-for-gerrit-review (args)
 ;;   "Push the current branch to its push-remote for gerrit review.
@@ -1004,6 +1003,8 @@
 ;; (transient-append-suffix 'magit-push "p"
 ;;   '("g" magit-push-current-for-gerrit-review))
 
+(message "Middle of init.el")
+
 (use-package repo
   :ensure t
   :config
@@ -1018,6 +1019,8 @@
     "M-n" #'repo-next-project
     "M-p" #'repo-previous-project
     ))
+
+(message "Current line: 1031")
 
 
 (use-package yaml-mode :ensure t)
@@ -1218,24 +1221,12 @@
 
 	     ;; Deepwiki
 	     ("deepwiki" . (:url "https://mcp.deepwiki.com/sse"))
-
-	     ;; Qdrant vector db
-             ;; ("qdrant" . (:url "http://localhost:8000/sse"))
-
-	     ;; Graphlit integration
-             ;; ("graphlit" . (
-             ;;                :command "npx"
-             ;;                :args ("-y" "graphlit-mcp-server")
-             ;;                :env (
-             ;;                      :GRAPHLIT_ORGANIZATION_ID "your-organization-id"
-             ;;                      :GRAPHLIT_ENVIRONMENT_ID "your-environment-id"
-             ;;                      :GRAPHLIT_JWT_SECRET "your-jwt-secret")))
-
 	     ))
-  :config (require 'mcp-hub)
-  :hook (after-init . mcp-hub-start-all-server))
-
-(require 'gptel-integrations)
+  :config
+  (require 'mcp-hub)
+  (require 'gptel-integrations)
+  :hook (after-init . mcp-hub-start-all-server)
+  )
 
 (use-package consult-org-roam
    :ensure t
@@ -1243,7 +1234,6 @@
    :init
    (require 'consult-org-roam)
    ;; Activate the minor mode
-   (consult-org-roam-mode 1)
    :custom
    ;; Use `ripgrep' for searching with `consult-org-roam-search'
    (consult-org-roam-grep-func #'consult-ripgrep)
@@ -1253,6 +1243,7 @@
    ;; in consult-buffer (and not down at the bottom)
    (consult-org-roam-buffer-after-buffers t)
    :config
+   ;; (consult-org-roam-mode 1)
    ;; Eventually suppress previewing for certain functions
    (consult-customize
     consult-org-roam-forward-links
