@@ -1390,6 +1390,11 @@
 (use-package xref-rst :ensure t)
 (use-package dts-mode :ensure t)
 (use-package cmake-mode :ensure t)
+(use-package fancy-compilation
+  :ensure t
+  :config
+  (fancy-compilation-mode 1)
+  )
 
 ;; (use-package ultra-scroll
 ;;   ;:vc (:url "https://github.com/jdtsmith/ultra-scroll") ; if desired (emacs>=v30)
