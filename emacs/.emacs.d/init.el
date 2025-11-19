@@ -1203,7 +1203,7 @@
   (pe/leader-def
     "ai" 'aidermacs-transient-menu)
   (if (string= (system-name) "pekka-MS-7E26")
-      (setq aidermacs-default-model "gemini/gemini-2.5-pro")
+      (setq aidermacs-default-model "gemini/gemini-3-pro-preview")
     (setq aidermacs-default-model "github_copilot/claude-sonnet-4.5"))
   )
 
