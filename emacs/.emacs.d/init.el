@@ -1163,7 +1163,7 @@
   (if (string= (system-name) "pekka-MS-7E26")
       ;; Home google gemini
       (setq
-       gptel-model 'gemini-2.5-pro-exp-03-25
+       gptel-model 'gemini-3-pro-preview
        gptel-backend (gptel-make-gemini "Gemini"
 		       :key (getenv "GEMINI_API_KEY")
 		       :stream t))
@@ -1227,6 +1227,9 @@
   (require 'gptel-integrations)
   :hook (after-init . mcp-hub-start-all-server)
   )
+
+(use-package acp :ensure t)
+(use-package agent-shell :ensure t)
 
 (use-package consult-org-roam
    :ensure t
