@@ -56,10 +56,6 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-vi-mode/zsh-vi-mode.plugin.zsh
 
-# Set up fzf key bindings and fuzzy completion
-source /usr/share/doc/fzf/examples/key-bindings.zsh
-source /usr/share/doc/fzf/examples/completion.zsh
-
 # Starship prompt, note: remove normal prompt setup at the beginning of this file
 eval "$(starship init zsh)"
 
@@ -76,3 +72,14 @@ fpath=(/home/pekka/.zsh/zsh-completions/src $fpath)
 
 # arm cross compiler
 export PATH=/home/pekka/tools/arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi/bin:$PATH
+
+# gemini env
+source .gemini-env
+
+# Define an init function and append to zvm_after_init_commands
+function my_init() {
+  # Set up fzf key bindings and fuzzy completion
+  source /usr/share/doc/fzf/examples/key-bindings.zsh
+  source /usr/share/doc/fzf/examples/completion.zsh
+}
+zvm_after_init_commands+=(my_init)
