@@ -845,7 +845,7 @@
 (pe/leader-def
   ;; :states '(normal visual)
   "ca" 'pe/recompile-all-packages
-  "ua" 'package-upgrade-all)
+  "ua" 'elpaca-update-all)
 
 (message "Current line: 858")
 
