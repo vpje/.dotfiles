@@ -1,8 +1,5 @@
 (message "Start of init.el")
 
-;; make sure package.el doesn't pre-load things
-(setq package-enable-at-startup nil)
-
 ;; Bootstrap Elpaca packet manager
 (load "~/.emacs.d/elpaca-init.el")
 
@@ -546,7 +543,8 @@
 	dashboard-set-heading-icons t
 	dashboard-set-file-icons nil))
 
-(use-package counsel)
+(use-package ivy :ensure t)
+(use-package counsel :ensure t :after ivy)
 
 (use-package helpful
   :ensure t
