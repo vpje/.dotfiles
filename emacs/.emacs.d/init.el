@@ -1274,13 +1274,19 @@
   (pe/leader-def
     "lI" 'lorem-ipsum-insert-paragraphs))
 
-(use-package pyenv-mode
+;; (use-package pyenv-mode
+;;   :ensure t
+;;   :config
+;;   (pyenv-mode))
+
+;; (use-package pyvenv
+;;   :ensure t)
+
+(use-package uv-mode
   :ensure t
   :config
-  (pyenv-mode))
-
-(use-package pyvenv
-  :ensure t)
+  (pe/leader-def
+	"au" 'uv-mode))
 
 (use-package tmr
   :ensure t
