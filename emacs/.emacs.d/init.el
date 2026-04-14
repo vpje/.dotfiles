@@ -1176,7 +1176,7 @@
 		       :key (getenv "GEMINI_API_KEY")
 		       :stream t))
     ;; Work github copilot
-    (setq gptel-model 'claude-sonnet-4.5
+    (setq gptel-model 'claude-sonnet-4.6
 	  gptel-backend (gptel-make-gh-copilot "Copilot"))
     )
   )
