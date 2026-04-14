@@ -43,7 +43,11 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
 
 # my configuration additions
-setopt extended_history
+# setopt extended_history
+
+setopt append_history         # Append to history file
+setopt inc_append_history     # Write to history file immediately
+unsetopt share_history        # Don't share history between sessions
 
 # aliases
 alias ll='exa -al --group-directories-first'
