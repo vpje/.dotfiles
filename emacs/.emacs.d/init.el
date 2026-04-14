@@ -42,6 +42,16 @@
  dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"
 )
 
+;; Calendar settings (week start day and ISO week numbers)
+(setq calendar-week-start-day 1)   ;; Week starts on Monday (optional)
+(setq calendar-intermonth-text
+      '(propertize
+        (format "%2d"
+                (car
+                 (calendar-iso-from-absolute
+                  (calendar-absolute-from-gregorian (list month day year)))))
+        'font-lock-face 'font-lock-function-name-face))
+
 ;; Enable use-package support for Elpaca
 (elpaca elpaca-use-package
 	;; Enable use-package :ensure support for Elpaca.
@@ -1060,8 +1070,8 @@
       "ov" '(:keymap verb-command-map :which-key "verb")))
 
 (use-package wptool
-  :defer t
-  :elpaca nil
+  ;; :defer t
+  ;; :elpaca nil
   :load-path "/home/pekka/projects/wptool/emacs/wptool-0.0.1"
   :if (locate-library "wptool.el")
   :config
@@ -1166,7 +1176,7 @@
 		       :key (getenv "GEMINI_API_KEY")
 		       :stream t))
     ;; Work github copilot
-    (setq gptel-model 'claude-sonnet-4
+    (setq gptel-model 'claude-sonnet-4.5
 	  gptel-backend (gptel-make-gh-copilot "Copilot"))
     )
   )
@@ -1227,7 +1237,12 @@
   )
 
 (use-package acp :ensure t)
-(use-package agent-shell :ensure t)
+;; (use-package agent-shell :ensure t)
+(use-package agent-shell
+    :ensure t
+    :ensure-system-package
+    ;; Add agent installation configs here
+    ((opencode . "sudo npm i -g opencode-ai@latest")))
 
 (use-package consult-org-roam
    :ensure t
@@ -1305,6 +1320,8 @@
   (setq dirvish-attributes
 	'(vc-state subtree-state all-the-icons collapse file-time file-size))
   (setq dirvish-default-layout '(0 0 0)) ;; no parent
+  (setq dirvish-preview-buffers-max-count 5)
+  (setq dired-kill-when-opening-new-dired-buffer t)
   (dirvish-override-dired-mode)
   (general-define-key
    :states 'normal
@@ -1402,6 +1419,13 @@
   :config
   (fancy-compilation-mode 1)
   )
+(use-package realgud :ensure t)
+
+(elpaca (devcontainer
+	 :type git
+	 :host github
+	 :repo "johannes-mueller/devcontainer.el"
+	 ))
 
 ;; (use-package ultra-scroll
 ;;   ;:vc (:url "https://github.com/jdtsmith/ultra-scroll") ; if desired (emacs>=v30)
