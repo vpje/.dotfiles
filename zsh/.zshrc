@@ -77,9 +77,6 @@ fpath=(/home/pekka/.zsh/zsh-completions/src $fpath)
 # arm cross compiler
 export PATH=/home/pekka/tools/arm-gnu-toolchain-14.2.rel1-x86_64-arm-none-eabi/bin:$PATH
 
-# gemini env
-source .gemini-env
-
 # Define an init function and append to zvm_after_init_commands
 function my_init() {
   # Set up fzf key bindings and fuzzy completion
