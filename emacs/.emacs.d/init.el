@@ -42,6 +42,29 @@
  dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"
 )
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; setup for compilation window
+(add-to-list 'display-buffer-alist
+             '("\\*compilation\\*"
+               (display-buffer-in-direction)
+               (direction . bottom)
+               (window-height . 0.2))) ; 20% of the frame height
+
+(defun my-compilation-autohide (buffer string)
+  "Automatically hide the compilation window if it finished successfully."
+  (when (and (string-match "finished" string)
+             (not (with-current-buffer buffer
+                    (search-forward "error" nil t))))
+    (run-at-time 2 nil
+                 (lambda (buf)
+                   (let ((window (get-buffer-window buf)))
+                     (when window
+                       (delete-window window))))
+                 buffer)))
+
+(add-hook 'compilation-finish-functions 'my-compilation-autohide)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; Calendar settings (week start day and ISO week numbers)
 (setq calendar-week-start-day 1)   ;; Week starts on Monday (optional)
 (setq calendar-intermonth-text
