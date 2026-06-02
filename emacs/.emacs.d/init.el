@@ -42,6 +42,10 @@
  dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"
 )
 
+;; Prefer vertical splits (side-by-side columns)
+(setq split-height-threshold nil)   ; Disable horizontal splitting based on height
+(setq split-width-threshold 0)      ; Force vertical splitting if there's any width available
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; setup for compilation window
 (add-to-list 'display-buffer-alist
