@@ -1163,29 +1163,6 @@
     "dd" 'dape)
   )
 
-;; Github Copilot
-
-(use-package copilot
-  ;; :quelpa (copilot :fetcher github
-  ;;                  ;; :repo "zerolfx/copilot.el"
-  ;;                  :repo "copilot-emacs/copilot.el"
-  ;;                  :branch "main"
-  ;;                  :files ("dist" "*.el"))
-  :config
-  (add-hook 'prog-mode-hook 'copilot-mode)
-  (define-key copilot-mode-map (kbd "C-<tab>") 'copilot-accept-completion)
-  )
-
-(use-package copilot-chat
-  :ensure t
-  :config
-  (pe/leader-def
-    "cc" 'copilot-chat-display
-    "ct" 'copilot-chat-transient
-    "cs" 'copilot-chat-custom-prompt-selection
-    "cb" 'copilot-chat-custom-prompt-buffer
-    ))
-
 ;; For voice control try:
 ;; https://github.com/ileixe/whisper-api/blob/main/whisper-api.el
 
