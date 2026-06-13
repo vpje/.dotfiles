@@ -3,6 +3,17 @@
 ;; Bootstrap Elpaca packet manager
 (load "~/.emacs.d/elpaca-init.el")
 
+;; Enable use-package support for Elpaca
+(elpaca elpaca-use-package
+	;; Enable use-package :ensure support for Elpaca.
+	(elpaca-use-package-mode)
+	;; Without this, have to add ":ensure t" to most recipes to get them to install,
+	;; otherwise elpaca just tries to load it.
+	(setq use-package-always-ensure t)
+	)
+
+(elpaca-wait)
+
 (setq
  gc-cons-threshold 100000000
  use-package-always-ensure t
@@ -79,17 +90,6 @@
                   (calendar-absolute-from-gregorian (list month day year)))))
         'font-lock-face 'font-lock-function-name-face))
 
-;; Enable use-package support for Elpaca
-(elpaca elpaca-use-package
-	;; Enable use-package :ensure support for Elpaca.
-	(elpaca-use-package-mode)
-	;; Without this, have to add ":ensure t" to most recipes to get them to install,
-	;; otherwise elpaca just tries to load it.
-	(setq use-package-always-ensure t)
-	)
-
-;; (elpaca-wait)
-
 ;; Built-in version lags behind
 (use-package transient
   :ensure t)
@@ -132,6 +132,7 @@
   (add-hook hook
 	    (lambda () (setq-local show-trailing-whitespace nil))))
 
+
 (load custom-file 'noerror 'nomessage)
 
 (tool-bar-mode -1)
@@ -148,28 +149,27 @@
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1)
 
-(set-face-attribute 'default nil :font "HackNerdFont-11" :width 'condensed)
+;;(set-face-attribute 'default nil :font "HackNerdFont-11" :width 'condensed)
 ;;(set-face-attribute 'default nil :font "RobotoMono-10" :width 'condensed)
 
 
-(require 'package)
-(setq package-enable-at-startup nil)
-(add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/")
-	     '("org" . "https://orgmode.org/elpa/"))
+;;(require 'package)
+;;(setq package-enable-at-startup nil)
+;;(add-to-list 'package-archives
+	     ;;'("melpa" . "https://melpa.org/packages/")
+	     ;;'("org" . "https://orgmode.org/elpa/"))
+;;(package-initialize)
 
-(package-initialize)
+;;(eval-when-compile
+ ;; (require 'use-package))
 
-(eval-when-compile
-  (require 'use-package))
+;;(use-package quelpa
+;;  :ensure)
 
-(use-package quelpa
-  :ensure)
-
-(use-package quelpa-use-package
-  :demand
-  :config
-  (quelpa-use-package-activate-advice))
+;;(use-package quelpa-use-package
+;;  :demand
+;;  :config
+;;  (quelpa-use-package-activate-advice))
 
 ;;(add-to-list 'load-path "/usr/local/share/emacs/site-lisp/mu4e")
 ;;(add-to-list 'load-path "/home/pekka/.emacs.d/auth-source-xoauth2")
