@@ -136,3 +136,5 @@ ALTERNATE_EDITOR=emacs
 
 # zoxide
 eval "$(zoxide init bash)"
+
+source .paths
