@@ -14,6 +14,11 @@
 
 (elpaca-wait)
 
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (exec-path-from-shell-initialize))
+
 (setq
  gc-cons-threshold 100000000
  use-package-always-ensure t
@@ -149,8 +154,9 @@
 ;; Revert buffers when the underlying file has changed
 (global-auto-revert-mode 1)
 
-;;(set-face-attribute 'default nil :font "HackNerdFont-11" :width 'condensed)
+(set-face-attribute 'default nil :font "HackNerdFont-11" :width 'condensed)
 ;;(set-face-attribute 'default nil :font "RobotoMono-10" :width 'condensed)
+;;(set-face-attribute 'default nil :font "DroidSansMNerdFontMono-11" :width 'condensed)
 
 
 ;;(require 'package)
@@ -1163,6 +1169,29 @@
     "dd" 'dape)
   )
 
+;; Github Copilot
+
+;; (use-package copilot
+;;   ;; :quelpa (copilot :fetcher github
+;;   ;;                  ;; :repo "zerolfx/copilot.el"
+;;   ;;                  :repo "copilot-emacs/copilot.el"
+;;   ;;                  :branch "main"
+;;   ;;                  :files ("dist" "*.el"))
+;;   :config
+;;   (add-hook 'prog-mode-hook 'copilot-mode)
+;;   (define-key copilot-mode-map (kbd "C-<tab>") 'copilot-accept-completion)
+;;   )
+
+;; (use-package copilot-chat
+;;   :ensure t
+;;   :config
+;;   (pe/leader-def
+;;     "cc" 'copilot-chat-display
+;;     "ct" 'copilot-chat-transient
+;;     "cs" 'copilot-chat-custom-prompt-selection
+;;     "cb" 'copilot-chat-custom-prompt-buffer
+;;     ))
+
 ;; For voice control try:
 ;; https://github.com/ileixe/whisper-api/blob/main/whisper-api.el
 
@@ -1292,19 +1321,19 @@
   (pe/leader-def
     "lI" 'lorem-ipsum-insert-paragraphs))
 
-;; (use-package pyenv-mode
-;;   :ensure t
-;;   :config
-;;   (pyenv-mode))
-
-;; (use-package pyvenv
-;;   :ensure t)
-
-(use-package uv-mode
+(use-package pyenv-mode
   :ensure t
   :config
-  (pe/leader-def
-	"au" 'uv-mode))
+  (pyenv-mode))
+
+(use-package pyvenv
+  :ensure t)
+
+;; (use-package uv-mode
+;;   :ensure t
+;;   :config
+;;   (pe/leader-def
+;; 	"au" 'uv-mode))
 
 (use-package tmr
   :ensure t
@@ -1449,10 +1478,13 @@
   (progn
   (message "elpaca has finished processing its queues."))
   ;; Add post queue actions here
-  (add-to-list 'load-path "~/.my-user-config")
-  (require 'my-user-config)
-  (require 'my-erc-sasl-config)
-
+  (if (file-directory-p "~/.my-user-config")
+      (progn
+	(add-to-list 'load-path "~/.my-user-config")
+	(require 'my-user-config)
+	(require 'my-erc-sasl-config)
+	)
+    )
 
   (gptel-make-tool
    :name "flash_device"                        ; javascript-style snake_case name
