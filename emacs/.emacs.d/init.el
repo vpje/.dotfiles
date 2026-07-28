@@ -211,6 +211,9 @@
       smtpmail-stream-type  'starttls
       smtpmail-smtp-service 587)
 
+(use-package eca
+  :ensure t)
+
 (use-package undo-tree
   :ensure t
   :config
