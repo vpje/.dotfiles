@@ -59,8 +59,8 @@
 )
 
 ;; Prefer vertical splits (side-by-side columns)
-(setq split-height-threshold nil)   ; Disable horizontal splitting based on height
-(setq split-width-threshold 0)      ; Force vertical splitting if there's any width available
+(setq split-height-threshold 120)
+(setq split-width-threshold 150)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; setup for compilation window
