@@ -59,8 +59,8 @@
 )
 
 ;; Prefer vertical splits (side-by-side columns)
-(setq split-height-threshold 120)
-(setq split-width-threshold 150)
+(setq split-height-threshold nil)   ; Disable horizontal splitting based on height
+(setq split-width-threshold 120)      ; Force vertical splitting if there's any width available
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; setup for compilation window
@@ -544,7 +544,7 @@
 	   (setq rg-ignorefile
 		 (concat "--ignore-file" " "
 			 (expand-file-name "rg_ignore" user-emacs-directory)))
-	   (concat "rg -L --no-messages -0 --files --color=never --hidden" rg-cmd " " rg-ignorefile)))
+	   (concat "rg -L --no-messages -0 --files --color=never" rg-cmd " " rg-ignorefile)))
 
   (pe/leader-def
     ;; :states '(normal visual)
