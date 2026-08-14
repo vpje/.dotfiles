@@ -55,7 +55,7 @@
  find-file-visit-truename nil
 
  dired-dwim-target t
- dired-listing-switches "-l --almost-all --human-readable --group-directories-first --no-group"
+ dired-listing-switches "-alh --almost-all --human-readable --group-directories-first --no-group"
 )
 
 ;; Prefer vertical splits (side-by-side columns)
