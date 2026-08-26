@@ -26,4 +26,8 @@ fi
 # export PATH="$HOME/SiliconLabs/SimplicityStudio_v5/developer/adapter_packs/commander:$PATH"
 # . "$HOME/.cargo/env"
 
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - bash)"
+
 source .paths
