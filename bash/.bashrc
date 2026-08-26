@@ -126,7 +126,7 @@ source /usr/share/doc/fzf/examples/key-bindings.bash
 set -o vi
 
 # fzf tools
-source .fzf
+source ~/.fzf
 
 # https://github.com/starship/starship
 eval "$(starship init bash)"
@@ -137,4 +137,4 @@ ALTERNATE_EDITOR=emacs
 # zoxide
 eval "$(zoxide init bash)"
 
-source .paths
+source ~/.paths
