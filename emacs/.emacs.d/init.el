@@ -564,7 +564,8 @@
   :ensure t
   :config
   (setq corfu-auto t)
-  (add-hook 'after-init-hook 'global-corfu-mode))
+  (add-hook 'after-init-hook 'global-corfu-mode)
+  (add-hook 'elpaca-after-init-hook 'global-corfu-mode))
 
 (use-package avy
   :ensure t)
