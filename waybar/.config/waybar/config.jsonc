@@ -16,7 +16,7 @@
     "./modules/idle-ihibitor.jsonc",
     "./modules/audio.jsonc",
     "./modules/connections.jsonc",
-    "./modules/battery.jsonc",
+    "./modules/upower.jsonc",
     "./modules/clock.jsonc",
     "./modules/tray-notif.jsonc"
   ],
@@ -33,7 +33,7 @@
   "modules-right": [
     "group/audio",
     "group/connections",
-    "battery",
+    "upower",
     "clock",
     "group/tray-group"
   ]

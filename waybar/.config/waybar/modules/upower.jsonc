@@ -1,0 +1,11 @@
+{
+    "upower": {
+	"icon-size": 14,
+	"hide-if-empty": false,
+	"tooltip": true,
+	"tooltip-spacing": 10,
+	"format": "{percentage} ",
+	"format-alt": "{percentage} {time}",
+	"show-icon": true
+    }
+}
