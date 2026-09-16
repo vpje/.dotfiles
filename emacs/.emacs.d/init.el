@@ -58,12 +58,26 @@
  dired-listing-switches "-alh --almost-all --human-readable --group-directories-first --no-group"
 )
 
-;; Prefer vertical splits (side-by-side columns)
-(setq split-height-threshold nil)   ; Disable horizontal splitting based on height
-(setq split-width-threshold 120)      ; Force vertical splitting if there's any width available
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Custom window splitting and usage rules (for magit)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(defun my/display-buffer-split-or-reuse (buffer &optional _alist)
+  "Display BUFFER using the split-or-switch logic.
+If there is only one window, split it vertically (side-by-side)
+and show BUFFER there. Otherwise, reuse the other window."
+  (let ((window (if (one-window-p)
+                     (split-window-right)
+                   (next-window))))
+    (window--display-buffer buffer window 'reuse)))
+
+;; Make Magit use this logic for all of its buffers (status, log, diff, etc.)
+(with-eval-after-load 'magit
+  (setq magit-display-buffer-function #'my/display-buffer-split-or-reuse))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; setup for compilation window
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (add-to-list 'display-buffer-alist
              '("\\*compilation\\*"
                (display-buffer-in-direction)
